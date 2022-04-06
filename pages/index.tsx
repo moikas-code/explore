@@ -1,8 +1,8 @@
 import {useRouter} from 'next/router';
 import React from 'react';
-import Button from '../src/components/Button';
-import {ConnectorContext} from '../src/components/connector/sdk-connection-provider';
 import SEO from '../src/components/SEO';
+import Button from '../src/components/common/button';
+import {ConnectorContext} from '../src/components/connector/sdk-connection-provider';
 
 export default function _Index() {
   const connection = React.useContext(ConnectorContext);
@@ -16,14 +16,21 @@ export default function _Index() {
         twitter='takolabs'
         keywords='gaming, nfts, web3'
       />
+			<style jsx>
+				{`
+				  .mt-neg-5{
+					 margin-top: -5rem;
+					}
+				`}
+			</style>
       <div className='h-100 d-flex flex-column justify-content-center align-items-center'>
-        <div>
-          <h1>TAKO LABS</h1>
+        <div className='mt-neg-5'>
+          <h1 className='display-1'>TAKO LABS</h1>
           <p>{blockchain}</p>
           {connection.state.status == 'disconnected' ? (
             <Button onClick={() => router.push('/connect')}>Connect</Button>
           ) : (
-            <div>Coming Soon...</div>
+            <div>More Coming Soon...</div>
           )}
         </div>
       </div>

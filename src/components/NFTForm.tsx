@@ -5,12 +5,10 @@ import {connect} from 'react-redux';
 import Select from 'react-select';
 // @ts-ignore
 import {_metadata, _metadataTypes} from '../lib/metadataSchema.ts';
-import {event} from '../utility/analytics';
 import FormInputs from './FormInputs';
 
 import nft from '../lib/nft-storage';
 import MediaViewer from './media-viewer';
-import {FormProps} from '../common/form-props';
 import {MintRequest} from '@rarible/sdk/build/types/nft/mint/mint-request.type';
 import {PrepareMintResponse} from '@rarible/sdk/build/types/nft/mint/domain';
 import {
@@ -19,7 +17,7 @@ import {
   BigNumber,
   toBigNumber,
 } from '@rarible/types';
-import {Input} from '../common/input';
+import Input from './common/input';
 import AKKORO_LIB from '../akkoro_lib';
 import {createRaribleSdk} from '@rarible/sdk';
 // import {BigNumber} from 'ethers';
@@ -154,24 +152,18 @@ function NFTForm({
     }
   };
   useEffect(() => {
-    
-    console.log(sdk);
     process.env.AKKORO_ENV == 'prod' &&
       setCollectionAddress(
         toUnionAddress('ETHEREUM:0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8')
       );
-    AKKORO_LIB.getCurrencyOptions(connection.blockchain).then((options) => {
+    AKKORO_LIB.getCurrencyOptions(blockchain).then((options: any[]) => {
       console.log(options);
-      setCurrency(
-        blockchain == 'ETHEREUM'
-          ? {
-              value: {id: '1', '@type': 'ETH'},
-              label: 'ETH',
-            }
-          : options[0]
-      );
+      setCurrency({
+        value: {id: '1', '@type': 'ETH'},
+        label: 'ETH',
+      });
       setCurrencyOptions(
-        connection.blockchain == 'ETHEREUM'
+        blockchain == 'ETHEREUM'
           ? [
               {
                 value: {id: '1', '@type': 'ETH'},
@@ -182,7 +174,7 @@ function NFTForm({
           : options
       );
     });
-    switch (connection.blockchain) {
+    switch (blockchain) {
       case 'ETHEREUM':
         process.env.AKKORO_ENV == 'prod' &&
           setCollectionAddress(
@@ -199,10 +191,16 @@ function NFTForm({
           : setCollectionAddress(
               toUnionAddress('TEZOS:KT1BMB8m1QKqbbDDZPXpmGVCaM1cGcpTQSrw')
             );
+        break;
       case 'FLOW':
         process.env.AKKORO_ENV == 'prod'
-          ? setCollectionAddress('FLOW:A.01ab36aaf654a13e.RaribleNFT')
-          : setCollectionAddress('FLOW:A.ebf4ae01d1284af8.RaribleNFT');
+          ? setCollectionAddress(
+              toUnionAddress('FLOW:A.01ab36aaf654a13e.RaribleNFT')
+            )
+          : setCollectionAddress(
+              toUnionAddress('FLOW:A.ebf4ae01d1284af8.RaribleNFT')
+            );
+        break;
       default:
         break;
     }
@@ -252,7 +250,7 @@ function NFTForm({
       </style>
       <div
         className={
-          'nft-mint-form d-flex flex-column m-1 pb-5 mx-auto container-fluid h-100 w-100'
+          'nft-mint-form d-flex flex-column justify-content-center align-items-center'
         }>
         <div className='rounded overflow-md-scroll d-flex flex-column justify-content-between align-items-center p-1 h-100 w-100'>
           <div className='d-flex  flex-column  flex-wrap justify-content-around align-items-center mx-2 w-100'>
@@ -541,7 +539,7 @@ function NFTForm({
                               }).catch((err) => {
                                 console.log(err.message);
                               });
-                              console.log('NFT DATA:',nft,sdk);
+                              console.log('NFT DATA:', nft, sdk);
                               return nft.itemId;
                             })
                             .then(async (tk_id) => {

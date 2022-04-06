@@ -1,4 +1,4 @@
-import { NFTStorage, File, Blob, FormData } from 'nft.storage';
+import { NFTStorage, File, Blob } from 'nft.storage';
 const api = process.env.NFT_STORAGE_KEY;
 const nft_storage = new NFTStorage({ token: api });
 class NFT_STORAGE {

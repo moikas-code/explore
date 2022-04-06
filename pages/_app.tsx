@@ -1,5 +1,6 @@
+//@ts-nocheck
 import React from 'react';
-import {CssBaseline, ThemeProvider} from '@mui/material';
+import {ThemeProvider} from '@mui/material';
 import {appTheme} from '../src/theme';
 import {ApolloProvider} from '@apollo/client';
 import client from '../src/middleware/grapghql/apollo-client';
@@ -10,10 +11,9 @@ import {Provider} from 'react-redux';
 import {store} from '../src/store';
 import Head from 'next/head';
 import metrics from '../src/metrics';
-
-import {ConnectionStatus} from '../src/views/connect/connection-status';
 import {SdkConnectionProvider} from '../src/components/connector/sdk-connection-provider';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../src/components/navbar';
 import dynamic from 'next/dynamic';
 const EnvironmentSelectorProvider = dynamic(
   (): any =>
@@ -22,8 +22,7 @@ const EnvironmentSelectorProvider = dynamic(
     ),
   {ssr: false}
 );
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../src/components/Navbar';
+
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <>

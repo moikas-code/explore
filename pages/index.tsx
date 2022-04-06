@@ -1,10 +1,17 @@
 import {useRouter} from 'next/router';
 import React from 'react';
 import Button from '../src/components/Button';
-import {ConnectorContext} from '../src/components/connector/sdk-connection-provider';
 import SEO from '../src/components/seo';
+import dynamic from 'next/dynamic';
+const ConnectorContext: any = dynamic(
+  (): any =>
+    import('../src/components/connector/sdk-connection-provider').then(
+      (mod) => mod.ConnectorContext
+    ),
+  {ssr: false}
+);
 export default function _Index() {
-  const connection = React.useContext(ConnectorContext);
+  const connection: any = React.useContext(ConnectorContext);
   const blockchain = connection.sdk?.wallet?.blockchain;
   const router = useRouter();
   return (

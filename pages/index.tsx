@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router';
 import React from 'react';
 import Button from '../src/components/Button';
-import SEO from '../src/components/seo';
+import SEO from '../src/components/SEO';
 import dynamic from 'next/dynamic';
 const ConnectorContext: any = dynamic(
   (): any =>

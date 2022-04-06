@@ -13,7 +13,7 @@ import Head from 'next/head';
 import metrics from '../src/metrics';
 import {SdkConnectionProvider} from '../src/components/connector/sdk-connection-provider';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../src/components/navbar';
+import Navbar from '../src/components/Navbar';
 import dynamic from 'next/dynamic';
 const EnvironmentSelectorProvider = dynamic(
   (): any =>

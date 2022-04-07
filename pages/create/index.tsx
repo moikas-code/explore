@@ -6,7 +6,7 @@ import {connect as redux} from 'react-redux';
 import {useRouter} from 'next/router';
 
 import {ConnectorContext} from '../../src/components/connector/sdk-connection-provider';
-import SEO from '../../src/components/seo';
+import SEO from '../../src/components/SEO';
 let NFT_Form = dynamic(() => import('../../src/components/NFTForm'), {
   ssr: false,
 });

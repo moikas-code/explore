@@ -1,6 +1,8 @@
 const withPWA = require('next-pwa');
 
 const nextConfig = {
+  assetPrefix: './',
+  trailingSlash: true,
   reactStrictMode: true,
   pwa: {
     dest: 'public',

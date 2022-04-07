@@ -12,7 +12,7 @@ export default function _Index() {
     <>
       <SEO
         title='Tako Labs'
-        description='Tako Labs is a Technology and Entertainment Commuinty'
+        description='TAKOLABS.IO: Tako Labs is a WEB3 Community that is focused on the development of decentralized applications and services alwhile providing gaming content.'
         twitter='takolabs'
         keywords='gaming, nfts, web3'
       />

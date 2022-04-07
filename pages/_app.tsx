@@ -49,6 +49,27 @@ function MyApp({Component, pageProps}: AppProps) {
           .text-decoraction-none {
             text-decoration: none;
           }
+          .no-cursor {
+            cursor: none;
+          }
+          .cursor-pointer {
+            cursor: pointer;
+          }
+          .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
+          .overflow-y-scroll {
+            overflow-y: scroll;
+          }
+          .z-2 {
+            z-index: 2;
+          }
+          .z-3 {
+            z-index: 3;
+          }
         `}
       </style>
 

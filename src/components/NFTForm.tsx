@@ -33,7 +33,7 @@ interface NFTFormProps extends MintFormProps {
   blockchain: any;
 }
 
-function Toggle_Button({
+function ToggleButton({
   label,
   getToggleStatus,
   defaultStatus = false,
@@ -358,7 +358,7 @@ function NFTForm({
               </div>
 
               <hr />
-              <Toggle_Button
+              <ToggleButton
                 label='List on Rarible Protocol'
                 getToggleStatus={(e) => {
                   setSell_Toggle(e);
@@ -463,7 +463,7 @@ function NFTForm({
             </div>
             <div
               className={`col p-2 border border-dark d-inline-flex flex-column w-100 form-mx`}>
-              <Toggle_Button
+              <ToggleButton
                 label={
                   <>
                     <span className='mb-3'>
@@ -554,18 +554,7 @@ function NFTForm({
                                 console.log(err.message);
                               });
                             })
-                            .then(() =>
-                              event({
-                                action:
-                                  'mint_and_sell_' +
-                                  connection.blockchain +
-                                  '_nft',
-                                params: {
-                                  event_category: 'mint',
-                                  event_label: 'mint',
-                                },
-                              })
-                            )
+                          
                         : await nft
                             .storeFileAsBlob(json)
                             .then((_tkn) => {
@@ -599,15 +588,7 @@ function NFTForm({
                               console.log(nft);
                               return nft.itemId;
                             })
-                            .then(() =>
-                              event({
-                                action: 'mint' + connection.blockchain + 'nft',
-                                params: {
-                                  event_category: 'mint',
-                                  event_label: 'mint',
-                                },
-                              })
-                            );
+                         
                     }}>
                     Mint
                   </Button>

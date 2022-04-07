@@ -4,7 +4,7 @@ function WalletButton({ address = '', onPress = () => {} }) {
   const [show, setShow] = useState(false);
   return (
     <div className={`h-100 border-start border-dark wallet-button `}>
-      <style>
+      <style jsx>
         {`
         .wallet-button{  
           width: 175px;
@@ -16,10 +16,9 @@ function WalletButton({ address = '', onPress = () => {} }) {
         }
         `}
       </style>
-
       {address.length > 0 ? (
         <div
-          className={`wallet-button-address hover-blackflame d-flex flex-column align-items-center justify-content-center px-3 h-100 w-100 cursor-point`}
+          className={`wallet-button-address hover-blackflame d-flex flex-column align-items-center justify-content-center px-3 h-100 w-100 cursor-pointer`}
           onClick={() => {
             setShow(!show);
           }}
@@ -28,7 +27,7 @@ function WalletButton({ address = '', onPress = () => {} }) {
         </div>
       ) : (
         <div
-          className={`wallet-button-address hover-blackflame d-flex flex-column align-items-center justify-content-center px-3 h-100 w-100 cursor-point`}
+          className={`wallet-button-address hover-blackflame d-flex flex-column align-items-center justify-content-center px-3 h-100 w-100 cursor-pointer`}
           onClick={() => {
             onPress();
           }}

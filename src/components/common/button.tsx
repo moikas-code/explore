@@ -7,5 +7,9 @@ export default function Button({
   children: any;
   [key: string]: any;
 }) {
-  return <button onClick={props.onClick}>{children}</button>;
+  return (
+    <button className={props.className} onClick={props.onClick}>
+      {children}
+    </button>
+  );
 }

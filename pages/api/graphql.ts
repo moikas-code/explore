@@ -19,4 +19,4 @@ export const config = {
     bodyParser: false,
   },
 };
-export default  apolloServer.createHandler({path: '/api/graphql'});
+export default  apolloServer.createHandler({path: process.env.AKKORO_ENV !=='production'?'/api/graphql':'https://takolabs.io/api/graphql'});

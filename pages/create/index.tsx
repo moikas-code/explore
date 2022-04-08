@@ -24,11 +24,10 @@ function Mint() {
   return (
     <>
       <SEO
-        title={blockchain}
-        description={'A NFT Community and an Open Source, Web3 Ecosystem'}
-        siteTitle={'AKKOROS'}
-        twitter={'@akkoros'}
-        keywords='nft,gaming,streaming'
+        title='Tako Labs'
+        description='TAKOLABS.IO: Tako Labs is a WEB3 Community that is focused on the development of decentralized applications and services alwhile providing gaming content.'
+        twitter='takolabs'
+        keywords='gaming, nfts, web3'
       />
       <div className='d-flex flex-column justify-content-center'>
 

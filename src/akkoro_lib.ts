@@ -17,6 +17,7 @@ var dev_baseURL = 'https://api-dev.rarible.org/';
 var validate = 'v0.1/signature/validate';
 var items = 'v0.1/items';
 var ownerships = 'v0.1/ownerships';
+var collections = 'v0.1/collections';
 
 function cleanUrl(needle: string, arrhaystack: string[]) {
   const haystack = arrhaystack
@@ -94,6 +95,25 @@ const AKKORO_LIB = {
     }
   },
   //
+
+  getColelctionByOwner: async (
+    blockChain: string,
+    address: string,
+    continuation: string,
+    size: string
+  ) => {
+    try {
+      // base url
+      const base = process.env.DEV !== 'true' ? baseURL : dev_baseURL;
+      // api url
+      let url = `${base}${collections}/byOwner/?blockchains${blockChain}&owner=${address}&${continuation}&${size}` as string;
+      //fetch
+      let data = await fetch(url, {
+        method: 'GET',
+      }).then(async (res) => res.json());
+      console.log(data);
+    } catch (error) {}
+  },
   get_collectionByAddress: async ({
     sdk,
     address,

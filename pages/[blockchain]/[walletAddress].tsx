@@ -1,35 +1,31 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import dynamic from 'next/dynamic';
-import AKKORO_LIB from '../../src/akkoro_lib';
-import {connect as redux} from 'react-redux';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
-
-import {ConnectorContext} from '../../src/components/connector/sdk-connection-provider';
-import SEO from '../../src/components/SEO';
-import TakoLink from '../../src/components/TakoLink';
+//@ts-ignore
+import {ConnectorContext} from '@/src/components/connector/sdk-connection-provider';
+//@ts-ignore
+import SEO from '@/src/components/SEO';
 
 export default function Dragon() {
-  const connection = React.useContext(ConnectorContext);
-  const blockchain = connection.sdk?.wallet?.blockchain;
+  const connection = React.useContext<any>(ConnectorContext);
+  const blockchain: string = connection.sdk?.wallet?.blockchain;
   const router = useRouter();
   const {walletAddress} = router.query;
   const [address, setAddress] = useState<string | string[]>('');
 
   useEffect((): any => {
     connection.state.status == 'disconnected' && router.push('/');
-  }, []);
+  }, [connection]);
   useEffect((): any => {
     if (connection.state.status == 'connected') {
-      if (
-        walletAddress !== null &&
-        walletAddress !== undefined &&
-        walletAddress !== connection.walletAddress
-      ) {
-        router.push('/');
-        // console.log(walletAddress);
+      if (walletAddress !== null && walletAddress !== undefined) {
+        // console.log('wallet address', walletAddress);
+        if (walletAddress !== connection.walletAddress) {
+          console.log('No Match');
+          router.push('/');
+        }
       }
     }
-  }, [walletAddress]);
+  }, [connection, walletAddress]);
   useEffect((): any => {
     // console.log(router);
     walletAddress !== null &&
@@ -44,10 +40,15 @@ export default function Dragon() {
         twitter='takolabs'
         keywords='gaming, nfts, web3'
       />
-      <div className='d-flex flex-column'>
-        <p className='m-2'>Wait... Where is the Metaverse?</p>
-        <p className='m-2'>{address}</p>
-        
+      <div className='d-flex flex-column m-2'>
+        <p className=''>Wait... Where is the Metaverse?</p>
+        <p className=''>{address}</p>
+        <div className='d-flex flex-column'>
+          <div className='d-flex flex-row'>
+            <div>My Collections</div>
+          </div>
+          <div></div>
+        </div>
       </div>
     </>
   );

@@ -9,7 +9,7 @@ import {
 } from '@apollo/client';
 ///
 let appJWTToken;
-const httpLink = new HttpLink({ uri: '/api/graphql' });
+const httpLink = new HttpLink({ uri: process.env.AKKORO_ENV !=='prod'?'/api/graphql':'https://takolabs.io/api/graphql' });
 const authMiddleware = new ApolloLink((operation, forward) => {
   if (appJWTToken) {
     operation.setContext({

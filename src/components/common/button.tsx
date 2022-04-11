@@ -8,7 +8,10 @@ export default function Button({
   [key: string]: any;
 }) {
   return (
-    <button className={props.className} onClick={props.onClick}>
+    <button
+    disabled={props.disabled}
+      className={`${props.className ? props.className : ''} btn`}
+      onClick={props.onClick}>
       {children}
     </button>
   );

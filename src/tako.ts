@@ -35,7 +35,7 @@ function cleanUrl(needle: string, arrhaystack: string[]) {
   return haystack.length > 0 ? haystack[0] : needle;
 }
 
-const AKKORO_LIB = {
+const TAKO = {
   // FIlters
   filterByProperty(array: any[], propertyName: string): any[] {
     var occurrences: any = {};
@@ -89,8 +89,8 @@ const AKKORO_LIB = {
   getCollectionsByOwner: async ({
     blockChain,
     address,
-    continuation,
-    size,
+    continuation = '',
+    size = 10,
   }: {
     blockChain: string;
     address: string;
@@ -98,44 +98,48 @@ const AKKORO_LIB = {
     size: number;
   }) => {
     try {
+      var _blockchain = blockChain;
       // base url
       const base = process.env.DEV !== 'true' ? baseURL : dev_baseURL;
       // api url
-      let url = `${base}${collections}/byOwner/?blockchains${blockChain}&owner=${address}&${continuation}&${size}` as string;
+
+      if (typeof blockChain === 'undefined') {
+        throw new Error('blockChain is undefined');
+      }
+      if (typeof address === 'undefined') {
+        throw new Error('blockChain is undefined');
+      }
+
+      if (blockChain === 'POLYGON') {
+        _blockchain = 'ETHEREUM';
+      }
+
+      let url = `${base}${collections}/byOwner/?blockchains=${blockChain}&owner=${_blockchain}:${address}&${continuation}&${size}` as string;
       //fetch
       let data = await fetch(url, {
         method: 'GET',
       }).then(async (res) => res.json());
       console.log(data);
+      return data;
     } catch (error) {}
   },
-  get_collectionByAddress: async ({
-    sdk,
-    address,
-  }: {
-    sdk:any;
-    address:any
-  }) => {
+  get_collectionByAddress: async ({sdk, address}: {sdk: any; address: any}) => {
     return await sdk?.apis.collection.getCollectionById({
-      collection: 
-        address
-        // 'ETHEREUM:0xF6793dA657495ffeFF9Ee6350824910Abc21356C'
-      
+      collection: address,
+      // 'ETHEREUM:0xF6793dA657495ffeFF9Ee6350824910Abc21356C'
     });
   },
-  get_all_collections: async ({sdk}: {sdk:any}) => {
+  get_all_collections: async ({sdk}: {sdk: any}) => {
     return await sdk.apis.collection.getAllCollections({});
   },
 
-  get_ownership_status: async (address:any, nft_id: any) => {
-    return await AKKORO_LIB.get_ownership_by_nft_id(nft_id).then(
+  get_ownership_status: async (address: any, nft_id: any) => {
+    return await TAKO.get_ownership_by_nft_id(nft_id).then(
       async ({ownerships, total}) => {
-        const items_owned = await ownerships.filter(
-          ({owner}: {owner:any}) => {
-            // console.log(_owner);
-            return owner == address;
-          }
-        );
+        const items_owned = await ownerships.filter(({owner}: {owner: any}) => {
+          // console.log(_owner);
+          return owner == address;
+        });
         return items_owned.length > 0 ? true : false;
       }
     );
@@ -259,9 +263,7 @@ const AKKORO_LIB = {
     return await data;
   },
   get_nfts_from_contract_address: async (
-    address:any =
-      'ETHEREUM:0x277E4e7AA71d33f235a3A6b9aC95f79080f4D3db'
-    
+    address: any = 'ETHEREUM:0x277E4e7AA71d33f235a3A6b9aC95f79080f4D3db'
   ) => {
     const url = ((!process.env.DEV ? baseURL : dev_baseURL) +
       items +
@@ -356,7 +358,7 @@ const AKKORO_LIB = {
       console.log(error);
     }
   },
-  get_items_by_owner: async (address:any) => {
+  get_items_by_owner: async (address: any) => {
     try {
       const base = process.env.DEV !== 'true' ? baseURL : dev_baseURL;
       let url = (base + items + '/byOwner/' + `?owner=${address}`) as string;
@@ -434,42 +436,46 @@ const AKKORO_LIB = {
     sdk,
     collection,
   }: {
-    sdk:any;
+    sdk: any;
     collection: any;
   }) => {
     // if (!sdk) return;
     // console.log(collection);
     return await sdk.apis.item.getItemsByCollection({collection});
   },
-  get_nft_data: async ({
-    sdk,
-    collection,
-  }: {
-    sdk:any;
-    collection: any;
-  }) => {
+  get_nft_data: async ({sdk, collection}: {sdk: any; collection: any}) => {
     if (!sdk) return;
     return await sdk.nft.mint({collection: collection});
   },
   // MUTATIONS
+  createCollection: async (sdk, collectionRequest) => {
+    try {
+      if (!sdk) return;
+      console.log(sdk)
+      const result = await sdk.nft.createCollection(collectionRequest);
+      return result
+    } catch (error) {
+      console.log(error);
+    }
+  },
   mint: async ({
     sdk,
     collection,
     data,
   }: {
-    sdk:any;
+    sdk: any;
     collection: any;
     data: any;
   }) => {
     // console.log(sdk, collection, data);
     if (!sdk) return;
-    return await AKKORO_LIB.get_collectionByAddress({
+    return await TAKO.get_collectionByAddress({
       sdk,
       address: collection,
     })
       .then(
         async (_collection) =>
-          await AKKORO_LIB.get_nft_data({
+          await TAKO.get_nft_data({
             sdk,
             collection: _collection,
           })
@@ -490,7 +496,7 @@ const AKKORO_LIB = {
     blockchain,
     currency,
   }: {
-    sdk:any;
+    sdk: any;
     nft_id: any;
     amount: any;
     price: number;
@@ -545,7 +551,7 @@ const AKKORO_LIB = {
     blockchain,
     currency,
   }: {
-    sdk:any;
+    sdk: any;
     nft_id: any;
     amount: any;
     price: number;
@@ -597,7 +603,7 @@ const AKKORO_LIB = {
     amount,
     blockchain,
   }: {
-    sdk:any;
+    sdk: any;
     order_id: any;
     amount: any;
     blockchain: string;
@@ -646,5 +652,5 @@ const AKKORO_LIB = {
 export default (() => {
   if (typeof window === 'undefined') require('dotenv').config();
   // console.log(window);
-  return AKKORO_LIB;
+  return TAKO;
 })();

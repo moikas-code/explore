@@ -1,6 +1,6 @@
 import React from 'react';
 interface p_Input {
-  id: string;
+  id?: string;
   label: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,7 +11,7 @@ interface p_Input {
   max?: number;
   pattern?: string;
   inputStyle?: string;
-  accept: string;
+  accept?: string;
 }
 export default function Input({
   id,

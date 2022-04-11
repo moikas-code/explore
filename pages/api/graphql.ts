@@ -1,4 +1,4 @@
-let db: any;
+
 // @ts-ignore
 import typeDefs from '../../src/middleware/graphql/schema/index.ts';
 // @ts-ignore
@@ -21,8 +21,5 @@ export const config = {
   },
 };
 
-const handler = async () => {
-  await apolloServer.start();
-  return await apolloServer.createHandler({path: '/api/graphql'});
-};
-export default handler;
+   
+export default await apolloServer.createHandler({path: '/api/graphql'});

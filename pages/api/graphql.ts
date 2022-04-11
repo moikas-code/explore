@@ -1,4 +1,3 @@
-
 // @ts-ignore
 import typeDefs from '../../src/middleware/graphql/schema/index.ts';
 // @ts-ignore

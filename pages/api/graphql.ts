@@ -1,22 +1,28 @@
+let db: any;
 // @ts-ignore
-import typeDefs from '../../src/middleware/grapghql/schema';
+import typeDefs from '../../src/middleware/graphql/schema/index.ts';
 // @ts-ignore
-import resolvers from '../../src/middleware/grapghql/resolvers';
+import resolvers from '../../src/middleware/graphql/resolvers.ts';
 // @ts-ignore
 import {ApolloServer} from 'apollo-server-micro';
-// import database from '../../middleware/database/';
-
-const apolloServer = new ApolloServer({
+const _config: any = {
   typeDefs,
   resolvers,
   async context({req, res}) {
     return {req, res};
   },
-});
+};
+console.log('_config', _config);
+const apolloServer = new ApolloServer(_config);
 
 export const config = {
   api: {
     bodyParser: false,
   },
 };
-export default  apolloServer.createHandler({path: process.env.AKKORO_ENV !=='prod'?'/api/graphql':'https://takolabs.io/api/graphql'});
+
+const handler = async () => {
+  await apolloServer.start();
+  return await apolloServer.createHandler({path: '/api/graphql'});
+};
+export default handler;

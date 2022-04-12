@@ -72,7 +72,7 @@ function MyApp({Component, pageProps}: AppProps) {
               z-index: 3;
             }
             .MuiButton-startIcon {
-              display: none;
+              display: none !important;
             }
           `}
         </style>

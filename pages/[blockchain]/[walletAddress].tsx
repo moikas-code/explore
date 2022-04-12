@@ -74,15 +74,6 @@ export default function Dragon() {
     }
   }
 
-  // typeof blockchain !== undefined &&
-  //   typeof _address !== undefined &&
-  //   TAKO.getCollectionsByOwner({
-  //     blockChain: 'POLYGON',
-  //     address: _address,
-  //     continuation: '',
-  //     size: 10,
-  //   }).then((res) => console.log(res));
-
   useEffect((): any => {
     connection.state.status == 'disconnected' && router.push('/');
   }, [connection]);
@@ -135,9 +126,6 @@ export default function Dragon() {
               <Button
                 onClick={() => {
                   setShow(true);
-                  // console.log(connection.sdk.balances.getBalance());
-                  console.log(connection.sdk);
-                  console.log(getDeployRequest(blockchain));
                 }}
                 className={`btn btn-outline-dark`}>
                 Create Contract
@@ -157,21 +145,21 @@ export default function Dragon() {
             }}>
             <div className='d-flex flex-column'>
               <Input
-                label={'Collection Name'}
+                label={'Collection Name* (min. 3 characters)'}
                 value={''}
                 onChange={(e) =>
                   setContract({...contract, name: e.target.value})
                 }
                 type='text'></Input>
               <Input
-                label={'Collection Symbol'}
+                label={'Collection Symbol* (min. 2 characters)'}
                 value={''}
                 onChange={(e) =>
                   setContract({...contract, symbol: e.target.value})
                 }
                 type='text'></Input>
               <div className=' my-1'>
-                <p className='mb-0'>Contract Type</p>
+                <p className='mb-0'>Contract Type* (select one)</p>
                 <Select
                   className='text-black h-100 w-100'
                   label='Contract Type'
@@ -233,15 +221,15 @@ export default function Dragon() {
               {
                 <Button
                   disabled={
-                    contract.name.length >= 3 &&
-                    contract.symbol.length >= 1 &&
-                    assetType.length > 0
+                    contract.name.length < 3 ||
+                    contract.symbol.length < 2 ||
+                    assetType.length < 1
                   }
                   className={`btn-outline-dark`}
                   onClick={async () => {
                     TAKO.createCollection(
                       sdk,
-                      getDeployRequest('POLYGON')
+                      getDeployRequest(blockchain)
                     ).then((res) => {
                       console.log(res);
                     });

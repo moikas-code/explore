@@ -102,25 +102,22 @@ const TAKO = {
       // base url
       const base = process.env.DEV !== 'true' ? baseURL : dev_baseURL;
       // api url
-
       if (typeof blockChain === 'undefined') {
         throw new Error('blockChain is undefined');
       }
       if (typeof address === 'undefined') {
         throw new Error('blockChain is undefined');
       }
-
       if (blockChain === 'POLYGON') {
         _blockchain = 'ETHEREUM';
       }
-
-      let url = `${base}${collections}/byOwner/?blockchains=${blockChain}&owner=${_blockchain}:${address}&${continuation}&${size}` as string;
       //fetch
-      let data = await fetch(url, {
-        method: 'GET',
-      }).then(async (res) => res.json());
-      console.log(data);
-      return data;
+      return await fetch(
+        `${base}${collections}/byOwner/?blockchains=${blockChain}&owner=${_blockchain}:${address}&${continuation}&${size}` as string,
+        {
+          method: 'GET',
+        }
+      ).then(async (res) => res.json());
     } catch (error) {}
   },
   get_collectionByAddress: async ({sdk, address}: {sdk: any; address: any}) => {
@@ -451,9 +448,9 @@ const TAKO = {
   createCollection: async (sdk, collectionRequest) => {
     try {
       if (!sdk) return;
-      console.log(sdk)
+      console.log(sdk);
       const result = await sdk.nft.createCollection(collectionRequest);
-      return result
+      return result;
     } catch (error) {
       console.log(error);
     }

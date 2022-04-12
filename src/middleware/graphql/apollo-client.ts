@@ -1,11 +1,27 @@
 // ./apollo-client.js
-// @ts-ignore
-import {ApolloClient, InMemoryCache, HttpLink, from} from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  from,
+  ApolloLink,
+} from '@apollo/client';
 ///
-const httpLink = new HttpLink({uri: '/api/graphql'});
+let appJWTToken:any;
+const httpLink = new HttpLink({ uri: '/api/graphql/' });
+const authMiddleware = new ApolloLink((operation, forward) => {
+  if (appJWTToken) {
+    operation.setContext({
+      headers: {
+        Authorization: `Bearer ${appJWTToken}`,
+      },
+    });
+  }
+  return forward(operation);
+});
 
 var client = new ApolloClient({
-  link: from([httpLink]),
+  link: from([authMiddleware, httpLink]),
   cache: new InMemoryCache(),
 });
 

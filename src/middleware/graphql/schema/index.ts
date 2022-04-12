@@ -1,13 +1,7 @@
 import {gql} from 'apollo-server-micro';
-import {
-  // RaribleTypes,
-  AuthInputs,
-  RaribleQueries,
-  AuthMutations,
-} from './schema';
 
 const typeDefs = gql`
-  input queryInput {
+  input QueryInput {
     address: String
     blockChain: String
     size: Int
@@ -15,12 +9,50 @@ const typeDefs = gql`
     start_date: String
   }
 
-    type Collection_Data {
+  type Collection_Data {
     nfts: [NFTMetadataType]
     totalSupply: Int
     orders: [NFTOrderDataType]
     continuation: String
   }
+
+  type COLLECTION_OBJ {
+    total:Int
+    continuation: String
+    collections: [COLLECTION]
+  }
+
+  type COLLECTION {
+    id: String!
+    parent: String
+    blockchain: String!
+    type: String!
+    name: String!
+    symbol: String
+    owner: String
+    features: [String]
+    minter: [String]
+    meta: COLLECTION_META
+  }
+
+  type COLLECTION_META {
+    name: String!
+    description: String
+    content: [META_CONTENT]
+    externalLink: String
+    sellerFeeBasisPoints: Int
+    feeRecipient: String
+  }
+
+  type META_CONTENT {
+    width: Int
+    height: Int
+    url: String
+    representation: String
+    mimeType: String
+    size: Int
+  }
+
   type NFTMetadataType {
     id: String
     tokenId: String
@@ -74,9 +106,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    getCollectionsByOwner(input: queryInput): [Collection_Data]
+    Owned_Collections(input: QueryInput): COLLECTION_OBJ
   }
 `;
-// ${RaribleQueries}
 
 export default typeDefs;

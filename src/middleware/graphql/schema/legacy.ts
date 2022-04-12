@@ -17,6 +17,6 @@ get_orders_by_nft_id(input: queryInput): [NFTOrderDataType]
 get_bids_by_nft_id(input: queryInput): [NFTOrderDataType]
 `;
 
-export const AuthMutations = `
+// export const AuthMutations = `
 
-`;
+// `;

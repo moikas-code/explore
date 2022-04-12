@@ -1,13 +1,20 @@
-import AKKORO_LIB from '../../akkoro_lib';
+import TAKO from '../../tako';
 const resolvers = {
   Query: {
-    getCollectionsByOwner: async (
+    Owned_Collections: async (
       parent: object,
       args: any,
       _context: any,
       info: object
     ) => {
-      return await AKKORO_LIB.getCollectionsByOwner(args.input);
+      const {blockChain, address, continuation, size} = args.input;
+      
+      return await TAKO.getCollectionsByOwner({
+        blockChain,
+        address,
+        continuation,
+        size,
+      });
     },
   },
 };

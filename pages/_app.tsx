@@ -3,7 +3,7 @@ import React from 'react';
 import {ThemeProvider} from '@mui/material';
 import {appTheme} from '../src/theme';
 import {ApolloProvider} from '@apollo/client';
-import client from '@/src/middleware/graphql/apollo-client';
+import client from '../src/middleware/graphql/apollo-client';
 import type {AppProps /*, AppContext */, NextWebVitalsMetric} from 'next/app';
 
 import {Provider} from 'react-redux';
@@ -77,7 +77,7 @@ function MyApp({Component, pageProps}: AppProps) {
           `}
         </style>
 
-        <Provider session={pageProps.session} store={store}>
+        {/* <Provider session={pageProps.session} store={store}> */}
           <ThemeProvider theme={appTheme}>
             <EnvironmentSelectorProvider>
               {(connector: any): any => (
@@ -91,7 +91,7 @@ function MyApp({Component, pageProps}: AppProps) {
               )}
             </EnvironmentSelectorProvider>
           </ThemeProvider>
-        </Provider>
+        {/* </Provider> */}
       </ApolloProvider>
     </>
   );

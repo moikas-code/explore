@@ -36,8 +36,8 @@ export default function _Index() {
             </TakoLink>
           ) : (
             <TakoLink
-              href={`/${blockchain}/${connection.walletAddress}`}
-              as={`/${blockchain}/${connection.walletAddress}`}>
+              href={`/app/${connection.walletAddress}`}
+              as={`/app/${connection.walletAddress}`}>
               <a className='btn btn-outline-dark fnt-color-black text-decoration-none'>
                 Enter
               </a>

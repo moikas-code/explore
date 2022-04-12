@@ -1,13 +1,13 @@
 import {useRouter} from 'next/router';
 import React from 'react';
 import SEO from '../../src/components/SEO';
-import Button from '../../src/components/common/button';
+// import Button from '../../src/components/common/button';
 import {ConnectorContext} from '../../src/components/connector/sdk-connection-provider';
 import TakoLink from '../../src/components/TakoLink';
 
 export default function _Index() {
   const connection = React.useContext(ConnectorContext);
-  const wallet_blockchain = connection.sdk?.wallet?.blockchain;
+  // const wallet_blockchain = connection.sdk?.wallet?.blockchain;
   const router = useRouter();
   const {blockchain} = router.query;
   return (

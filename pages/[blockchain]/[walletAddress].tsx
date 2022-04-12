@@ -75,10 +75,10 @@ export default function Dragon() {
   }
 
   useEffect((): any => {
-    connection.state.status == 'disconnected' && router.push('/');
+    connection.state.status === 'disconnected' && router.push('/');
   }, [connection]);
   useEffect((): any => {
-    if (connection.state.status == 'connected') {
+    if (connection.state.status === 'connected') {
       if (walletAddress !== null && walletAddress !== undefined) {
         // console.log('wallet address', walletAddress);
         if (walletAddress !== _address) {
@@ -120,9 +120,9 @@ export default function Dragon() {
         <p>{blockchain}</p>
         <div className='d-flex flex-column'>
           <div>
-            {(blockchain == 'POLYGON' ||
-              blockchain == 'ETHEREUM' ||
-              blockchain == 'TEZOS') && (
+            {(blockchain === 'POLYGON' ||
+              blockchain === 'ETHEREUM' ||
+              blockchain === 'TEZOS') && (
               <Button
                 onClick={() => {
                   setShow(true);

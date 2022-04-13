@@ -100,7 +100,7 @@ const TAKO = {
     try {
       var _blockchain = blockChain;
       // base url
-      const base = process.env.DEV !== 'true' ? baseURL : dev_baseURL;
+      const base = !process.env.DEV === true ? baseURL : dev_baseURL;
       // api url
       if (typeof blockChain === 'undefined') {
         throw new Error('blockChain is undefined');

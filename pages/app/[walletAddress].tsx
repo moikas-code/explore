@@ -27,11 +27,12 @@ export default function Dragon() {
   const _address: string = connection.walletAddress;
 
   const router = useRouter();
-  const {walletAddress}:any = router.query;
+  const {walletAddress}: any = router.query;
   const [complete, setComplete] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const [address, setAddress] = useState<string | string[]>('');
+  const [chain, setChain] = useState<string | string[]>('ETHEREUM');
   const [assetType, setAssetType] = useState<string | string[]>('');
   const [contract, setContract] = useState<any>({
     name: '',
@@ -127,21 +128,27 @@ export default function Dragon() {
   useEffect((): any => {
     if (walletAddress !== null && walletAddress !== undefined) {
       const addr_pref = walletAddress.substring(0, 2).toLowerCase();
-      console.log('addr_pref', addr_pref);
+      console.log('addr_pref', addr_pref, sdk);
+      switch (addr_pref) {
+        case '0x':
+          if (walletAddress.length == 18) {
+            setChain('FLOW');
+            return;
+          }
+          setChain('ETHEREUM');
+          return;
+
+        case 'tz':
+          setChain('TEZOS');
+          return;
+
+        default:
+          throw new Error('Unsupported blockchain');
+      }
     }
   }),
     [walletAddress];
-  useEffect((): any => {
-    if (connection.state.status == 'connected') {
-      if (walletAddress !== null && walletAddress !== undefined) {
-        // console.log('wallet address', walletAddress);
-        if (walletAddress !== _address) {
-          console.log('No Match');
-          router.push('/');
-        }
-      }
-    }
-  }, [connection, walletAddress]);
+
   useEffect((): any => {
     // console.log(router);
     walletAddress !== null &&
@@ -158,7 +165,7 @@ export default function Dragon() {
       Owned_Collections({
         variables: {
           input: {
-            blockChain: blockchain,
+            blockChain: chain,
             address: walletAddress,
             continuation: '',
             size: 10,
@@ -180,23 +187,24 @@ export default function Dragon() {
       <div className='d-flex flex-column position-relative h-100 m-2'>
         <p className=''>Wait... Where's my Metaverse?</p>
         <p className=''>{address}</p>
-        <p>{blockchain}</p>
+        <p>{chain}</p>
         <div className='d-flex flex-column'>
           <div>
-            {(blockchain == 'POLYGON' ||
-              blockchain == 'ETHEREUM' ||
-              blockchain == 'TEZOS') && (
-              <Button
-                onClick={() => {
-                  setShow(true);
-                }}
-                className={`btn btn-outline-dark`}>
-                Create Contract
-              </Button>
-            )}
+            {(blockchain === 'POLYGON' ||
+              blockchain === 'ETHEREUM' ||
+              blockchain === 'TEZOS') &&
+              _address === walletAddress && (
+                <Button
+                  onClick={() => {
+                    setShow(true);
+                  }}
+                  className={`btn btn-outline-dark`}>
+                  Create Contract
+                </Button>
+              )}
           </div>
           <div className='my-2 d-flex flex-row'>
-            <div>My Collections</div>
+            <div>Collections</div>
           </div>
           <div className='d-flex flex-row justify-content-center w-100'>
             <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>

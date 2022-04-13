@@ -20,6 +20,6 @@ export const config = {
   },
 };
 export default async (req, res) => {
-  await apolloServer.start();
+  // await apolloServer.start();
   apolloServer.createHandler({path: '/api/graphql/'})(req, res);
 };

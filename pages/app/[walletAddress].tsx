@@ -151,7 +151,7 @@ export default function Dragon() {
           return;
 
         default:
-          throw new Error('Unsupported blockchain');
+          console.log('Unsupported blockchain');
       }
     }
   }),

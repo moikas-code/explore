@@ -152,11 +152,10 @@ export default function Dragon() {
 
         default:
           console.log('Unsupported blockchain');
+          return;
       }
     }
-  }),
-    [walletAddress];
-
+  }, [walletAddress]);
   useEffect((): any => {
     // console.log(router);
     walletAddress !== null &&
@@ -165,22 +164,23 @@ export default function Dragon() {
   }, [walletAddress]);
 
   useEffect((): any => {
-    // console.log(router);
-    walletAddress !== null && walletAddress !== undefined;
-    Owned_Collections({
-      variables: {
-        input: {
-          blockChain: chain,
-          address: walletAddress,
-          continuation: '',
-          size: 10,
+    walletAddress !== null &&
+      walletAddress !== undefined &&
+      Owned_Collections({
+        variables: {
+          input: {
+            blockChain: chain,
+            address: walletAddress,
+            continuation: '',
+            size: 10,
+          },
         },
-      },
-    });
+      });
     return () => {
       setComplete(false);
     };
   }, [walletAddress, chain]);
+
   return (
     <>
       <SEO
@@ -213,6 +213,7 @@ export default function Dragon() {
           </div>
           <div className='d-flex flex-row justify-content-center w-100'>
             <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>
+              {error && <p>{`${error.message}`}</p>}
               {loading && <p>Loading...</p>}
               {complete &&
                 data.Owned_Collections?.collections.map(

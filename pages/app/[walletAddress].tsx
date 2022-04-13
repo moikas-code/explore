@@ -27,7 +27,7 @@ export default function Dragon() {
   const _address: string = connection.walletAddress;
 
   const router = useRouter();
-  const {walletAddress} = router.query;
+  const {walletAddress}:any = router.query;
   const [complete, setComplete] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [showOptions, setShowOptions] = useState<boolean>(false);
@@ -123,6 +123,14 @@ export default function Dragon() {
   useEffect((): any => {
     connection.state.status == 'disconnected' && router.push('/');
   }, [connection]);
+
+  useEffect((): any => {
+    if (walletAddress !== null && walletAddress !== undefined) {
+      const addr_pref = walletAddress.substring(0, 2).toLowerCase();
+      console.log('addr_pref', addr_pref);
+    }
+  }),
+    [walletAddress];
   useEffect((): any => {
     if (connection.state.status == 'connected') {
       if (walletAddress !== null && walletAddress !== undefined) {
@@ -191,23 +199,28 @@ export default function Dragon() {
             <div>My Collections</div>
           </div>
           <div className='d-flex flex-row justify-content-center w-100'>
-
-          <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>
-            {loading && <p>Loading...</p>}
-            {complete &&
-              data.Owned_Collections?.collections.map(({id, name,symbol,owner,blockchain,
-          type}: any,key:string) => {
-                return (
-                  <CollectionCard key={key} className='border m-2 p-2 d-flex flex-column justify-content-center'>
-                    <div>Name: {name}</div>
-                    <div>Symbol: {symbol}</div>
-                    <div>Owner: {owner}</div>
-                    <div>Blockchain: {blockchain}</div>
-                    <div>Type: {type}</div>
-                  </CollectionCard>
-                );
-              })}
-          </div>
+            <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>
+              {loading && <p>Loading...</p>}
+              {complete &&
+                data.Owned_Collections?.collections.map(
+                  (
+                    {id, name, symbol, owner, blockchain, type}: any,
+                    key: string
+                  ) => {
+                    return (
+                      <CollectionCard
+                        key={key}
+                        className='border m-2 p-2 d-flex flex-column justify-content-center'>
+                        <div>Name: {name}</div>
+                        <div>Symbol: {symbol}</div>
+                        <div>Owner: {owner}</div>
+                        <div>Blockchain: {blockchain}</div>
+                        <div>Type: {type}</div>
+                      </CollectionCard>
+                    );
+                  }
+                )}
+            </div>
           </div>
           {show && (
             <Modal
@@ -234,7 +247,6 @@ export default function Dragon() {
                   <p className='mb-0'>Contract Type* (select one)</p>
                   <Select
                     className='text-black h-100 w-100'
-                    label='Contract Type'
                     options={((): any => {
                       switch (blockchain) {
                         case 'POLYGON':
@@ -321,18 +333,20 @@ export default function Dragon() {
   );
 }
 
-
 function CollectionCard({children, ...props}: any) {
-  return<div className={`collection-card d-flex flex-column border rounded ${props.className}`}>
-    <style>
-      {`
+  return (
+    <div
+      className={`collection-card d-flex flex-column border rounded ${props.className}`}>
+      <style>
+        {`
         .collection-card {
           min-width: 300px;
           min-height: 150px;
 
         }
       `}
-    </style>
-    {children}
-  </div>
+      </style>
+      {children}
+    </div>
+  );
 }

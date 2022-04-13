@@ -19,4 +19,7 @@ export const config = {
     bodyParser: false,
   },
 };
-export default  apolloServer.createHandler({path: '/api/graphql/'});
+export default async (req, res) => {
+  await apolloServer.start();
+  apolloServer.createHandler({path: '/api/graphql/'})(req, res);
+};

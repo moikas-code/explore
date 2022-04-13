@@ -5,7 +5,7 @@ export default function Modal({children,onClose}) {
   return (
     <div className='modal z-2 bg-black d-block' tabIndex='-1' role='dialog'>
       <div
-        className='position-absolute top-50 start-50 translate-middle w-100 modal-dialog m-0'
+        className='position-absolute top-50 start-50 translate-middle w-100 modal-dialog m-0 z-3'
         role='document'>
         <div className='modal-content'>
           <Button onClick={()=>onClose()}>

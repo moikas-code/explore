@@ -131,9 +131,17 @@ export default function Dragon() {
       console.log('addr_pref', addr_pref, sdk);
       switch (addr_pref) {
         case '0x':
-          if (walletAddress.length == 18) {
+          if (walletAddress.length === 18) {
             setChain('FLOW');
             return;
+          }
+          if (typeof window !== undefined && window.web3 !== undefined) {
+            const provider = window?.web3.currentProvider;
+            console.log('>', provider.chainId);
+            if (provider.chainId === '0x89' || provider.chainId === 137) {
+              setChain('POLYGON');
+              return;
+            }
           }
           setChain('ETHEREUM');
           return;
@@ -158,24 +166,21 @@ export default function Dragon() {
 
   useEffect((): any => {
     // console.log(router);
-    walletAddress !== null &&
-      walletAddress !== undefined &&
-      blockchain !== null &&
-      blockchain !== undefined &&
-      Owned_Collections({
-        variables: {
-          input: {
-            blockChain: chain,
-            address: walletAddress,
-            continuation: '',
-            size: 10,
-          },
+    walletAddress !== null && walletAddress !== undefined;
+    Owned_Collections({
+      variables: {
+        input: {
+          blockChain: chain,
+          address: walletAddress,
+          continuation: '',
+          size: 10,
         },
-      });
+      },
+    });
     return () => {
       setComplete(false);
     };
-  }, [walletAddress, blockchain]);
+  }, [walletAddress, chain]);
   return (
     <>
       <SEO
@@ -190,9 +195,9 @@ export default function Dragon() {
         <p>{chain}</p>
         <div className='d-flex flex-column'>
           <div>
-            {(blockchain === 'POLYGON' ||
-              blockchain === 'ETHEREUM' ||
-              blockchain === 'TEZOS') &&
+            {(chain === 'POLYGON' ||
+              chain === 'ETHEREUM' ||
+              chain === 'TEZOS') &&
               _address === walletAddress && (
                 <Button
                   onClick={() => {
@@ -324,7 +329,7 @@ export default function Dragon() {
                     onClick={async () => {
                       TAKO.createCollection(
                         sdk,
-                        getDeployRequest(blockchain)
+                        getDeployRequest(chain as any)
                       ).then((res) => {
                         console.log(res);
                       });

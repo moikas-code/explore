@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+if (typeof window === 'undefined') require('dotenv').config();
 var name = 'akkoro_Lib';
 var version = '0.0.1';
 var baseURL = 'https://api.rarible.org/';
@@ -100,7 +100,7 @@ const TAKO = {
     try {
       var _blockchain = blockChain;
       // base url
-      const base = !process.env.DEV ? baseURL : dev_baseURL;
+      const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
       // api url
       if (typeof blockChain === 'undefined') {
         throw new Error('blockChain is undefined');
@@ -647,7 +647,7 @@ const TAKO = {
 };
 
 export default (() => {
-  if (typeof window === 'undefined') require('dotenv').config();
+  
   // console.log(window);
   return TAKO;
 })();

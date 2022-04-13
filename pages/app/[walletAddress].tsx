@@ -80,7 +80,6 @@ export default function Dragon() {
   const [Owned_Collections, {loading, error, data}] = useLazyQuery(query, {
     onCompleted: ({Owned_Collections}) => {
       if (Owned_Collections !== null && Owned_Collections !== undefined) {
-        console.log(Owned_Collections.collections);
         setComplete(true);
       }
     },
@@ -215,7 +214,10 @@ export default function Dragon() {
             <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>
               {error && <p>{`${error.message}`}</p>}
               {loading && <p>Loading...</p>}
-              {complete &&
+              {!loading &&
+                complete &&
+                typeof data.Owned_Collections !== undefined &&
+                data.Owned_Collections.collections !== null &&
                 data.Owned_Collections?.collections.map(
                   (
                     {id, name, symbol, owner, blockchain, type}: any,

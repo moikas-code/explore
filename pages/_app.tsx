@@ -74,6 +74,10 @@ function MyApp({Component, pageProps}: AppProps) {
             .MuiButton-startIcon {
               display: none !important;
             }
+            .img-wrap{
+              height:150px;
+              width:150px;
+            }
           `}
         </style>
 

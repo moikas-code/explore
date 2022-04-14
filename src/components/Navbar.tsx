@@ -36,9 +36,10 @@ function Navbar() {
           <div
             className={`wallet-button-items d-flex flex-column bg-grey position-absolute end-0`}>
             <WalletButtonItem
-              text={`Mint`}
-              onPress={() => router.push('/mint')}
+              text={`Profile`}
+              onPress={() => router.push(`/u/${connection.walletAddress}`)}
             />
+
             <WalletButtonItem
               text={`Disconnect`}
               onPress={() => router.push('/connect')}

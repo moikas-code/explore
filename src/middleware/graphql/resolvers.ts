@@ -8,13 +8,34 @@ const resolvers = {
       info: object
     ) => {
       const {blockChain, address, continuation, size} = args.input;
-      
+
       return await TAKO.getCollectionsByOwner({
         blockChain,
         address,
         continuation,
         size,
       });
+    },
+    Collection_Info: async (
+      parent: object,
+      args: any,
+      _context: any,
+      info: object
+    ) => {
+      const {blockChain, address} = args.input;
+      return await TAKO.getcollectionByAddress({
+        blockchain: blockChain,
+        address,
+      });
+    },
+    Collection_NFTS: async (
+      parent: object,
+      args: any,
+      _context: any,
+      info: object
+    ) => {
+      const {address}: {address: string} = args.input;
+      return await TAKO.getNftsByContractAddress(address);
     },
   },
 };

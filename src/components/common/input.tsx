@@ -42,10 +42,7 @@ export default function Input({
         placeholder={placeholder}
         onChange={async (e) => {
           e.preventDefault();
-          // console.log(e,type,type == 'number')
-          type == 'number'
-            ? onChange(e.target.value.match(/^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$\d+/).join(''))
-            : onChange(e);
+          onChange(e)
         }}
         min={min}
         max={max}

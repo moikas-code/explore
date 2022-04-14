@@ -17,14 +17,36 @@ import ToggleButton from '@/src/components/ToggleButton';
 // @ts-ignore
 import TAKO from '@/src/tako';
 import {gql, useLazyQuery} from '@apollo/client';
-import {defaults} from 'lodash';
+// @ts-ignore
+import {_metadata, _metadataTypes} from '../../src/lib/metadataSchema';
+// @ts-ignore
+import FormInputs from '../../src/components/FormInputs';
+// @ts-ignore
+import nft from '../../src/lib/nft-storage';
+// @ts-ignore
+import MediaViewer from '../../src/components/media-viewer';
+import {MintRequest} from '@rarible/sdk/build/types/nft/mint/mint-request.type';
+import {PrepareMintResponse} from '@rarible/sdk/build/types/nft/mint/domain';
+import {
+  toUnionAddress,
+  UnionAddress,
+  BigNumber,
+  toBigNumber,
+} from '@rarible/types';
+import NFTInput from '../../src/components/NFTInput';
 type CreateCollectionRequest = /*unresolved*/ any;
 type CreateCollectionBlockchains = /*unresolved*/ any;
+type MintFormProps = any;
+interface NFTFormProps extends MintFormProps {
+  address: UnionAddress;
+  sdk: any;
+  wallerAddress: any;
+}
 
 export default function Dragon() {
   const connection = React.useContext<any>(ConnectorContext);
   const sdk: string = connection.sdk;
-  const blockchain: string = connection.sdk?.wallet?.blockchain;
+  const _blockchain: string = connection.sdk?.wallet?.blockchain;
   const _address: string = connection.walletAddress;
 
   const router = useRouter();
@@ -35,126 +57,133 @@ export default function Dragon() {
   const [address, setAddress] = useState<string | string[]>('');
   const [chain, setChain] = useState<string | string[]>('ETHEREUM');
   const [assetType, setAssetType] = useState<string | string[]>('');
-  const [contract, setContract] = useState<any>({
+  const [collectionNfts, setCollectionNfts] = useState<any>([]);
+  const [supply, setSupply] = useState<number>(1);
+  const [lazyMint, setLazyMint] = useState<boolean>(true);
+  const [royalties, setRoyalties] = useState<number>(0);
+  const [currency, setCurrency] = useState<any>({
+    value: {id: '1', '@type': 'ETH'},
+    label: 'ETH',
+  });
+  const [currencyOptions, setCurrencyOptions] = useState<any>([]);
+  const [sell_price, setSell_Price] = useState(0);
+  const [sell_toggle, setSell_Toggle] = useState(true);
+
+  const [state, setState] = useState({
+    ..._metadata,
+    type: '',
+    attributes: [],
+    token: '',
+    disable: true,
+    showInput: false,
+    showMedia: false,
+    isLoading: false,
+    cid: '',
+    canMint: false,
+    fileData: '',
+  });
+  const [collectionInfo, setCollectionInfo] = useState<any>({
+    id: '',
+    parent: '',
+    blockchain: '',
+    type: '',
     name: '',
     symbol: '',
-    baseURI: '',
-    contractURI: '',
-    isUserToken: false,
+    owner: '',
+    minters: [],
   });
 
-  const query = gql`
-    query Collections($input: QueryInput!) {
-      Owned_Collections(input: $input) {
-        total
-        continuation
-        collections {
+  const queryCollections = gql`
+    query Collections($input: QueryInput) {
+      Collection_Info(input: $input) {
+        id
+        parent
+        blockchain
+        type
+        name
+        symbol
+        owner
+        minters
+      }
+    }
+  `;
+
+  const queryNFTS = gql`
+    query NFTS($input: QueryInput) {
+      Collection_NFTS(input: $input) {
+        nfts {
           id
-          parent
-          blockchain
-          type
+          tokenId
+          url
           name
-          symbol
-          owner
-          features
-          minter
-          meta {
-            name
-            description
-            content {
-              width
-              height
-              url
-              representation
-              mimeType
-              size
-            }
-            externalLink
-            sellerFeeBasisPoints
-            feeRecipient
+          description
+          price
+          blockchain
+          creators {
+            address
+            value
           }
+          lazySupply
+          supply
+          mintedAt
+          sellers
         }
       }
     }
   `;
 
-  const [Owned_Collections, {loading, error, data}] = useLazyQuery(query, {
-    onCompleted: ({Owned_Collections}) => {
-      if (Owned_Collections !== null && Owned_Collections !== undefined) {
-        setComplete(true);
+  const [Collection_NFTS, {loading, refetch}] = useLazyQuery(queryNFTS, {
+    onCompleted: async ({Collection_NFTS}) => {
+      if (
+        Collection_NFTS !== null &&
+        Collection_NFTS !== undefined &&
+        Collection_NFTS.nfts !== null
+      ) {
+        await setComplete(true);
+        let nfts: any = await Collection_NFTS.nfts;
+        // nfts =
+        let clean = await nfts.filter((nft: any) => {
+          if (nft !== null && nft !== undefined) {
+            if (typeof nft.name !== undefined) {
+              console.log(nft);
+              return true;
+            }
+            // return nft.name !== null;
+          }
+        });
+        setCollectionNfts(clean);
+      }
+    },
+  });
+  const [Collection_Info] = useLazyQuery(queryCollections, {
+    onCompleted: ({Collection_Info}) => {
+      if (Collection_Info !== null && Collection_Info !== undefined) {
+        console.log(Collection_Info.id);
+        Collection_NFTS({
+          variables: {
+            input: {
+              address: Collection_Info.id,
+            },
+          },
+        });
+        setCollectionInfo(Collection_Info);
       }
     },
   });
 
-  function getDeployRequest(_blockchain: string) {
-    switch (_blockchain) {
-      case 'POLYGON':
-      case 'ETHEREUM':
-        return {
-          blockchain: _blockchain as CreateCollectionBlockchains,
-          asset: {
-            assetType: 'ERC721',
-            arguments: {
-              name: contract.name,
-              symbol: contract.symbol,
-              baseURI: contract.baseURI,
-              contractURI: contract.contractURI,
-              isUserToken: contract.isUserToken,
-            },
-          },
-        } as CreateCollectionRequest;
-      case 'TEZOS':
-        return {
-          blockchain: _blockchain as CreateCollectionBlockchains,
-          asset: {
-            assetType: 'NFT',
-            arguments: {
-              name: contract.name,
-              symbol: contract.symbol,
-              contractURI: contract.contractURI,
-              isUserToken: contract.isUserToken,
-            },
-          },
-        } as CreateCollectionRequest;
-      default:
-        throw new Error('Unsupported blockchain');
+  const handleFormResponses = (e: any, data: any) => {
+    if (
+      _metadataTypes[data + 'Type'] == 'string' ||
+      _metadataTypes[data + 'Type'] == 'url' ||
+      _metadataTypes[data + 'Type'] == 'color'
+    ) {
+      setState({...state, [data]: e.target.value});
     }
-  }
-
+  };
   useEffect((): any => {
     connection.state.status == 'disconnected' && router.push('/');
   }, [connection]);
 
-  useEffect((): any => {
-    if (contractAddress !== null && contractAddress !== undefined) {
-      const addr_pref = contractAddress.substring(0, 2).toLowerCase();
-      console.log('addr_pref', addr_pref, sdk);
-      switch (addr_pref) {
-        case 'A.':
-          setChain('FLOW');
-          return;
-        case '0x':
-          if (typeof window !== undefined && window.web3 !== undefined) {
-            const provider = window?.web3.currentProvider;
-            console.log('>', provider.chainId);
-            if (provider.chainId === '0x89' || provider.chainId === 137) {
-              setChain('POLYGON');
-              return;
-            }
-          }
-          setChain('ETHEREUM');
-          return;
-
-        case 'kT':
-          setChain('TEZOS');
-          return;
-
-        default:
-          console.log('Unsupported blockchain');
-          return;
-      }
-    }
-  }, [contractAddress]);
   useEffect((): any => {
     // console.log(router);
     contractAddress !== null &&
@@ -163,22 +192,25 @@ export default function Dragon() {
   }, [contractAddress]);
 
   useEffect((): any => {
-    contractAddress !== null &&
-      contractAddress !== undefined &&
-      Owned_Collections({
-        variables: {
-          input: {
-            blockChain: chain,
-            address: contractAddress,
-            continuation: '',
-            size: 10,
-          },
+    Collection_Info({
+      variables: {
+        input: {
+          blockChain: chain,
+          address: address,
+          continuation: '',
+          size: 10,
         },
-      });
+      },
+    });
+
     return () => {
       setComplete(false);
     };
-  }, [contractAddress, chain]);
+  }, [address, chain]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -188,217 +220,318 @@ export default function Dragon() {
         twitter='takolabs'
         keywords='gaming, nfts, web3'
       />
-      <div className='d-flex flex-column position-relative h-100 m-2'>
-        <p className=''>Wait... Where's my Metaverse?</p>
-        <p className=''>{address}</p>
-        <p>{chain}</p>
-        <div className='d-flex flex-column'>
-          <div>
-            {(chain === 'POLYGON' ||
-              chain === 'ETHEREUM' ||
-              chain === 'TEZOS') &&
-              _address === walletAddress && (
+      <p className='border-bottom'>Contract Address: {address.split(':')[1]}</p>
+      {complete && (
+        <div className='d-flex flex-column position-relative h-100 m-2'>
+          <p>
+            {collectionInfo.name} {collectionInfo.symbol}
+          </p>
+
+          <p>{collectionInfo.blockchain}</p>
+
+          <div className='d-flex flex-column mb-2'>
+            <div>
+              {_blockchain === collectionInfo.blockchain}
+              {_blockchain === collectionInfo.blockchain && (
                 <Button
                   onClick={() => {
                     setShow(true);
                   }}
                   className={`btn btn-outline-dark`}>
-                  Create Contract
+                  Mint NFT
                 </Button>
               )}
-          </div>
-          <div className='my-2 d-flex flex-row'>
-            <div>Collections</div>
-          </div>
-          <div className='d-flex flex-column justify-content-center align-items-center w-100'>
-            {error && <p>{`${error.message}`}</p>}
-            {loading && <p>Loading...</p>}
-
-            <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>
-              {((): any => {
-                return chain === 'ETHEREUM'
-                  ? [
-                      '0xF6793dA657495ffeFF9Ee6350824910Abc21356C',
-                      '0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8',
-                    ]
-                  : chain === 'TEZOS'
-                  ? ['KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS']
-                  : chain === 'FLOW'
-                  ? ['A.01ab36aaf654a13e.RaribleNFT']
-                  : [
-                      '0x35f8aee672cdE8e5FD09C93D2BfE4FF5a9cF0756',
-                      '0xA2D9Ded6115b7B7208459450D676f0127418ae7A',
-                    ];
-              })().map((contract: any, key: number) => {
-                return (
-                  <CollectionCard
-                    key={key}
-                    className='border m-2 p-2 d-flex flex-column justify-content-center'
-                    onClick={() => {
-                      console.log(contract);
-                    }}>
-                    <div>Name: Rarible Public</div>
-                    <div>Symbol: RARI</div>
-                    <div>Owner: Rarible</div>
-                    <div>Blockchain: {chain}</div>
-                    <div>Type: ERC{key === 0 ? '721' : '1155'}</div>
-                  </CollectionCard>
-                );
-              })}
-
-              {!loading &&
-                complete &&
-                typeof data.Owned_Collections !== undefined &&
-                data.Owned_Collections.collections !== null &&
-                data.Owned_Collections?.collections.map(
-                  (
-                    {id, name, symbol, owner, blockchain, type}: any,
-                    key: string
-                  ) => {
-                    return (
-                      <CollectionCard
-                        key={key}
-                        className='border m-2 p-2 d-flex flex-column justify-content-center'>
-                        <div>Name: {name}</div>
-                        <div>Symbol: {symbol}</div>
-                        <div>Owner: {owner}</div>
-                        <div>Blockchain: {blockchain}</div>
-                        <div>Type: {type}</div>
-                      </CollectionCard>
-                    );
-                  }
-                )}
             </div>
-          </div>
-          {show && (
-            <Modal
-              onClose={() => {
-                setShow(false);
-                setShowOptions(false);
-              }}>
-              <div className='d-flex flex-column'>
-                <Input
-                  label={'Collection Name* (min. 3 characters)'}
-                  value={''}
-                  onChange={(e) =>
-                    setContract({...contract, name: e.target.value})
-                  }
-                  type='text'></Input>
-                <Input
-                  label={'Collection Symbol* (min. 2 characters)'}
-                  value={''}
-                  onChange={(e) =>
-                    setContract({...contract, symbol: e.target.value})
-                  }
-                  type='text'></Input>
-                <div className=' my-1'>
-                  <p className='mb-0'>Contract Type* (select one)</p>
-                  <Select
-                    className='text-black h-100 w-100'
-                    options={((): any => {
-                      switch (blockchain) {
-                        case 'POLYGON':
-                        case 'ETHEREUM':
-                          return [
-                            {label: 'ERC721 (Singles)', value: 'ERC721'},
-                            {label: 'ERC1155 (Multiples)', value: 'ERC1155'},
-                          ];
-                        case 'TEZOS':
-                          return [{label: 'NFT', value: 'NFT'}, ,];
+            <div className='my-2 d-flex flex-row'>
+              <div>NFTS</div>
+            </div>
+            <div className='d-flex flex-column justify-content-center align-items-center w-100'>
+              <div className='d-flex flex-column flex-md-row flex-wrap justify-content-between align-items-center'>
+                {collectionNfts.map(({name, description, url}: any) => {
+                  return (
+                    <div className='d-flex flex-column'>
+                      <div className='img-wrap'>
+                        <img className='h-100 w-100' src={url} alt={name} />
+                      </div>
+                      <p>{name}</p>
+                      <p>{description}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {show && (
+              <Modal
+                onClose={() => {
+                  setShow(false);
+                  setShowOptions(false);
+                }}>
+                {/* TOP SECTION */}
+                <div
+                  className={`col p-2 border border-dark d-inline-flex flex-column w-100 form-mx`}>
+                  <div className='d-flex flex-row'>
+                    <div className='p-3'>
+                      <NFTInput
+                        id={'nft-input'}
+                        accept={'.png,gif,jpg,jpeg'}
+                        label={'Upload File:'}
+                        onChange={async (e: any): Promise<void> => {
+                          const {cid, fileType}: any = e;
+                          console.log('?', cid, fileType);
+                          setState({
+                            ...state,
+                            canMint:
+                              fileType !== undefined &&
+                              fileType.split('/')[0] == 'image'
+                                ? true
+                                : false,
+                            fileData:
+                              fileType !== undefined &&
+                              fileType.split('/')[0] == 'image'
+                                ? 'https://ipfs.io/ipfs/' + e.cid
+                                : '',
+                            animation_url:
+                              fileType !== undefined &&
+                              fileType.split('/')[0] !== 'image'
+                                ? 'https://ipfs.io/ipfs/' + e.cid
+                                : '',
+                            type: fileType ? fileType.split('/')[0] : 'UNKNOWN',
+                            showInput: true,
+                            showMedia:
+                              fileType !== undefined &&
+                              fileType.split('/')[0] == 'image'
+                                ? true
+                                : false,
+                            memeType:
+                              fileType == 'application/zip'
+                                ? 'application/zip'
+                                : fileType,
+                          });
+                        }}
+                      />
+                      <br />
 
-                        default:
-                          break;
-                      }
-                    })()}
-                    value={assetType}
-                    onChange={(e) => {
-                      setAssetType(e);
-                      console.log(e);
-                    }}
-                  />
-                </div>
-                <ToggleButton
-                  label={'Allow Public Minting?'}
-                  getToggleStatus={(res) => {
-                    setContract({...contract, isUserToken: !res});
-                  }}
-                />
-                <div className='my-3'>
-                  <Button
-                    className={`btn-outline-dark`}
-                    onClick={() => {
-                      setShowOptions(!showOptions);
-                    }}>
-                    Advanced Options:
-                  </Button>
-                  {showOptions && (
-                    <div className=' mt-3 d-flex flex-column'>
+                      {state.memeType !== undefined &&
+                        state.memeType.split('/')[0] !== 'image' && (
+                          <>
+                            NFT COVER FOR VIDEO/AUDIO (NON IMAGE NFT)
+                            <br />
+                            <NFTInput
+                              id={'nft-input-cover'}
+                              label={'Cover:'}
+                              accept={'image/*'}
+                              onChange={async (e: any): Promise<void> => {
+                                const {cid, fileType} = e;
+                                setState({
+                                  ...state,
+                                  canMint:
+                                    fileType !== undefined &&
+                                    fileType.split('/')[0] == 'image'
+                                      ? true
+                                      : false,
+                                  fileData: 'https://ipfs.io/ipfs/' + cid,
+                                  disable: false,
+                                  memeType: fileType,
+                                  showMedia: true,
+                                });
+                              }}
+                            />
+                          </>
+                        )}
+                    </div>
+                    {state.showMedia &&
+                      (state.fileData.length > 0 ||
+                        state.animation_url.length > 0) && (
+                        <>
+                          <div className={'icon-wrapper mx-auto'}>
+                            <img className='h-100 w-auto' src={state.fileData} alt='' />
+                          </div>
+                          <hr />
+                        </>
+                      )}
+                  </div>
+
+                  <hr />
+                  {Object.keys(_metadata).map((data, key) => (
+                    <FormInputs
+                      show={data === 'image' || state.showInput}
+                      key={key}
+                      id={data}
+                      label={data.replace('_', ' ')}
+                      type={_metadataTypes[data + 'Type']}
+                      onChange={(e: any) => handleFormResponses(e, data)}
+                      style={`w-100`}
+                    />
+                  ))}
+                  {collectionInfo.type === 'ERC1155' && (
+                    <div className='d-flex flex-column'>
+                      Token Supply: {supply}
                       <Input
-                        label={'Contract URI'}
-                        value={''}
-                        onChange={(e) =>
-                          setContract({
-                            ...contract,
-                            contractURI: e.target.value,
-                          })
-                        }
-                        type='text'></Input>
-                      <Input
-                        label={'Base URI'}
-                        value={''}
-                        onChange={(e) =>
-                          setContract({...contract, baseURI: e.target.value})
-                        }
-                        type='text'></Input>
+                        id={'token-supply'}
+                        label={'NFT Supply'}
+                        type={'number'}
+                        value={supply.toString()}
+                        placeholder={supply.toString()}
+                        inputStyle={''}
+                        onChange={(e: any) => {
+                          const {value} = e.target;
+                          value !== undefined && parseInt(value) > 1000000000
+                            ? setSupply(10000000000)
+                            : value !== undefined && parseInt(value) < 0
+                            ? setSupply(1)
+                            : value == undefined || value == null || value == ''
+                            ? setSupply(1)
+                            : setSupply(
+                                parseInt(value.match(/\d+/gi).join(''))
+                              );
+                        }}
+                      />
+                      <hr />
                     </div>
                   )}
+                  <>
+                    Royalties: {royalties}%
+                    <Input
+                      id={'royalties'}
+                      label={'NFT Royalties'}
+                      type={'number'}
+                      value={royalties.toString()}
+                      placeholder={royalties.toString()}
+                      inputStyle={'w-100'}
+                      onChange={(e: any) => {
+                        const {value} = e.target;
+                        value !== undefined && parseInt(value) > 50
+                          ? setRoyalties(50)
+                          : value !== undefined && parseInt(value) < 0
+                          ? setRoyalties(0)
+                          : value == undefined || value == null || value == ''
+                          ? setRoyalties(0)
+                          : setRoyalties(
+                              parseInt(value.match(/\d+/gi).join(''))
+                            );
+                      }}
+                    />
+                    <hr />
+                  </>
                 </div>
-                {
-                  <Button
-                    disabled={
-                      contract.name.length < 3 ||
-                      contract.symbol.length < 2 ||
-                      assetType.length < 1
+                <div
+                  className={`col p-2 border border-dark d-inline-flex flex-column w-100 form-mx`}>
+                  <ToggleButton
+                    label={
+                      <>
+                        <span className='mb-3'>
+                          Enable Lazy Minting (Free Minting)
+                          <br />
+                          NFT Will Be Off-Chain Until Purchased or Transferred
+                        </span>
+                      </>
                     }
-                    className={`btn-outline-dark`}
-                    onClick={async () => {
-                      TAKO.createCollection(
-                        sdk,
-                        getDeployRequest(chain as any)
-                      ).then((res) => {
-                        console.log(res);
-                      });
-                    }}>
-                    Deploy
-                  </Button>
-                }
-              </div>
-            </Modal>
-          )}
+                    getToggleStatus={(e) => {
+                      setLazyMint(e);
+                    }}
+                    defaultStatus={lazyMint}
+                  />
+                  <hr />
+                  <div className={`d-flex flex-column w-100`}>
+                    {
+                      <Button
+                        disabled={false}
+                        buttonStyle={`btn-dark`}
+                        onClick={async () => {
+                          await setState({...state, isLoading: true});
+                          const json = JSON.stringify({
+                            ..._metadata,
+                            name: state.name,
+                            description: state.description,
+                            image: state.fileData,
+                            animation_url: state.animation_url,
+                            external_url: 'https://takolabs.io',
+                            attributes: [
+                              ...state.attributes,
+                              {
+                                trait_type: 'File Type',
+                                value: state.type.toUpperCase(),
+                              },
+                              {
+                                trait_type: 'Platform',
+                                value: 'TAKO LABS',
+                              },
+                            ],
+                            properties: state.properties,
+                          });
+
+                          await nft
+                            .storeFileAsBlob(json)
+                            .then((_tkn) => {
+                              setState({
+                                ...state,
+                                token: _tkn,
+                                disable: !state.disable,
+                                isLoading: false,
+                              });
+                              return _tkn;
+                            })
+                            .then(async (cid) => {
+                              const _nft = await TAKO.mint({
+                                sdk,
+                                collection: toUnionAddress(contractAddress),
+                                data: {
+                                  uri: 'ipfs://ipfs/' + cid,
+                                  supply: supply,
+                                  lazyMint: lazyMint,
+                                  royalties: [
+                                    {
+                                      account:
+                                        contractAddress.split(':')[0] +
+                                        ':' +
+                                        _address,
+                                      value: royalties * 100,
+                                    },
+                                  ],
+                                },
+                              }).catch((err) => {
+                                console.log(err.message);
+                              });
+                              console.log(_nft);
+                             setShow(false);
+                            });
+                        }}>
+                        Mint
+                      </Button>
+                    }
+                  </div>
+
+                  {state.token.length > 0 && (
+                    <>
+                      <hr />
+                      <div className='d-flex flex-column justify-content-around'>
+                        Your Metadata:{' '}
+                        <a
+                          target={'_blank'}
+                          rel='norefferal'
+                          className='text-truncate'
+                          href={`https://ipfs.io/ipfs/${state.token}`}>
+                          https://ipfs.io/ipfs/{state.token}
+                        </a>
+                      </div>
+                    </>
+                  )}
+                  <hr />
+                  <p>
+                    Metadata powered by{' '}
+                    <a
+                      target={'_blank'}
+                      rel={'norefferal'}
+                      href={'https://nft.storage'}>
+                      NFT.Storage
+                    </a>
+                  </p>
+                </div>
+              </Modal>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
-  );
-}
-
-function CollectionCard({children, ...props}: any) {
-  return (
-    <div
-      title={props.title}
-      onClick={props.onClick}
-      className={`collection-card d-flex flex-column border rounded ${props.className}`}>
-      <style>
-        {`
-        .collection-card {
-          max-width: 31.25rem;
-          width: 100%;
-          min-width: 18.75rem;
-          min-height: 9.375rem;
-
-        }
-      `}
-      </style>
-      {children}
-    </div>
   );
 }

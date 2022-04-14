@@ -17,7 +17,7 @@ const typeDefs = gql`
   }
 
   type COLLECTION_OBJ {
-    total:Int
+    total: Int
     continuation: String
     collections: [COLLECTION]
   }
@@ -107,6 +107,8 @@ const typeDefs = gql`
 
   type Query {
     Owned_Collections(input: QueryInput): COLLECTION_OBJ
+    Collection_Info(input: QueryInput): COLLECTION
+    Collection_NFTS(input: QueryInput): Collection_Data
   }
 `;
 

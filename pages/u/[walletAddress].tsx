@@ -227,24 +227,25 @@ export default function Dragon() {
               {((): any => {
                 return chain === 'ETHEREUM'
                   ? [
-                      '0xF6793dA657495ffeFF9Ee6350824910Abc21356C',
-                      '0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8',
+                      'ETHEREUM:0xF6793dA657495ffeFF9Ee6350824910Abc21356C',
+                      'ETHEREUM:0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8',
                     ]
                   : chain === 'TEZOS'
-                  ? ['KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS']
+                  ? ['TEZOS:KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS']
                   : chain === 'FLOW'
                   ? ['A.01ab36aaf654a13e.RaribleNFT']
                   : [
-                      '0x35f8aee672cdE8e5FD09C93D2BfE4FF5a9cF0756',
-                      '0xA2D9Ded6115b7B7208459450D676f0127418ae7A',
+                      'FLOW:0x35f8aee672cdE8e5FD09C93D2BfE4FF5a9cF0756',
+                      'FLOW:0xA2D9Ded6115b7B7208459450D676f0127418ae7A',
                     ];
               })().map((contract: any, key: number) => {
                 return (
                   <CollectionCard
                     key={key}
-                    className='border m-2 p-2 d-flex flex-column justify-content-center'
+                    className='border m-2 p-2 d-flex flex-column justify-content-center pointer-cursor'
                     onClick={() => {
                       console.log(contract);
+                      router.push(`/c/${contract}`);
                     }}>
                     <div>Name: Rarible Public</div>
                     <div>Symbol: RARI</div>
@@ -272,6 +273,10 @@ export default function Dragon() {
                       return (
                         <CollectionCard
                           key={key}
+                          onClick={() => {
+                            console.log(id);
+                            router.push(`/c/${id}`);
+                          }}
                           className='border m-2 p-2 d-flex flex-column justify-content-center'>
                           <div>Name: {name}</div>
                           <div>Symbol: {symbol}</div>

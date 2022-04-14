@@ -102,13 +102,16 @@ const TAKO = {
       var _blockchain = blockChain;
       // base url
       const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
-      // api url
+
       if (typeof blockChain === 'undefined') {
         throw new Error('blockChain is undefined');
       }
       if (typeof address === 'undefined') {
-        throw new Error('blockChain is undefined');
+        throw new Error('Address is undefined');
       }
+      //       if(typeof address.split(':')[1] === undefined){
+      // throw new Error('Address is undefined');
+      //       }
       if (blockChain === 'POLYGON') {
         _blockchain = 'ETHEREUM';
       }
@@ -121,11 +124,30 @@ const TAKO = {
       ).then(async (res) => res.json());
     } catch (error) {}
   },
-  get_collectionByAddress: async ({sdk, address}: {sdk: any; address: any}) => {
-    return await sdk?.apis.collection.getCollectionById({
-      collection: address,
-      // 'ETHEREUM:0xF6793dA657495ffeFF9Ee6350824910Abc21356C'
-    });
+  getcollectionByAddress: async ({
+    address,
+  }: {
+    blockchain: any;
+    address: any;
+  }) => {
+    // base url
+    const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
+    if (typeof address === 'undefined') {
+      throw new Error('Address is undefined');
+    }
+    if (
+      typeof address.split(0) === 'undefined' ||
+      typeof address.split(1) === 'undefined'
+    ) {
+      throw new Error('Address is not Formatted Properly');
+    }
+    const url = await `${base}${collections}/${
+      address.split(':')[0]
+    }:${address.split(':')[1].toLowerCase()}`;
+    //fetch
+    return await fetch(url as string, {
+      method: 'GET',
+    }).then(async (res) => res.json());
   },
   get_all_collections: async ({sdk}: {sdk: any}) => {
     return await sdk.apis.collection.getAllCollections({});
@@ -260,10 +282,9 @@ const TAKO = {
     // console.log('clean', clean);
     return await data;
   },
-  get_nfts_from_contract_address: async (
-    address: any = 'ETHEREUM:0x277E4e7AA71d33f235a3A6b9aC95f79080f4D3db'
-  ) => {
-    const url = ((!process.env.DEV ? baseURL : dev_baseURL) +
+  getNftsByContractAddress: async (address: string) => {
+    const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
+    const url = (base +
       items +
       '/byCollection/' +
       `?collection=${address}`) as string;
@@ -465,7 +486,6 @@ const TAKO = {
     collection: any;
     data: any;
   }) => {
-    console.log(sdk, collection, data);
     if (!sdk) return;
     const mintAction = await sdk.nft.mint({
       collectionId: collection,

@@ -77,7 +77,7 @@ function MyApp({Component, pageProps}: AppProps) {
           `}
         </style>
 
-        {/* <Provider session={pageProps.session} store={store}> */}
+        <Provider session={pageProps.session} store={store}>
           <ThemeProvider theme={appTheme}>
             <EnvironmentSelectorProvider>
               {(connector: any): any => (
@@ -91,7 +91,7 @@ function MyApp({Component, pageProps}: AppProps) {
               )}
             </EnvironmentSelectorProvider>
           </ThemeProvider>
-        {/* </Provider> */}
+        </Provider>
       </ApolloProvider>
     </>
   );

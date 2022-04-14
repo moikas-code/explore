@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useState} from 'react';
+import {ReactNode, useEffect, useState, useContext} from 'react';
 import NFTInput from './NFTInput';
 import Button from './common/button';
 import {connect} from 'react-redux';
@@ -18,8 +18,9 @@ import {
   toBigNumber,
 } from '@rarible/types';
 import Input from './common/input';
-import AKKORO_LIB from '../akkoro_lib';
-import {createRaribleSdk} from '@rarible/sdk';
+import TAKO from '../tako';
+import {ConnectorContext} from './connector/sdk-connection-provider';
+
 // import {BigNumber} from 'ethers';
 
 type MintFormProps = FormProps<MintRequest> & {
@@ -27,10 +28,8 @@ type MintFormProps = FormProps<MintRequest> & {
 };
 interface NFTFormProps extends MintFormProps {
   address: UnionAddress;
-  connection: any;
   sdk: any;
   wallerAddress: any;
-  blockchain: any;
 }
 
 function ToggleButton({
@@ -108,13 +107,11 @@ function ToggleButton({
   );
 }
 
-function NFTForm({
-  address,
-  connection,
-  blockchain,
-  onSubmit,
-  response,
-}: NFTFormProps) {
+function NFTForm({address, onSubmit, response}: NFTFormProps) {
+  const connection = useContext<any>(ConnectorContext);
+  const sdk: string = connection.sdk;
+  const blockchain: string = connection.sdk?.wallet?.blockchain;
+  const _address: string = connection.walletAddress;
   const [collection, setCollectionAddress] = useState<UnionAddress>(
     'ETHEREUM:0xb6837da7da62faedd38257658b240cfa123ef601' as UnionAddress
   );
@@ -156,7 +153,7 @@ function NFTForm({
       setCollectionAddress(
         toUnionAddress('ETHEREUM:0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8')
       );
-    AKKORO_LIB.getCurrencyOptions(blockchain).then((options: any[]) => {
+    TAKO.getCurrencyOptions(blockchain).then((options: any[]) => {
       console.log(options);
       setCurrency({
         value: {id: '1', '@type': 'ETH'},
@@ -482,10 +479,10 @@ function NFTForm({
               <div className={`d-flex flex-column w-100`}>
                 {
                   <Button
-                    disabled={!state.canMint || state.name.length <= 0}
+                    disabled={false}
                     buttonStyle={`btn-dark`}
-                    onPress={async () => {
-                      var sdk = createRaribleSdk(connection, 'prod');
+                    onClick={async () => {
+                      console.log(sdk);
                       await setState({...state, isLoading: true});
                       const json = JSON.stringify({
                         ..._metadata,
@@ -493,7 +490,7 @@ function NFTForm({
                         description: state.description,
                         image: state.fileData,
                         animation_url: state.animation_url,
-                        external_url: 'https://akkoros.xyz',
+                        external_url: 'https://takolabs.io',
                         attributes: [
                           ...state.attributes,
                           {
@@ -502,7 +499,7 @@ function NFTForm({
                           },
                           {
                             trait_type: 'Platform',
-                            value: 'Akkoros',
+                            value: 'TAKO LABS',
                           },
                         ],
                         properties: state.properties,
@@ -521,7 +518,7 @@ function NFTForm({
                               return _tkn;
                             })
                             .then(async (cid) => {
-                              const nft = await AKKORO_LIB.mint({
+                              const nft = await TAKO.mint({
                                 sdk: sdk,
                                 collection: toUnionAddress(collection),
                                 data: {
@@ -530,8 +527,7 @@ function NFTForm({
                                   lazyMint: lazyMint,
                                   royalties: [
                                     {
-                                      account:
-                                        connection.blockchain + ':' + address,
+                                      account: blockchain + ':' + _address,
                                       value: royalties * 100,
                                     },
                                   ],
@@ -540,21 +536,20 @@ function NFTForm({
                                 console.log(err.message);
                               });
                               console.log('NFT DATA:', nft, sdk);
-                              return nft.itemId;
+                              return nft;
                             })
                             .then(async (tk_id) => {
-                              await AKKORO_LIB.sell_nft({
+                              await TAKO.sell_nft({
                                 sdk,
                                 amount: toBigNumber(supply.toString()),
                                 currency: currency.value,
                                 nft_id: tk_id,
                                 price: parseFloat(sell_price.toString()),
-                                blockchain: connection.blockchain,
+                                blockchain: blockchain,
                               }).catch((err) => {
                                 console.log(err.message);
                               });
                             })
-                          
                         : await nft
                             .storeFileAsBlob(json)
                             .then((_tkn) => {
@@ -567,7 +562,7 @@ function NFTForm({
                               return _tkn;
                             })
                             .then(async (cid) => {
-                              const nft = await AKKORO_LIB.mint({
+                              const _nft = await TAKO.mint({
                                 sdk,
                                 collection: toUnionAddress(collection),
                                 data: {
@@ -576,8 +571,7 @@ function NFTForm({
                                   lazyMint: lazyMint,
                                   royalties: [
                                     {
-                                      account:
-                                        connection.blockchain + ':' + address,
+                                      account: blockchain + ':' + _address,
                                       value: royalties * 100,
                                     },
                                   ],
@@ -585,10 +579,9 @@ function NFTForm({
                               }).catch((err) => {
                                 console.log(err.message);
                               });
-                              console.log(nft);
-                              return nft.itemId;
-                            })
-                         
+                              console.log(_nft);
+                              return _nft;
+                            });
                     }}>
                     Mint
                   </Button>
@@ -639,12 +632,9 @@ function NFTForm({
     </>
   );
 }
-const mapStateToProps = (state) => ({
-  address: state.session.address,
-  connection: state.session.connection,
-  blockchain: state.session.blockchain,
-});
-export default connect(mapStateToProps)(NFTForm);
+
+
+export default NFTForm;
 
 function validate(uri: string, supply: any, prepareResponse: any) {
   const a = parseInt(supply);

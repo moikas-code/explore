@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {MintType} from '@rarible/sdk/build/types/nft/mint/domain';
 if (typeof window === 'undefined') require('dotenv').config();
 var name = 'akkoro_Lib';
 var version = '0.0.1';
@@ -464,26 +465,16 @@ const TAKO = {
     collection: any;
     data: any;
   }) => {
-    // console.log(sdk, collection, data);
+    console.log(sdk, collection, data);
     if (!sdk) return;
-    return await TAKO.get_collectionByAddress({
-      sdk,
-      address: collection,
-    })
-      .then(
-        async (_collection) =>
-          await TAKO.get_nft_data({
-            sdk,
-            collection: _collection,
-          })
-      )
-      .then(async ({submit}: any) => {
-        const nft_data = await submit(data);
-        return nft_data;
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    const mintAction = await sdk.nft.mint({
+      collectionId: collection,
+    });
+    const nft_data = await mintAction.submit(data);
+
+    if (nft_data.type === MintType.OFF_CHAIN) {
+      return nft_data.itemId;
+    }
   },
   sell_nft: async ({
     sdk,
@@ -647,7 +638,6 @@ const TAKO = {
 };
 
 export default (() => {
-  
   // console.log(window);
   return TAKO;
 })();

@@ -17,6 +17,7 @@ import ToggleButton from '@/src/components/ToggleButton';
 // @ts-ignore
 import TAKO from '@/src/tako';
 import {gql, useLazyQuery} from '@apollo/client';
+import {defaults} from 'lodash';
 type CreateCollectionRequest = /*unresolved*/ any;
 type CreateCollectionBlockchains = /*unresolved*/ any;
 
@@ -27,7 +28,7 @@ export default function Dragon() {
   const _address: string = connection.walletAddress;
 
   const router = useRouter();
-  const {walletAddress}: any = router.query;
+  const {contractAddress}: any = router.query;
   const [complete, setComplete] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [showOptions, setShowOptions] = useState<boolean>(false);
@@ -125,15 +126,14 @@ export default function Dragon() {
   }, [connection]);
 
   useEffect((): any => {
-    if (walletAddress !== null && walletAddress !== undefined) {
-      const addr_pref = walletAddress.substring(0, 2).toLowerCase();
+    if (contractAddress !== null && contractAddress !== undefined) {
+      const addr_pref = contractAddress.substring(0, 2).toLowerCase();
       console.log('addr_pref', addr_pref, sdk);
       switch (addr_pref) {
+        case 'A.':
+          setChain('FLOW');
+          return;
         case '0x':
-          if (walletAddress.length === 18) {
-            setChain('FLOW');
-            return;
-          }
           if (typeof window !== undefined && window.web3 !== undefined) {
             const provider = window?.web3.currentProvider;
             console.log('>', provider.chainId);
@@ -145,7 +145,7 @@ export default function Dragon() {
           setChain('ETHEREUM');
           return;
 
-        case 'tz':
+        case 'kT':
           setChain('TEZOS');
           return;
 
@@ -154,22 +154,22 @@ export default function Dragon() {
           return;
       }
     }
-  }, [walletAddress]);
+  }, [contractAddress]);
   useEffect((): any => {
     // console.log(router);
-    walletAddress !== null &&
-      walletAddress !== undefined &&
-      setAddress(walletAddress);
-  }, [walletAddress]);
+    contractAddress !== null &&
+      contractAddress !== undefined &&
+      setAddress(contractAddress);
+  }, [contractAddress]);
 
   useEffect((): any => {
-    walletAddress !== null &&
-      walletAddress !== undefined &&
+    contractAddress !== null &&
+      contractAddress !== undefined &&
       Owned_Collections({
         variables: {
           input: {
             blockChain: chain,
-            address: walletAddress,
+            address: contractAddress,
             continuation: '',
             size: 10,
           },
@@ -178,7 +178,7 @@ export default function Dragon() {
     return () => {
       setComplete(false);
     };
-  }, [walletAddress, chain]);
+  }, [contractAddress, chain]);
 
   return (
     <>
@@ -210,10 +210,42 @@ export default function Dragon() {
           <div className='my-2 d-flex flex-row'>
             <div>Collections</div>
           </div>
-          <div className='d-flex flex-row justify-content-center w-100'>
+          <div className='d-flex flex-column justify-content-center align-items-center w-100'>
+            {error && <p>{`${error.message}`}</p>}
+            {loading && <p>Loading...</p>}
+
             <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>
-              {error && <p>{`${error.message}`}</p>}
-              {loading && <p>Loading...</p>}
+              {((): any => {
+                return chain === 'ETHEREUM'
+                  ? [
+                      '0xF6793dA657495ffeFF9Ee6350824910Abc21356C',
+                      '0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8',
+                    ]
+                  : chain === 'TEZOS'
+                  ? ['KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS']
+                  : chain === 'FLOW'
+                  ? ['A.01ab36aaf654a13e.RaribleNFT']
+                  : [
+                      '0x35f8aee672cdE8e5FD09C93D2BfE4FF5a9cF0756',
+                      '0xA2D9Ded6115b7B7208459450D676f0127418ae7A',
+                    ];
+              })().map((contract: any, key: number) => {
+                return (
+                  <CollectionCard
+                    key={key}
+                    className='border m-2 p-2 d-flex flex-column justify-content-center'
+                    onClick={() => {
+                      console.log(contract);
+                    }}>
+                    <div>Name: Rarible Public</div>
+                    <div>Symbol: RARI</div>
+                    <div>Owner: Rarible</div>
+                    <div>Blockchain: {chain}</div>
+                    <div>Type: ERC{key === 0 ? '721' : '1155'}</div>
+                  </CollectionCard>
+                );
+              })}
+
               {!loading &&
                 complete &&
                 typeof data.Owned_Collections !== undefined &&
@@ -352,12 +384,16 @@ export default function Dragon() {
 function CollectionCard({children, ...props}: any) {
   return (
     <div
+      title={props.title}
+      onClick={props.onClick}
       className={`collection-card d-flex flex-column border rounded ${props.className}`}>
       <style>
         {`
         .collection-card {
-          min-width: 300px;
-          min-height: 150px;
+          max-width: 31.25rem;
+          width: 100%;
+          min-width: 18.75rem;
+          min-height: 9.375rem;
 
         }
       `}

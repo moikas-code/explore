@@ -6,8 +6,10 @@ import {ConnectorContext} from '../src/components/connector/sdk-connection-provi
 import TakoLink from '../src/components/TakoLink';
 
 export default function _Index() {
-  const connection = React.useContext(ConnectorContext);
-  const blockchain = connection.sdk?.wallet?.blockchain;
+  const connection = React.useContext<any>(ConnectorContext);
+  const sdk: string = connection.sdk;
+  const blockchain: string = connection.sdk?.wallet?.blockchain;
+  const _address: string = connection.walletAddress;
   const router = useRouter();
   return (
     <>
@@ -35,8 +37,8 @@ export default function _Index() {
             </TakoLink>
           ) : (
             <TakoLink
-              href={`/app/${connection.walletAddress}`}
-              as={`/app/${connection.walletAddress}`}>
+              href={`/u/${connection.walletAddress}`}
+              as={`/u/${connection.walletAddress}`}>
               <a className='btn btn-outline-dark fnt-color-black text-decoration-none'>
                 Enter
               </a>

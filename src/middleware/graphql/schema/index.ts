@@ -31,7 +31,7 @@ const typeDefs = gql`
     symbol: String
     owner: String
     features: [String]
-    minter: [String]
+    minters: [String]
     meta: COLLECTION_META
   }
 

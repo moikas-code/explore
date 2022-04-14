@@ -2,10 +2,23 @@
 # yarn lockfile v1
 
 
-"@airgap/beacon-sdk@2.3.12", "@airgap/beacon-sdk@^2.3.12", "@airgap/beacon-sdk@^2.3.8", "@airgap/beacon-sdk@^2.3.9":
+"@airgap/beacon-sdk@2.3.12":
   version "2.3.12"
   resolved "https://registry.yarnpkg.com/@airgap/beacon-sdk/-/beacon-sdk-2.3.12.tgz#ed313e9d485eb00e45f9ac1943b7975d1fc41a8a"
   integrity sha512-SZIaPiJjYHq5FIbpldHcPuMJxntjNfi+Iyni1apODh6hdgsJK8wRkveBd/b9LvmRSFnAENP3Zrbtayegfch8Ow==
+  dependencies:
+    "@types/chrome" "0.0.115"
+    "@types/libsodium-wrappers" "0.7.7"
+    axios "0.21.1"
+    bignumber.js "9.0.0"
+    bs58check "2.1.2"
+    libsodium-wrappers "0.7.8"
+    qrcode-generator "1.4.4"
+
+"@airgap/beacon-sdk@^2.3.12", "@airgap/beacon-sdk@^2.3.8", "@airgap/beacon-sdk@^2.3.9":
+  version "2.3.13"
+  resolved "https://registry.yarnpkg.com/@airgap/beacon-sdk/-/beacon-sdk-2.3.13.tgz#b6dd21b87396895583926086cc0c6e75928db90b"
+  integrity sha512-yA6yFQ3YPKvb3TEWiNmhwf1OmhbB6Jf/u/pfA5Aj4bAcoOopy2FVkep/MUVDKzcJZQIh4EvJq7MTn/306cIFYw==
   dependencies:
     "@types/chrome" "0.0.115"
     "@types/libsodium-wrappers" "0.7.7"
@@ -1478,9 +1491,9 @@
   integrity sha512-BiBWllUROH9w+P21RzoxJKzqoqpkyM1pRnEKG69bulE9TSQD8SAIvTQqIMZmmCO8pUNkgLP1wndX1gKghSpBmg==
 
 "@ethersproject/networks@^5.6.0":
-  version "5.6.1"
-  resolved "https://registry.yarnpkg.com/@ethersproject/networks/-/networks-5.6.1.tgz#7a21ed1f83e86121737b16841961ec99ccf5c9c7"
-  integrity sha512-b2rrupf3kCTcc3jr9xOWBuHylSFtbpJf79Ga7QR98ienU2UqGimPGEsYMgbI29KHJfA5Us89XwGVmxrlxmSrMg==
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/@ethersproject/networks/-/networks-5.6.2.tgz#2bacda62102c0b1fcee408315f2bed4f6fbdf336"
+  integrity sha512-9uEzaJY7j5wpYGTojGp8U89mSsgQLc40PCMJLMCnFXTs7nhBveZ0t7dbqWUNrepWTszDbFkYD6WlL8DKx5huHA==
   dependencies:
     "@ethersproject/logger" "^5.6.0"
 
@@ -2215,70 +2228,70 @@
     wrtc "^0.4.6"
     ws "^7.5.3"
 
-"@next/env@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/env/-/env-12.1.4.tgz#5af629b43075281ecd7f87938802b7cf5b67e94b"
-  integrity sha512-7gQwotJDKnfMxxXd8xJ2vsX5AzyDxO3zou0+QOXX8/unypA6icw5+wf6A62yKZ6qQ4UZHHxS68pb6UV+wNneXg==
+"@next/env@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/env/-/env-12.1.5.tgz#a21ba6708022d630402ca2b340316e69a0296dfc"
+  integrity sha512-+34yUJslfJi7Lyx6ELuN8nWcOzi27izfYnZIC1Dqv7kmmfiBVxgzR3BXhlvEMTKC2IRJhXVs2FkMY+buQe3k7Q==
 
-"@next/swc-android-arm-eabi@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-android-arm-eabi/-/swc-android-arm-eabi-12.1.4.tgz#c3dae178b7c15ad627d2e9b8dfb38caecb5c4ac7"
-  integrity sha512-FJg/6a3s2YrUaqZ+/DJZzeZqfxbbWrynQMT1C5wlIEq9aDLXCFpPM/PiOyJh0ahxc0XPmi6uo38Poq+GJTuKWw==
+"@next/swc-android-arm-eabi@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-android-arm-eabi/-/swc-android-arm-eabi-12.1.5.tgz#36729ab3dfd7743e82cfe536b43254dcb146620c"
+  integrity sha512-SKnGTdYcoN04Y2DvE0/Y7/MjkA+ltsmbuH/y/hR7Ob7tsj+8ZdOYuk+YvW1B8dY20nDPHP58XgDTSm2nA8BzzA==
 
-"@next/swc-android-arm64@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-android-arm64/-/swc-android-arm64-12.1.4.tgz#f320d60639e19ecffa1f9034829f2d95502a9a51"
-  integrity sha512-LXraazvQQFBgxIg3Htny6G5V5he9EK7oS4jWtMdTGIikmD/OGByOv8ZjLuVLZLtVm3UIvaAiGtlQSLecxJoJDw==
+"@next/swc-android-arm64@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-android-arm64/-/swc-android-arm64-12.1.5.tgz#52578f552305c92d0b9b81d603c9643fb71e0835"
+  integrity sha512-YXiqgQ/9Rxg1dXp6brXbeQM1JDx9SwUY/36JiE+36FXqYEmDYbxld9qkX6GEzkc5rbwJ+RCitargnzEtwGW0mw==
 
-"@next/swc-darwin-arm64@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-darwin-arm64/-/swc-darwin-arm64-12.1.4.tgz#fd578278312613eddcf3aee26910100509941b63"
-  integrity sha512-SSST/dBymecllZxcqTCcSTCu5o1NKk9I+xcvhn/O9nH6GWjgvGgGkNqLbCarCa0jJ1ukvlBA138FagyrmZ/4rQ==
+"@next/swc-darwin-arm64@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-darwin-arm64/-/swc-darwin-arm64-12.1.5.tgz#3d5b53211484c72074f4975ba0ec2b1107db300e"
+  integrity sha512-y8mhldb/WFZ6lFeowkGfi0cO/lBdiBqDk4T4LZLvCpoQp4Or/NzUN6P5NzBQZ5/b4oUHM/wQICEM+1wKA4qIVw==
 
-"@next/swc-darwin-x64@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-darwin-x64/-/swc-darwin-x64-12.1.4.tgz#ace5f80d8c8348efe194f6d7074c6213c52b3944"
-  integrity sha512-p1lwdX0TVjaoDXQVuAkjtxVBbCL/urgxiMCBwuPDO7TikpXtSRivi+mIzBj5q7ypgICFmIAOW3TyupXeoPRAnA==
+"@next/swc-darwin-x64@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-darwin-x64/-/swc-darwin-x64-12.1.5.tgz#adcabb732d226453777c0d37d58eaff9328b66fd"
+  integrity sha512-wqJ3X7WQdTwSGi0kIDEmzw34QHISRIQ5uvC+VXmsIlCPFcMA+zM5723uh8NfuKGquDMiEMS31a83QgkuHMYbwQ==
 
-"@next/swc-linux-arm-gnueabihf@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm-gnueabihf/-/swc-linux-arm-gnueabihf-12.1.4.tgz#2bf2c83863635f19c71c226a2df936e001cce29c"
-  integrity sha512-67PZlgkCn3TDxacdVft0xqDCL7Io1/C4xbAs0+oSQ0xzp6OzN2RNpuKjHJrJgKd0DsE1XZ9sCP27Qv0591yfyg==
+"@next/swc-linux-arm-gnueabihf@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm-gnueabihf/-/swc-linux-arm-gnueabihf-12.1.5.tgz#82a7cde67482b756bc65fbebf1dfa8a782074e93"
+  integrity sha512-WnhdM5duONMvt2CncAl+9pim0wBxDS2lHoo7ub/o/i1bRbs11UTzosKzEXVaTDCUkCX2c32lIDi1WcN2ZPkcdw==
 
-"@next/swc-linux-arm64-gnu@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-12.1.4.tgz#d577190f641c9b4b463719dd6b8953b6ba9be8d9"
-  integrity sha512-OnOWixhhw7aU22TQdQLYrgpgFq0oA1wGgnjAiHJ+St7MLj82KTDyM9UcymAMbGYy6nG/TFOOHdTmRMtCRNOw0g==
+"@next/swc-linux-arm64-gnu@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-12.1.5.tgz#f82ca014504950aab751e81f467492e9be0bad5d"
+  integrity sha512-Jq2H68yQ4bLUhR/XQnbw3LDW0GMQn355qx6rU36BthDLeGue7YV7MqNPa8GKvrpPocEMW77nWx/1yI6w6J07gw==
 
-"@next/swc-linux-arm64-musl@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-12.1.4.tgz#e70ffe70393d8f9242deecdb282ce5a8fd588b14"
-  integrity sha512-UoRMzPZnsAavdWtVylYxH8DNC7Uy0i6RrvNwT4PyQVdfANBn2omsUkcH5lgS2O7oaz0nAYLk1vqyZDO7+tJotA==
+"@next/swc-linux-arm64-musl@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-12.1.5.tgz#f811ec9f4b12a978426c284c95ab2f515ddf7f9e"
+  integrity sha512-KgPjwdbhDqXI7ghNN8V/WAiLquc9Ebe8KBrNNEL0NQr+yd9CyKJ6KqjayVkmX+hbHzbyvbui/5wh/p3CZQ9xcQ==
 
-"@next/swc-linux-x64-gnu@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-12.1.4.tgz#91498a130387fb1961902f2bee55863f8e910cff"
-  integrity sha512-nM+MA/frxlTLUKLJKorctdI20/ugfHRjVEEkcLp/58LGG7slNaP1E5d5dRA1yX6ISjPcQAkywas5VlGCg+uTvA==
+"@next/swc-linux-x64-gnu@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-12.1.5.tgz#d44857257e6d20dc841998951d584ab1f25772c3"
+  integrity sha512-O2ErUTvCJ6DkNTSr9pbu1n3tcqykqE/ebty1rwClzIYdOgpB3T2MfEPP+K7GhUR87wmN/hlihO9ch7qpVFDGKw==
 
-"@next/swc-linux-x64-musl@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-12.1.4.tgz#78057b03c148c121553d41521ad38f6c732762ff"
-  integrity sha512-GoRHxkuW4u4yKw734B9SzxJwVdyEJosaZ62P7ifOwcujTxhgBt3y76V2nNUrsSuopcKI2ZTDjaa+2wd5zyeXbA==
+"@next/swc-linux-x64-musl@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-12.1.5.tgz#3cc523abadc9a2a6de680593aff06e71cc29ecef"
+  integrity sha512-1eIlZmlO/VRjxxzUBcVosf54AFU3ltAzHi+BJA+9U/lPxCYIsT+R4uO3QksRzRjKWhVQMRjEnlXyyq5SKJm7BA==
 
-"@next/swc-win32-arm64-msvc@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-12.1.4.tgz#05bbaabacac23b8edf6caa99eb86b17550a09051"
-  integrity sha512-6TQkQze0ievXwHJcVUrIULwCYVe3ccX6T0JgZ1SiMeXpHxISN7VJF/O8uSCw1JvXZYZ6ud0CJ7nfC5HXivgfPg==
+"@next/swc-win32-arm64-msvc@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-12.1.5.tgz#c62232d869f1f9b22e8f24e4e7f05307c20f30ca"
+  integrity sha512-oromsfokbEuVb0CBLLE7R9qX3KGXucZpsojLpzUh1QJjuy1QkrPJncwr8xmWQnwgtQ6ecMWXgXPB+qtvizT9Tw==
 
-"@next/swc-win32-ia32-msvc@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-12.1.4.tgz#8fd2fb48f04a2802e51fc320878bf6b411c1c866"
-  integrity sha512-CsbX/IXuZ5VSmWCpSetG2HD6VO5FTsO39WNp2IR2Ut/uom9XtLDJAZqjQEnbUTLGHuwDKFjrIO3LkhtROXLE/g==
+"@next/swc-win32-ia32-msvc@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-12.1.5.tgz#2bd9b28a9ba730d12a493e7d9d18e150fe89d496"
+  integrity sha512-a/51L5KzBpeZSW9LbekMo3I3Cwul+V+QKwbEIMA+Qwb2qrlcn1L9h3lt8cHqNTFt2y72ce6aTwDTw1lyi5oIRA==
 
-"@next/swc-win32-x64-msvc@12.1.4":
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.1.4.tgz#a72ed44c9b1f850986a30fe36c59e01f8a79b5f3"
-  integrity sha512-JtYuWzKXKLDMgE/xTcFtCm1MiCIRaAc5XYZfYX3n/ZWSI1SJS/GMm+Su0SAHJgRFavJh6U/p998YwO/iGTIgqQ==
+"@next/swc-win32-x64-msvc@12.1.5":
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.1.5.tgz#02f377e4d41eaaacf265e34bab9bacd8efc4a351"
+  integrity sha512-/SoXW1Ntpmpw3AXAzfDRaQidnd8kbZ2oSni8u5z0yw6t4RwJvmdZy1eOaAADRThWKV+2oU90++LSnXJIwBRWYQ==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2514,90 +2527,90 @@
   dependencies:
     callable-instance "^2.0.0"
 
-"@rarible/api-client@0.0.13-beta2":
-  version "0.0.13-beta2"
-  resolved "https://registry.yarnpkg.com/@rarible/api-client/-/api-client-0.0.13-beta2.tgz#8fb441f3f18af9dcc762d6ebfd31ec0e655e5f8d"
-  integrity sha512-39Tp0SKXzaW68+VLisNb+9zMvTfxQcGUSk7vfpu4HK5c81e5hBUVMgYXGJIZpVnnJPeAaTDOcmwvRzAaODwCog==
+"@rarible/api-client@0.0.13-beta4":
+  version "0.0.13-beta4"
+  resolved "https://registry.yarnpkg.com/@rarible/api-client/-/api-client-0.0.13-beta4.tgz#30568776aad5d3bbd71e7b8a439460e4ca33cc2d"
+  integrity sha512-sk9kIinszL6PDtO1WLZUw2szo1wG+98nfc1KgprWQwR2KfM2GIV2bxMZYCYIWchTN63uNwzkLzfVgMUV9aLRaA==
   dependencies:
     "@rarible/types" "~0.9.3"
 
 "@rarible/connector-beacon@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-beacon/-/connector-beacon-0.8.50-beta7-hotfix.0.tgz#b0c1f6b564b7ca152ac8f176b15520a03a207b5b"
-  integrity sha512-zPLoZuEoyZ3KCBpXfxU7b8Y9jkvs5cnqUeni8wPABWdeMa4XtLDVo5Sk1PSUsZWp3UeT3iIzXD0vmIYtJMrhsg==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-beacon/-/connector-beacon-0.8.52-beta14.tgz#499533a812bece7f454e4669778b27bf2555b36b"
+  integrity sha512-bvWdf5VMZjwD3PGREv9VgwU6SBo4gQgSG/xGsRgQIPY/xRaFa5sOW2UvbypBTCR3sVEK5lS+JWSXI5I0plEJsw==
   dependencies:
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
-    "@taquito/beacon-wallet" "^12.0.3"
+    "@rarible/connector" "^0.8.52-beta14"
+    "@taquito/beacon-wallet" "^12.0.0"
     "@taquito/taquito" "^12.0.0"
 
 "@rarible/connector-fcl@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-fcl/-/connector-fcl-0.8.50-beta7-hotfix.0.tgz#65ff29c05f8e6f69a6c1604a9f7d4f19e9d630f1"
-  integrity sha512-vabGT4VUnRAYkuCh0/lvZl8jDMup57PQC/lkCQ6lfWniPgEXWeVoM40tSYftF7Eh/HiSr5ygT4L1ydU2XgHsYA==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-fcl/-/connector-fcl-0.8.52-beta14.tgz#edd41f876be6d87ef17d548cada96450bcadd8e3"
+  integrity sha512-as7AtjMMdmaP4OBOvZ6VZV88ivrteVn/yIwXqkTxqs75umuwwzqZHGMYGyGI7I4yaJSzcZ6/61jkARjUHDiXWQ==
   dependencies:
     "@onflow/fcl" "~0.0.77"
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
 
 "@rarible/connector-fortmatic@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-fortmatic/-/connector-fortmatic-0.8.50-beta7-hotfix.0.tgz#bdca7bfa909b2fef2668c09ddbaff03d57fbf5f6"
-  integrity sha512-7yXijtNzSHjln1jNst1sjIu20oCt9g8S+6F6Yfu3cHeIluML/Ov+GSTo+XpQkpI9UNfp1hq5shQwJiTzt7wTfQ==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-fortmatic/-/connector-fortmatic-0.8.52-beta14.tgz#590e6d5b92fe9f85778ded869418a3bc89d96ed4"
+  integrity sha512-qP//g9+p2bQYeZ1ZSqd8LHPFsUXGzIMFSdZqd3K3Zjx11Y0R4dFUyxpx8CFSiQGPUaNYboyTLBKxRkC2sJsWZA==
   dependencies:
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
     fortmatic "^2.2.1"
 
 "@rarible/connector-iframe@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-iframe/-/connector-iframe-0.8.50-beta7-hotfix.0.tgz#f07364286d1d21122b8812b67a82c27fb123031b"
-  integrity sha512-6Wk/PgrWVVdmCB8Xx2UpQ2Ivpvyog9WfxJC+p3sF0Y8hQwE8PzssDO/U3W1lVxYHNIR3o0rS5mBo/ygtwe3+Wg==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-iframe/-/connector-iframe-0.8.52-beta14.tgz#6aad81e1a0ef5279c0be5ee3c80c8f1604c1f0e0"
+  integrity sha512-gCih5Au5Yr1uaq+ds1E8rFOhLb5euXg/7ClNTMiG7BVI+K9IBh2w1BK3eJjL+QzFk+qSI5JIn+3Tt1S+l8p3Zg==
   dependencies:
     "@ledgerhq/iframe-provider" "^0.4.2"
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
 
 "@rarible/connector-mew@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-mew/-/connector-mew-0.8.50-beta7-hotfix.0.tgz#ff924a6adfb0b5bbc89be3bf9b393d2fd56d373c"
-  integrity sha512-FvSCRYcdJOM3m8qz518NmszDkJfsSPVmCGQu5E2pTBD/T+LKnqVbHpOTK3DDab32p/jMIa6LVENRQ98N8zlVIw==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-mew/-/connector-mew-0.8.52-beta14.tgz#9d1aedaa9aeaa0575636f8f0fd7c7b5626cc0b56"
+  integrity sha512-XvB2HPrCoLgIf9rZmXa4cOn2MigeGZL+jsYsmzGDzAYWMtBprHm5WTSeoRv+Ns2UJv86rf9nell4qqWawRVJgg==
   dependencies:
     "@myetherwallet/mewconnect-web-client" "^2.2.0-beta.15"
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
 
 "@rarible/connector-portis@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-portis/-/connector-portis-0.8.50-beta7-hotfix.0.tgz#c44b621bc72d4aadc4d1da34f9222aac77c493d5"
-  integrity sha512-SbZnJ0pWMIDGF/uj1hFchPP4MOwS06iTLOFecjzwVbCt8IjxQXet+fuVVsiKsqODvyLDLaMfkZEZ6Z5Ai6Z47w==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-portis/-/connector-portis-0.8.52-beta14.tgz#7ff25f85d0f415bbaffc550086bd53eaf51a4f4d"
+  integrity sha512-/1jw39Y2a6v65GwXvl2D74DszdCC6qRK3yao+HoF6ZctvfSkJqvRJ28VEGWRvc+oUvvUAw3nd+/n780vzMD1Kg==
   dependencies:
     "@portis/web3" "^4.0.6"
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
 
 "@rarible/connector-torus@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-torus/-/connector-torus-0.8.50-beta7-hotfix.0.tgz#4bb1b774c23c4e8e92a6d5262641760e566dcc11"
-  integrity sha512-d75OijUEpVPrulA22bd1YMKsUi5G4DUjJV0CcryGq4kYGL4F3+MVU50To1nuOy7DIuOuHRCr5hZRLc7tabg8lQ==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-torus/-/connector-torus-0.8.52-beta14.tgz#f9dca06d440f98524e970c32e8211c43c602a14b"
+  integrity sha512-u2p4cvMhYNDV6zK1Kyn/yOdqo8XnbcA2JhFt+is5jUH2zs9ZRMXf4ez0dwi7tOaaJS/iWS5+4ecSY2oOorcPFg==
   dependencies:
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
     "@toruslabs/torus-embed" "^1.19.0"
 
 "@rarible/connector-walletconnect@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-walletconnect/-/connector-walletconnect-0.8.50-beta7-hotfix.0.tgz#86e773fe1885f24d00ec4158c64f35f4008f380b"
-  integrity sha512-jaR7+xtJeL6gMUgApppFcK5qquEW0bh1bFglb1JPBNaSGjTcRI+bjHb2KqOhdKo0DnEepg60HyMJ84jkqMiw0g==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-walletconnect/-/connector-walletconnect-0.8.52-beta14.tgz#53f1a256b70adae5c11cf67f57ace03806ef4cfd"
+  integrity sha512-TR/d5uwheAdmj5MrOTn0KyvK3OGNG+4qcalCm+liyIg8a4WYSqS/ixZp0TshR3zHZpkL/O9awiQ8xuQyIM+vxA==
   dependencies:
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
     "@walletconnect/web3-provider" "^1.7.0"
 
 "@rarible/connector-walletlink@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector-walletlink/-/connector-walletlink-0.8.50-beta7-hotfix.0.tgz#015e655a32b67243e15cd10dde45d05f27895b2c"
-  integrity sha512-ZVkYIx6O9znE2vkWkLor/gIpNBFg1FcXgBuAcveDM7cZ3R8sDAridoXqE/SUSR6VVq0ZHBf7NqQy98o2B3admg==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector-walletlink/-/connector-walletlink-0.8.52-beta14.tgz#fdf3cd10ed0118303a1419f28821e6b3af2c9994"
+  integrity sha512-d60hqnVAcCo+U9hO4WKdE/GMVGcpma6zPLObAwqv9VOKR68DwCaWyaWIRi5OQlqLxBIgYed3nU/xVXs11QZWzg==
   dependencies:
-    "@rarible/connector" "^0.8.50-beta7-hotfix.0"
+    "@rarible/connector" "^0.8.52-beta14"
     walletlink "^2.4.1"
 
-"@rarible/connector@^0.8.50-beta7-hotfix.0", "@rarible/connector@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/connector/-/connector-0.8.50-beta7-hotfix.0.tgz#853997e00c204db4b4339e03b53450db73dd7daf"
-  integrity sha512-MPxHOw6b2drSOHStIzXmG6EnuECR1ODnNrouCH6o/20/ZnP8gY6kIYLKYVGsRrw9LkCkXi06MmZfisWIg42KDA==
+"@rarible/connector@^0.8.52-beta14", "@rarible/connector@latest":
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/connector/-/connector-0.8.52-beta14.tgz#0b91e161c6621bcbf8342bf5801954c327048529"
+  integrity sha512-FH1+Kmz4uag+HrsSy/dISiawTqFuXjfnGg7ZSCUwcpMo6KWljBn2VQDF9AndHS1NxcQYL4hZoGASKRldRhli0Q==
   dependencies:
     rxjs "^6.6.7"
 
@@ -2632,10 +2645,10 @@
   resolved "https://registry.yarnpkg.com/@rarible/flow-sdk-scripts/-/flow-sdk-scripts-0.5.30.tgz#28ed15acce758ecfb2188c35eaa8f62978363c80"
   integrity sha512-D9AdlmXC5fNnq/eO9dLakvY1IDJeUiwbXrEPmwmCdswt4jJp4y7pR/w3Rri7RUmEM42E3AYNXIMS0EV+O+V1QA==
 
-"@rarible/flow-sdk@~0.5.41-alpha.1":
-  version "0.5.41-alpha.1"
-  resolved "https://registry.yarnpkg.com/@rarible/flow-sdk/-/flow-sdk-0.5.41-alpha.1.tgz#284cbe1a0170ca05e3d790652682cca45e5b83d8"
-  integrity sha512-zZvFl0ux09TcmPANSAm6WbJBoWT8C6KYauiHmcaux8fGxzTHbFsvdgCtaBDaQC/YiFWEeTu/hEZU7JY/59EB7g==
+"@rarible/flow-sdk@~0.5.40":
+  version "0.5.40"
+  resolved "https://registry.yarnpkg.com/@rarible/flow-sdk/-/flow-sdk-0.5.40.tgz#a44db8aa47c3fa655002edae3defe3b680234c54"
+  integrity sha512-Qoebz/f7a9yz1N+iwyJCpuYEvC0UGj0Z/svFMiTlYPtpE8sg4R/6b0RMkgIspqjFbAWhrXpXhhic2vVs30U7Dw==
   dependencies:
     "@onflow/fcl" "~0.0.77"
     "@onflow/types" "~0.0.5"
@@ -2653,9 +2666,9 @@
     json-stringify-safe "^5.0.1"
 
 "@rarible/protocol-ethereum-sdk@~0.12.61":
-  version "0.12.61"
-  resolved "https://registry.yarnpkg.com/@rarible/protocol-ethereum-sdk/-/protocol-ethereum-sdk-0.12.61.tgz#758034ca4baaa8363f3ab4f71fd91ff7988775b3"
-  integrity sha512-FF00SOSICURkYewpdUHFUgzOYxqUvAAnn9d3vA2wzMqR+U3KM4WJCtfefGTfiIT3A1uvO6f2EO2/gargk1AHeg==
+  version "0.12.62"
+  resolved "https://registry.yarnpkg.com/@rarible/protocol-ethereum-sdk/-/protocol-ethereum-sdk-0.12.62.tgz#11d9365bb14f6c003404dacfeaa255a6efb06196"
+  integrity sha512-75cU91r0d6fLVKJ0m9zx4l9u9p7M3Ji0bOwtMeuBPpF0DZvw++OXNHDZOv6ikT2CxtF47qhw2cGsbrVoYp2H6Q==
   dependencies:
     "@rarible/action" "~0.5.0"
     "@rarible/ethereum-api-client" "^0.1.21"
@@ -2667,49 +2680,49 @@
     ethereumjs-util "^7.1.0"
     exponential-backoff "^3.1.0"
 
-"@rarible/sdk-transaction@^0.8.50-beta7-hotfix.0":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/sdk-transaction/-/sdk-transaction-0.8.50-beta7-hotfix.0.tgz#06393f6d0638138b3a41777e3a2e2098ec13e3c8"
-  integrity sha512-NNmo5e2RycVxxbP9SER4hXYb4Ir0S8RUMQ8jNrxSz+zX2PqASE6Mh13ldcZI2Eua1Tbo+s8dkg0Bgkx2TkCv6Q==
+"@rarible/sdk-transaction@^0.8.52-beta14":
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/sdk-transaction/-/sdk-transaction-0.8.52-beta14.tgz#807885659bfec2d837f8d641caa14b12990a2fe0"
+  integrity sha512-J3SelJDX3MA6IIpt1EyuU40f3oEf4pnOtF3gsT1srBUNrYEPH0ALQyJsWSSqhYfOaKbUoLih6jP34AcfxYUY/A==
   dependencies:
     "@babel/runtime" "^7.15.4"
-    "@rarible/api-client" "0.0.13-beta2"
+    "@rarible/api-client" "0.0.13-beta4"
     "@rarible/ethereum-provider" "~0.12.54"
-    "@rarible/flow-sdk" "~0.5.41-alpha.1"
+    "@rarible/flow-sdk" "~0.5.40"
     "@rarible/protocol-ethereum-sdk" "~0.12.61"
-    "@rarible/solana-sdk" "^0.8.50-beta7-hotfix.0"
-    "@rarible/tezos-sdk" "~0.1.9"
+    "@rarible/solana-sdk" "^0.8.52-beta14"
+    "@rarible/tezos-sdk" "~0.1.7"
     "@rarible/types" "~0.9.3"
 
-"@rarible/sdk-wallet@^0.8.50-beta7-hotfix.0":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/sdk-wallet/-/sdk-wallet-0.8.50-beta7-hotfix.0.tgz#b5da4b80049774967d3b531a19d70e7261700898"
-  integrity sha512-aWvHQkteZreohnmvXhCZD42NmdVO+UbUgkjyN1PVKTJChVxiihD3VUJ6gROfCssUQhzifYnNUuhsigOn3/wguA==
+"@rarible/sdk-wallet@^0.8.52-beta14":
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/sdk-wallet/-/sdk-wallet-0.8.52-beta14.tgz#e259d78b8088cbd3945b464c66e5cf768c414bb6"
+  integrity sha512-QbLqPD6tBfdfx4V7WOrRmzSAB0/uosQiMx0IC4VzDKTl8Ajqz9XEmS/Loxm1scWdwCMpvZ6773S++dbO0QMghA==
   dependencies:
     "@babel/runtime" "^7.15.4"
-    "@rarible/api-client" "0.0.13-beta2"
+    "@rarible/api-client" "0.0.13-beta4"
     "@rarible/ethereum-provider" "~0.12.54"
     "@rarible/fcl-types" "~0.5.0"
-    "@rarible/tezos-sdk" "~0.1.9"
+    "@rarible/tezos-sdk" "~0.1.7"
     "@rarible/types" "~0.9.3"
 
 "@rarible/sdk@latest":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/sdk/-/sdk-0.8.50-beta7-hotfix.0.tgz#9641041eada36323da8419c3f3981b1ee4e0129b"
-  integrity sha512-jmYUP7lXkCEpWdGa4IuJy0XESBCA+n7kWgxjFeIs8zUwMcJbZ9AdXIhG+QRmIpuIaH1AS7pKdsGxNmlDZ7d5+Q==
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/sdk/-/sdk-0.8.52-beta14.tgz#c6965a0e2e6ab9d663bc83b42038a1178d59f204"
+  integrity sha512-KeW7ZWPmEzbzaK9vZpObtwbv593QiBR8/EFlPc7Jdc78Kkw9/6TA9Hufmp615F/lf+DLLF/yHq0cDvuqv7h9ww==
   dependencies:
     "@babel/runtime" "^7.15.4"
     "@ethersproject/keccak256" "^5.6.0"
     "@rarible/action" "~0.5.0"
-    "@rarible/api-client" "0.0.13-beta2"
-    "@rarible/flow-sdk" "~0.5.41-alpha.1"
+    "@rarible/api-client" "0.0.13-beta4"
+    "@rarible/flow-sdk" "~0.5.40"
     "@rarible/logger" "~0.6.2"
     "@rarible/protocol-ethereum-sdk" "~0.12.61"
-    "@rarible/sdk-transaction" "^0.8.50-beta7-hotfix.0"
-    "@rarible/sdk-wallet" "^0.8.50-beta7-hotfix.0"
-    "@rarible/solana-sdk" "^0.8.50-beta7-hotfix.0"
-    "@rarible/solana-wallet" "^0.8.50-beta7-hotfix.0"
-    "@rarible/tezos-sdk" "~0.1.9"
+    "@rarible/sdk-transaction" "^0.8.52-beta14"
+    "@rarible/sdk-wallet" "^0.8.52-beta14"
+    "@rarible/solana-sdk" "^0.8.52-beta14"
+    "@rarible/solana-wallet" "^0.8.52-beta14"
+    "@rarible/tezos-sdk" "~0.1.7"
     "@rarible/types" "~0.9.3"
     "@rarible/utils" "~0.5.0"
     "@solana/web3.js" "^1.35.1"
@@ -2719,17 +2732,17 @@
     create-validator-ts "^2.0.0"
     tezos-api-client "~0.0.19"
 
-"@rarible/solana-common@^0.8.50-beta7-hotfix.0":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/solana-common/-/solana-common-0.8.50-beta7-hotfix.0.tgz#47fda238027db88bcb624987849c594eeb4d5ca7"
-  integrity sha512-X6N8Wlkg4ktJzFxbvlOMTcyomkSNKdeGcuu9w5+/sDOvTcgOj+UW5UAFSv7FkVaqOpCLXmkSRpFukloMAyTtgA==
+"@rarible/solana-common@^0.8.52-beta14":
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/solana-common/-/solana-common-0.8.52-beta14.tgz#0202b9b6b5eaab68d8513fdeba68f33482d1866b"
+  integrity sha512-ve1AL5FNuKinjGEB8qOyKLoQpkOifQxw8lJ39yuopBKEw5K1VMLKfuCz5Ed4t6qQ77hou9Wih3IHnBU4LaO4sw==
   dependencies:
     "@solana/web3.js" "^1.35.0"
 
-"@rarible/solana-sdk@^0.8.50-beta7-hotfix.0":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/solana-sdk/-/solana-sdk-0.8.50-beta7-hotfix.0.tgz#d49f39183566d364c9a8fd44357b59033587d493"
-  integrity sha512-RPKvenHVaJMgNYrPxaMhsTFfJEIOAsO/0Rk4YsHlLaxwH+qS8zu033YHNkZw/eNFJ+jNmWbddLDEpWXIdOA5PA==
+"@rarible/solana-sdk@^0.8.52-beta14":
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/solana-sdk/-/solana-sdk-0.8.52-beta14.tgz#f55d08f9fe1965d184a56c70a70fa20f13b60bfe"
+  integrity sha512-TIEavwBrdt6Sold2ie4+qoVxNdi4W4eXUOL+obeLLE1EpUh62Vd7llqIoTVPTuxPW3qiIB75GYTA8OuZDGsTFQ==
   dependencies:
     "@metaplex-foundation/mpl-auction" "^0.0.2"
     "@metaplex-foundation/mpl-auction-house" "^1.1.1"
@@ -2739,8 +2752,8 @@
     "@metaplex-foundation/mpl-token-vault" "^0.0.2"
     "@metaplex/js" "^4.12.0"
     "@project-serum/anchor" "^0.22.1"
-    "@rarible/solana-common" "^0.8.50-beta7-hotfix.0"
-    "@rarible/solana-wallet" "^0.8.50-beta7-hotfix.0"
+    "@rarible/solana-common" "^0.8.52-beta14"
+    "@rarible/solana-wallet" "^0.8.52-beta14"
     "@solana/spl-token" "^0.1.8"
     "@solana/web3.js" "^1.36.0"
     "@types/bs58" "^4.0.1"
@@ -2748,12 +2761,12 @@
     bs58 "^5.0.0"
     node-fetch "^2.6.7"
 
-"@rarible/solana-wallet@^0.8.50-beta7-hotfix.0":
-  version "0.8.50-beta7-hotfix.0"
-  resolved "https://registry.yarnpkg.com/@rarible/solana-wallet/-/solana-wallet-0.8.50-beta7-hotfix.0.tgz#178ec60b5c0745676af3af05821b923515d490c8"
-  integrity sha512-UC3MWHOTb4ekGvjW0xoLMRcSJN+0LlvbGIEeZUOYOtzWTnCW2KfnZ9iQ+igJHdjSRchh1ub4pnJ/ufBR/rBYhg==
+"@rarible/solana-wallet@^0.8.52-beta14":
+  version "0.8.52-beta14"
+  resolved "https://registry.yarnpkg.com/@rarible/solana-wallet/-/solana-wallet-0.8.52-beta14.tgz#2b3e5c984fc491f41d53bb72efa0b82b054e2b9f"
+  integrity sha512-WS5dI03wGG4kwfoAMhi2MilV2pL/oFyRsgd4b+im5BjnWXauq13sO+2RmHnbdbvoFl2srd4C4u0xJ2Rfg1dMZg==
   dependencies:
-    "@rarible/solana-common" "^0.8.50-beta7-hotfix.0"
+    "@rarible/solana-common" "^0.8.52-beta14"
     "@solana/web3.js" "^1.35.0"
     "@types/bs58" "^4.0.1"
     bs58 "^5.0.0"
@@ -2777,7 +2790,7 @@
     "@rarible/tezos-common" "^0.1.9"
     bignumber.js "^9.0.1"
 
-"@rarible/tezos-sdk@~0.1.9":
+"@rarible/tezos-sdk@~0.1.7":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@rarible/tezos-sdk/-/tezos-sdk-0.1.9.tgz#1b9ddf957326f1ac042939e6867588d748f80212"
   integrity sha512-c1bupgKycuuI+Mt+IP6DAubQLO6IAK+j1oWLNedRw3vATreSqB/SmZ+NjLcxPVfnxYEx1IlNUWDI36mgTtGNDg==
@@ -2819,9 +2832,9 @@
     bignumber.js "^9.0.0"
 
 "@rarible/web3-ethereum@latest":
-  version "0.12.61"
-  resolved "https://registry.yarnpkg.com/@rarible/web3-ethereum/-/web3-ethereum-0.12.61.tgz#6b2fdd3bd46d1b3b12f7dd316d31ca04b12c41c4"
-  integrity sha512-P0YJNO3Z7+HjhJOt3tEsakKzmnxOzfCFK3Ajo5jjWp94I/ot3z7XClq06FmIj7jLzdxYLmtZQlxzJsAlahjSgQ==
+  version "0.12.62"
+  resolved "https://registry.yarnpkg.com/@rarible/web3-ethereum/-/web3-ethereum-0.12.62.tgz#b28aebe25d64072ed2afb39f3c3023ef0986642c"
+  integrity sha512-vkL9cwGX2/pcpkjaacIU6wcpk0nF0DbzRbmPrJWYXr6IO+R30tBek0D2upJVLYCuTeLrnYSP10AQ1JUa3T+UtQ==
   dependencies:
     "@rarible/ethereum-provider" "^0.12.54"
     eth-rpc-errors "^4.0.3"
@@ -2959,9 +2972,9 @@
     dotenv "10.0.0"
 
 "@solana/web3.js@^1.17.0", "@solana/web3.js@^1.21.0", "@solana/web3.js@^1.30.2", "@solana/web3.js@^1.31.0", "@solana/web3.js@^1.33.0", "@solana/web3.js@^1.35.0", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.36.0":
-  version "1.37.1"
-  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.37.1.tgz#5a4d30a4cf79c4598e0a437e841c7942e31be74c"
-  integrity sha512-1zm1blRU6ANb8bOfONibKkNKoMyzE1e0Z88MagyRLF1AmfHc+18lFvqxSQKUdazLMHcioZ28h+GfyAaeCT63iA==
+  version "1.37.2"
+  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.37.2.tgz#41f2daf402743d2cdda85c65a7a4e71d86b795e9"
+  integrity sha512-rgPidynwPTu8iLmS++aQbDGiPPtwjRmu+uQxF9jTNT7v3ifKIlS4HccMdjj4WDcYx8h2mUtQX5xkdk6liSbdvg==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@ethersproject/sha2" "^5.5.0"
@@ -3226,7 +3239,7 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@taquito/beacon-wallet@12.0.3", "@taquito/beacon-wallet@^12.0.3":
+"@taquito/beacon-wallet@12.0.3", "@taquito/beacon-wallet@^12.0.0":
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/@taquito/beacon-wallet/-/beacon-wallet-12.0.3.tgz#385370b4d1a776021fd1ebdd75a285ebc6ad5f99"
   integrity sha512-cu3CWPW5h1pBY71opsroU+Nwq9rApMNZH3VfGlz1xPkOFtF4uuo7baVmc7y1NamEKdNfc8hM/XH9EYDRHCIlcg==
@@ -3945,9 +3958,9 @@
     "@types/react" "*"
 
 "@types/react-redux@^7.1.20":
-  version "7.1.23"
-  resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.23.tgz#3c2bb1bcc698ae69d70735f33c5a8e95f41ac528"
-  integrity sha512-D02o3FPfqQlfu2WeEYwh3x2otYd2Dk1o8wAfsA0B1C2AJEFxE663Ozu7JzuWbznGgW248NaOF6wsqCGNq9d3qw==
+  version "7.1.24"
+  resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.24.tgz#6caaff1603aba17b27d20f8ad073e4c077e975c0"
+  integrity sha512-7FkurKcS1k0FHZEtdbbgN8Oc6b+stGSfZYjQGicofJ0j4U0qIn/jaSvnP2pLwZKiai3/17xqqxkkrxTgN8UNbQ==
   dependencies:
     "@types/hoist-non-react-statics" "^3.3.0"
     "@types/react" "*"
@@ -3969,9 +3982,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "18.0.3"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.3.tgz#baefa397561372015b9f8ba5bc83bc3f84ae8fcb"
-  integrity sha512-P8QUaMW4k+kH9aKNPl9b3XWcKMSSALYprLL8xpAMJOLUn3Pl6B+6nKC4F7dsk9oJPwkiRx+qlwhG/Zc1LxFVuQ==
+  version "18.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.4.tgz#88e9eddd8788fdf60dcf260b1cff2fb7487e4373"
+  integrity sha512-Zm4ryWh9xQbMX6ge7Ej/nS6VBoT+9wzvwd/hZ+9EONGjBkejyyvEKndZt/DZHHj1lSU/YeTPyJAn22S3GnYchQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -5302,9 +5315,9 @@ async@^1.4.2:
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
 async@^2.0.1, async@^2.1.2, async@^2.4.0, async@^2.5.0, async@^2.6.2:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.6.3.tgz#d72625e2344a3656e3a3ad4fa749fa83299d82ff"
-  integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.6.4.tgz#706b7ff6084664cd7eae713f6f965433b5504221"
+  integrity sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==
   dependencies:
     lodash "^4.17.14"
 
@@ -6311,9 +6324,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001283, caniuse-lite@^1.0.30001317:
-  version "1.0.30001328"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001328.tgz#0ed7a2ca65ec45872c613630201644237ba1e329"
-  integrity sha512-Ue55jHkR/s4r00FLNiX+hGMMuwml/QGqqzVeMQ5thUewznU2EdULFvI3JR7JJid6OrjJNfFvHY2G2dIjmRaDDQ==
+  version "1.0.30001331"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001331.tgz#41048f2a5cf0c3c6198f40207cd323388b3d4399"
+  integrity sha512-Y1xk6paHpUXKP/P6YjQv1xqyTbgAP05ycHBcRdQjTcyXlWol868sJJPlmk5ylOekw2BrucWes5jk+LvVd7WZ5Q==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -13086,27 +13099,27 @@ next-tick@^1.1.0:
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
 next@^12.0.9:
-  version "12.1.4"
-  resolved "https://registry.yarnpkg.com/next/-/next-12.1.4.tgz#597a9bdec7aec778b442c4f6d41afd2c64a54b23"
-  integrity sha512-DA4g97BM4Z0nKtDvCTm58RxdvoQyYzeg0AeVbh0N4Y/D8ELrNu47lQeEgRGF8hV4eQ+Sal90zxrJQQG/mPQ8CQ==
+  version "12.1.5"
+  resolved "https://registry.yarnpkg.com/next/-/next-12.1.5.tgz#7a07687579ddce61ee519493e1c178d83abac063"
+  integrity sha512-YGHDpyfgCfnT5GZObsKepmRnne7Kzp7nGrac07dikhutWQug7hHg85/+sPJ4ZW5Q2pDkb+n0FnmLkmd44htIJQ==
   dependencies:
-    "@next/env" "12.1.4"
+    "@next/env" "12.1.5"
     caniuse-lite "^1.0.30001283"
     postcss "8.4.5"
     styled-jsx "5.0.1"
   optionalDependencies:
-    "@next/swc-android-arm-eabi" "12.1.4"
-    "@next/swc-android-arm64" "12.1.4"
-    "@next/swc-darwin-arm64" "12.1.4"
-    "@next/swc-darwin-x64" "12.1.4"
-    "@next/swc-linux-arm-gnueabihf" "12.1.4"
-    "@next/swc-linux-arm64-gnu" "12.1.4"
-    "@next/swc-linux-arm64-musl" "12.1.4"
-    "@next/swc-linux-x64-gnu" "12.1.4"
-    "@next/swc-linux-x64-musl" "12.1.4"
-    "@next/swc-win32-arm64-msvc" "12.1.4"
-    "@next/swc-win32-ia32-msvc" "12.1.4"
-    "@next/swc-win32-x64-msvc" "12.1.4"
+    "@next/swc-android-arm-eabi" "12.1.5"
+    "@next/swc-android-arm64" "12.1.5"
+    "@next/swc-darwin-arm64" "12.1.5"
+    "@next/swc-darwin-x64" "12.1.5"
+    "@next/swc-linux-arm-gnueabihf" "12.1.5"
+    "@next/swc-linux-arm64-gnu" "12.1.5"
+    "@next/swc-linux-arm64-musl" "12.1.5"
+    "@next/swc-linux-x64-gnu" "12.1.5"
+    "@next/swc-linux-x64-musl" "12.1.5"
+    "@next/swc-win32-arm64-msvc" "12.1.5"
+    "@next/swc-win32-ia32-msvc" "12.1.5"
+    "@next/swc-win32-x64-msvc" "12.1.5"
 
 nft.storage@latest:
   version "6.2.0"
@@ -15407,7 +15420,7 @@ react-pdf@^5.7.2:
     tiny-invariant "^1.0.0"
     tiny-warning "^1.0.0"
 
-react-redux@^7.2.6:
+react-redux@^7.2.8:
   version "7.2.8"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.8.tgz#a894068315e65de5b1b68899f9c6ee0923dd28de"
   integrity sha512-6+uDjhs3PSIclqoCk0kd6iX74gzrGc3W5zcAjbrFgEdIjRSQObdIwfx80unTkVUYvbQ95Y8Av3OvFHq1w5EOUw==
@@ -15737,9 +15750,9 @@ regex-parser@^2.2.11:
   integrity sha512-jbD/FT0+9MBU2XAZluI7w2OBs1RBi6p9M83nkoZayQXXU9e8Robt69FcZc7wU4eJD/YFTjn1JdCk3rbMJajz8Q==
 
 regexp.prototype.flags@^1.2.0, regexp.prototype.flags@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/regexp.prototype.flags/-/regexp.prototype.flags-1.4.1.tgz#b3f4c0059af9e47eca9f3f660e51d81307e72307"
-  integrity sha512-pMR7hBVUUGI7PMA37m2ofIdQCsomVnas+Jn5UPGAHQ+/LlwKm/aTLJHdasmHRzlfeZwHiAOaRSo2rbBDm3nNUQ==
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/regexp.prototype.flags/-/regexp.prototype.flags-1.4.2.tgz#bf635117a2f4b755595ebb0c0ee2d2a49b2084db"
+  integrity sha512-Ynz8fTQW5/1elh+jWU2EDDzeoNbD0OQ0R+D1VJU5ATOkUaro4A9YEkdN2ODQl/8UQFPPpZNw91fOcLFamM7Pww==
   dependencies:
     call-bind "^1.0.2"
     define-properties "^1.1.3"

@@ -29,6 +29,7 @@ export default function _Index() {
       <div className='h-100 d-flex flex-column justify-content-center align-items-center'>
         <div className='mt-neg-5'>
           <h1 className='display-1'>TAKO LABS</h1>
+          <p>Evolution is Infinite</p>
           {connection.state.status == 'disconnected' ? (
             <TakoLink href={`/connect`} as={`/connect`}>
               <a className='btn btn-outline-dark fnt-color-black text-decoration-none'>

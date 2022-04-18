@@ -13,9 +13,8 @@ const typeDefs = gql`
   }
 
   type Collection_Data {
-    nfts: [NFTMetadataType]
+    items: [COLLECTION_ITEM]
     totalSupply: Int
-    orders: [NFTOrderDataType]
     continuation: String
   }
 
@@ -48,6 +47,7 @@ const typeDefs = gql`
   }
 
   type META_CONTENT {
+    type: String
     width: Int
     height: Int
     url: String
@@ -56,21 +56,62 @@ const typeDefs = gql`
     size: Int
   }
 
-  type NFTMetadataType {
-    id: String
-    tokenId: String
+  type COLLECTION_ITEM {
+    id: String!
+    tokenId: String!
+    blockchain: String!
     collection: String
-    url: String
-    name: String
-    description: String
-    price: String
-    blockchain: String
+    contract: String
     creators: [Creators]
-    lazySupply: String
-    supply: String
+    lazySupply: String!
     mintedAt: String
-    sellers: Int
-    bestSellOrder: Sell_Order
+    lastUpdatedAt: String
+    meta: COLLECTION_ITEM_META
+    deleted: Boolean
+  }
+
+  type COLLECTION_ITEM_META {
+    name: String!
+    description: String
+    attributes: [COLLECTION_ITEM_ATTRIBUTE]
+    content: [META_CONTENT]
+    restrictions: [String]
+  }
+
+  type COLLECTION_ITEM_ATTRIBUTE {
+    key: String!
+    value: String
+    type: String
+    format: String
+  }
+
+  type BEST_SELL_ORDER {
+    id: String
+    filled: Boolean
+    platform: String
+    status: String
+    startedAt: String
+    endedAt: String
+    makeStock: String
+    cancelled: Boolean
+    createdAt: String
+    lastUpdatedAt: String
+    makePrice: String
+    takerPrice: String
+    makePriceUsd: String
+    takerPriceUsd: String
+    maker: String
+    taker: String
+    make: TAKER_MAKER
+    take: TAKER_MAKER
+  }
+  type TAKER_MAKER {
+    type: ASSET_TYPE
+    value: String
+  }
+  type ASSET_TYPE {
+    contract: String
+    tokenId: String
   }
 
   type NFTOrderDataType {

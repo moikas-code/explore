@@ -18,7 +18,7 @@ function Navbar() {
           width: 175px;
         }
       `}</style>
-      <div className='position-relative z-3'>
+      <div className='position-relative bg-white z-3'>
         <div className='d-flex flex-row justify-content-between ps-2 border border-dark'>
           <TakoLink href={'/'} as={'/'}>
             <a className='nav-brand fnt-color-black text-decoration-none'>

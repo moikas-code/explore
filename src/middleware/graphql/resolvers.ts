@@ -34,8 +34,12 @@ export default {
       _context: any,
       info: object
     ) => {
-      const {address}: {address: string} = args.input;
-      return await TAKO.getNftsByContractAddress(address);
+      const {
+        address,
+        size,
+        continuation,
+      }: {address: string; size: number; continuation: string} = args.input;
+      return await TAKO.getNftsByContractAddress(address, size, continuation);
     },
     Query_Activity: async (
       parent: object,

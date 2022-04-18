@@ -351,39 +351,29 @@ const TAKO = {
     // console.log('clean', clean);
     return await data;
   },
-  getNftsByContractAddress: async (address: string) => {
+  getNftsByContractAddress: async (
+    address: string,
+    size: number,
+    continuation = ''
+  ) => {
     const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
     const url = (base +
       items +
       '/byCollection/' +
-      `?collection=${address}`) as string;
-    let data = await fetch(url, {
+      `?collection=${address}&size=${size}&continuation=${continuation}`) as string;
+
+    return await fetch(url, {
       method: 'GET',
-    }).then((res) => res.json());
-
-    return {
-      totalSupply: data.total,
-      nfts: data.items.map(async (item: any) => {
-        const asArray = Object.entries(item);
-        const asubArray = Object.entries(item?.meta);
-        const filtered = asArray.filter(([key, value]) =>
-          ['tokenId', 'blockchain', 'id'].includes(key)
-        );
-
-        const filtered2 = asubArray.filter(([key, value]) =>
-          ['name'].includes(key)
-        );
-
-        const filteredObj1 = Object.fromEntries(filtered);
-        const filteredObj2 = Object.fromEntries(filtered2);
-        const content = await item.meta.content;
+    })
+      .then((res) => res.json())
+      .then(async (res) => {
         return {
-          ...filteredObj1,
-          ...filteredObj2,
-          url: content[0] !== undefined ? content[0].url : '',
+          ...res,
+          items: await res.items.map(async (item: any) => {
+            return await TAKO.get_item_by_nft_id(item.id);
+          }),
         };
-      }),
-    };
+      });
   },
   getActivity: async (
     address: string,
@@ -614,37 +604,10 @@ const TAKO = {
   get_item_by_nft_id: async (nft_id: any) => {
     try {
       let url = baseURL + items + '/' + `${nft_id}`;
-      console.log(url);
-      let data = await fetch(url, {
+
+      return await fetch(url, {
         method: 'GET',
-      })
-        .then(async (res) => res.json())
-        .then(async (data: any) => {
-          const asArray = Object.entries(data);
-          const asubArray = Object.entries(data?.meta);
-          const filtered = asArray.filter(([key, value]) =>
-            ['tokenId', 'blockchain', 'id', 'supply'].includes(key)
-          );
-          const filtered2 = asubArray.filter(([key, value]) =>
-            ['name'].includes(key)
-          );
-          const filteredObj1 = Object.fromEntries(filtered);
-          const filteredObj2 = Object.fromEntries(filtered2);
-          const content = await data.meta.content;
-          console.log(content[0].url);
-          return {
-            ...filteredObj1,
-            ...filteredObj2,
-            url:
-              content[0] !== undefined
-                ? cleanUrl(content[0].url, ['ipfs://', 'https://ipfs.io/ipfs/'])
-                : '',
-            bestSellOrder: {
-              ...data.bestSellOrder,
-            },
-          };
-        });
-      return data;
+      }).then(async (res) => res.json());
     } catch (error) {
       console.log(error);
     }
@@ -665,10 +628,9 @@ const TAKO = {
     return await sdk.nft.mint({collection: collection});
   },
   // MUTATIONS
-  createCollection: async (sdk, collectionRequest) => {
+  createCollection: async (sdk: any, collectionRequest: any) => {
     try {
       if (!sdk) return;
-      console.log(sdk);
       const result = await sdk.nft.createCollection(collectionRequest);
       return result;
     } catch (error) {

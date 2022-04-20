@@ -27,6 +27,8 @@ function Navbar() {
           </TakoLink>
           <div title={connection.walletAddress}>
             <WalletButton
+              isConnected={connection.state.status === 'connected'}
+              onConnect={() => router.push('/connect')}
               onPress={() => setShow(!show)}
               address={connection.walletAddress}
             />

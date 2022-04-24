@@ -37,6 +37,75 @@ function cleanUrl(needle: string, arrhaystack: string[]) {
 }
 
 const TAKO = {
+  // Validate Queries
+  validateAddress: async (address: string) => {
+    try {
+      let _cleanAddress: string;
+      const colonCount: number = (address.match(new RegExp(':', 'g')) || [])
+        .length;
+      if (colonCount === 0 || colonCount > 2) {
+        throw 'Invalid Format must include : between blockchain and address(ex. ETHEREUM:0x1337694208oO8314Bf3ac0769B87262146D879o3)';
+      }
+      const _blockchain = address.split(':')[0].toUpperCase();
+      const _address = address.split(':')[1];
+      const _id = address.split(':')[2];
+      const isSupported = [
+        'ETHEREUM',
+        'SOLANA',
+        'POLYGON',
+        'TEZOS',
+        'FLOW',
+      ].includes(_blockchain);
+      if (!isSupported) {
+        throw "Blockchain isn't supported";
+      }
+      if (colonCount === 1) {
+        if (
+          typeof _address === 'undefined' ||
+          (typeof _address !== 'undefined' && _address.length === 0)
+        ) {
+          throw 'Contract/User Address is undefined';
+        }
+
+        const addr_pref = _address.substring(0, 2).toLowerCase();
+        switch (addr_pref) {
+          case '0x':
+          case 'tz':
+          case 'kt':
+          case 'A1':
+            break;
+          default:
+            if (_address.length === 44) {
+              break;
+            }
+            throw 'Invalid Address';
+        }
+
+        _cleanAddress = `${_blockchain}:${_address}`;
+      }
+      if (colonCount === 2) {
+        if (typeof _id === 'undefined') {
+          throw 'NFT ID is undefined';
+        } else if (typeof _id !== 'undefined' && _id.length === 0) {
+          throw 'NFT ID is undefined';
+        }
+        _cleanAddress = `${_blockchain}:${_address}:${_id}`;
+      }
+      console.log(_cleanAddress);
+      return {
+        address: _cleanAddress,
+        isValid: true,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        address: address,
+        isValid: false,
+        error: error,
+      };
+    }
+  },
+
   // FIlters
   filterByProperty(array: any[], propertyName: string): any[] {
     var occurrences: any = {};
@@ -314,6 +383,135 @@ const TAKO = {
           url: content[0] !== undefined ? content[0].url : '',
         };
       }),
+    };
+  },
+  getActivity: async (
+    address: string,
+    activityType: [
+            'TRANSFER_TO',
+            'TRANSFER',
+            'BID',
+            'SELL',
+            'CANCEL',
+            'BURN',
+            'MINT',
+            'CANCEL_BID',
+            'CANCEL_LIST',
+            'AUCTION_BID',
+            'AUCTION_CREATED',
+            'AUCTION_CANCEL',
+            'AUCTION_FINISHED',
+            'AUCTION_STARTED',
+            'AUCTION_ENDED',
+            'TRANSFER_FROM',
+            'TRANSFER_TO',
+            'MAKE_BID',
+            'GET_BID',
+      (
+        | 'TRANSFER_TO'
+        | 'TRANSFER'
+        | 'BID'
+        | 'SELL'
+        | 'CANCEL'
+        | 'BURN'
+        | 'MINT'
+        | 'CANCEL_BID'
+        | 'CANCEL_LIST'
+        | 'AUCTION_BID'
+        | 'AUCTION_CREATED'
+        | 'AUCTION_CANCEL'
+        | 'AUCTION_FINISHED'
+        | 'AUCTION_STARTED'
+        | 'AUCTION_ENDED'
+        | 'TRANSFER_FROM'
+        | 'TRANSFER_TO'
+        | 'MAKE_BID'
+        | 'GET_BID'
+      )
+    ],
+    continuation: string,
+    cursor: string,
+    size: number,
+    sort: 'LATEST_FIRST' | 'EARLIEST_FIRST'
+  ) => {
+    const _activity = await activityType
+      .filter(
+        (e) =>
+          ![
+            'CANCEL',
+            'GET_BID',
+            'MAKE_BID',
+            'TRANSFER_FROM',
+            'TRANSFER_TO',
+          ].includes(e)
+      )
+      .map((item: any) => item);
+    const _user_activity = await activityType
+      .filter((e) => !['BID', 'TRANSFER'].includes(e))
+      .map((item: any) => item);
+    const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
+
+    var urlUser =
+      base +
+      'v0.1/activities' +
+      `/byUser?user=${address}&type=${_user_activity.join(
+        ','
+      )}&continuation=${continuation}&cursor=${cursor}&sort=${sort}`;
+
+    var urlItem =
+      base +
+      'v0.1/activities' +
+      `/byItem?itemId=${address}&type=${_activity.join(
+        ','
+      )}&continuation=${continuation}&cursor=${cursor}&sort=${sort}`;
+
+    const urlContract = (base +
+      'v0.1/activities' +
+      `/byCollection?collection=${address}&type=${_activity.join(
+        ','
+      )}&continuation=${continuation}&cursor=${cursor}&sort=${sort}`) as string;
+    console.log(urlContract);
+    let data: any;
+    const contract = await fetch(urlContract, {
+      method: 'GET',
+    });
+    const item = await fetch(urlItem, {
+      method: 'GET',
+    });
+    const user = await fetch(urlUser, {
+      method: 'GET',
+    });
+    data = {
+      activites: [],
+      continuation: '',
+      cursor: '',
+    };
+
+    if (contract.status === 200) {
+      data = await contract.json();
+    }
+    if (item.status === 200) {
+      data = await item.json();
+    }
+    if (user.status === 200) {
+      data = await user.json();
+    }
+    let activities = data.activities;
+    console.log(activities);
+    activities = await activities
+      .map(async (activity: any) => {
+        activity['type'] = '';
+        activity['type'] = await activity['@type'];
+        delete activity['@type'];
+        return await activity;
+      });
+    // console.log('ACTIVITES', {
+    //   activities: await activities,
+    //   ...data,
+    // });
+    return {
+      activities: await activities,
+      ...data,
     };
   },
   get_all_items: async ({
@@ -657,7 +855,4 @@ const TAKO = {
   },
 };
 
-export default (() => {
-  // console.log(window);
-  return TAKO;
-})();
+export default TAKO;

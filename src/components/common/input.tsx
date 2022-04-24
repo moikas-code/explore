@@ -38,7 +38,6 @@ export default function Input({
       <input
         className={inputStyle}
         type={type}
-        pattern={pattern}
         placeholder={placeholder}
         onChange={async (e) => {
           e.preventDefault();

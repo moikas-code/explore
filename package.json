@@ -49,6 +49,7 @@
     "markdown-to-jsx": "^7.1.5",
     "micro": "^9.3.4",
     "mime-types": "^2.1.34",
+    "moment": "^2.29.3",
     "next": "^12.0.9",
     "next-pwa": "^5.4.4",
     "nft.storage": "latest",

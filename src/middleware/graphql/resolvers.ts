@@ -1,5 +1,5 @@
 import TAKO from '../../tako';
-const resolvers = {
+export default {
   Query: {
     Owned_Collections: async (
       parent: object,
@@ -37,9 +37,39 @@ const resolvers = {
       const {address}: {address: string} = args.input;
       return await TAKO.getNftsByContractAddress(address);
     },
+    Query_Activity: async (
+      parent: object,
+      args: any,
+      _context: any,
+      info: object
+    ) => {
+      const {
+        address,
+        activityType,
+        continuation,
+        cursor,
+        size,
+        sort,
+      }: {
+        activityType: any[];
+        address: string;
+        continuation: string;
+        cursor: string;
+        size: number;
+        sort: 'LATEST_FIRST' | 'EARLIEST_FIRST';
+      } = args.input;
+
+      return await TAKO.getActivity(
+        address,
+        activityType,
+        continuation,
+        cursor,
+        size,
+        sort
+      );
+    },
   },
 };
-export default resolvers;
 //   get_all_items: async (
 //     parent: object,
 //     args: any,

@@ -212,7 +212,7 @@ export default function Dragon() {
                     setShow(true);
                   }}
                   className={`btn btn-outline-dark`}>
-                  Create Contract
+                  Create Collection
                 </Button>
               )}
           </div>
@@ -223,39 +223,7 @@ export default function Dragon() {
             {error && <p>{`${error.message}`}</p>}
             {loading && <p>Loading...</p>}
 
-            <div className='d-flex flex-column flex-lg-row flex-wrap justify-content-between align-items-center'>
-              {((): any => {
-                return chain === 'ETHEREUM'
-                  ? [
-                      'ETHEREUM:0xF6793dA657495ffeFF9Ee6350824910Abc21356C',
-                      'ETHEREUM:0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8',
-                    ]
-                  : chain === 'TEZOS'
-                  ? ['TEZOS:KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS']
-                  : chain === 'FLOW'
-                  ? ['A.01ab36aaf654a13e.RaribleNFT']
-                  : [
-                      'FLOW:0x35f8aee672cdE8e5FD09C93D2BfE4FF5a9cF0756',
-                      'FLOW:0xA2D9Ded6115b7B7208459450D676f0127418ae7A',
-                    ];
-              })().map((contract: any, key: number) => {
-                return (
-                  <CollectionCard
-                    key={key}
-                    className='border m-2 p-2 d-flex flex-column justify-content-center pointer-cursor'
-                    onClick={() => {
-                      console.log(contract);
-                      router.push(`/c/${contract}`);
-                    }}>
-                    <div>Name: Rarible Public</div>
-                    <div>Symbol: RARI</div>
-                    <div>Owner: Rarible</div>
-                    <div>Blockchain: {chain}</div>
-                    <div>Type: ERC{key === 0 ? '721' : '1155'}</div>
-                  </CollectionCard>
-                );
-              })}
-
+            <div className='d-flex flex-row flex-wrap justify-content-between align-items-center'>
               {!loading &&
                 complete &&
                 typeof data.Owned_Collections !== undefined &&
@@ -287,10 +255,42 @@ export default function Dragon() {
                       );
                   }
                 )}
+              {((): any => {
+                return chain === 'ETHEREUM'
+                  ? [
+                      'ETHEREUM:0xF6793dA657495ffeFF9Ee6350824910Abc21356C',
+                      'ETHEREUM:0xB66a603f4cFe17e3D27B87a8BfCaD319856518B8',
+                    ]
+                  : chain === 'TEZOS'
+                  ? ['TEZOS:KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS']
+                  : chain === 'FLOW'
+                  ? ['A.01ab36aaf654a13e.RaribleNFT']
+                  : [
+                      'FLOW:0x35f8aee672cdE8e5FD09C93D2BfE4FF5a9cF0756',
+                      'FLOW:0xA2D9Ded6115b7B7208459450D676f0127418ae7A',
+                    ];
+              })().map((contract: any, key: number) => {
+                return (
+                  <CollectionCard
+                    key={key}
+                    className='border m-2 p-2 d-flex flex-column justify-content-center cursor-pointe'
+                    onClick={() => {
+                      console.log(contract);
+                      router.push(`/c/${contract}`);
+                    }}>
+                    <div>Name: Rarible Public</div>
+                    <div>Symbol: RARI</div>
+                    <div>Owner: Rarible</div>
+                    <div>Blockchain: {chain}</div>
+                    <div>Type: ERC{key === 0 ? '721' : '1155'}</div>
+                  </CollectionCard>
+                );
+              })}
             </div>
           </div>
           {show && (
             <Modal
+              isAbsolute={true}
               onClose={() => {
                 setShow(false);
                 setShowOptions(false);
@@ -406,7 +406,7 @@ function CollectionCard({children, ...props}: any) {
     <div
       title={props.title}
       onClick={props.onClick}
-      className={`collection-card d-flex flex-column border rounded ${props.className}`}>
+      className={`collection-card cursor-pointer d-flex flex-column border rounded ${props.className}`}>
       <style>
         {`
         .collection-card {

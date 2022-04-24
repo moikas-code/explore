@@ -38,8 +38,12 @@ function MyApp({Component, pageProps}: AppProps) {
               height: 100%;
               font-family: monospace;
             }
+        
             #tako {
               height: calc(100% - 23px);
+            }
+            .bg-white{
+              background-color: #fff;
             }
             .fnt-color-black {
               color: #000;

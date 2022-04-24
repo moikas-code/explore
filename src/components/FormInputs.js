@@ -53,7 +53,7 @@ export default function FormInputs({
             label={label.capitalize()}
             type={'url'}
             pattern={'https://.*'}
-            placeholder={'https://akkoros.xyz'}
+            placeholder={'https://takolabs.io'}
             onChange={onChange}
             className={`${style} col-6`}
           />

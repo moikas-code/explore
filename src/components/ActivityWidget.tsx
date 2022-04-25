@@ -274,24 +274,27 @@ export default function ActivityWidget({address}: {address: string}) {
   const [cursor, setCursor] = React.useState<string>('');
   const [continuation, setContinuation] = React.useState<string>('');
 
-  const [Query_Activity, {loading, error, data}] = useLazyQuery(query, {
-    onCompleted: ({Query_Activity}: any) => {
-      if (Query_Activity !== null && Query_Activity !== undefined) {
-        setActivity(Query_Activity.activities);
-        setCursor(Query_Activity.cursor);
-        setContinuation(Query_Activity.continuation);
-        console.log(activity.contract.length);
-        if (Query_Activity.activities.contract.length > 0) {
-          setContractBool(true);
-        } else if (Query_Activity.activities.user.length > 0) {
-          setUserBool(true);
-        } else {
-          setNFTBool(true);
+  const [Query_Activity, {loading, error, data, refetch}] = useLazyQuery(
+    query,
+    {
+      onCompleted: ({Query_Activity}: any) => {
+        if (Query_Activity !== null && Query_Activity !== undefined) {
+          setActivity(Query_Activity.activities);
+          setCursor(Query_Activity.cursor);
+          setContinuation(Query_Activity.continuation);
+          console.log(Query_Activity.cursor, Query_Activity.continuation);
+          if (Query_Activity.activities.contract.length > 0) {
+            setContractBool(true);
+          } else if (Query_Activity.activities.user.length > 0) {
+            setUserBool(true);
+          } else {
+            setNFTBool(true);
+          }
+          setComplete(true);
         }
-        setComplete(true);
-      }
-    },
-  });
+      },
+    }
+  );
 
   React.useEffect(() => {
     Query_Activity({
@@ -384,6 +387,8 @@ export default function ActivityWidget({address}: {address: string}) {
                   id={item.id}
                   date={item.date}
                   type={item.type}
+                  from={item.from}
+                  to={item.to}
                 />
               );
             })}
@@ -393,6 +398,73 @@ export default function ActivityWidget({address}: {address: string}) {
             No Activity Found, Please Try Again, or Search Using Another Address
           </p>
         )}
+        {/* <div className='d-flex flex-row'>
+          {!loading && complete && (
+            <Button
+              onClick={() => {
+                console.log({
+                  input: {
+                    address: address,
+                    activityType: [
+                      'TRANSFER',
+                      'BID',
+                      'SELL',
+                      'CANCEL',
+                      'BURN',
+                      'MINT',
+                      'CANCEL_BID',
+                      'CANCEL_LIST',
+                      'AUCTION_BID',
+                      'AUCTION_CREATED',
+                      'AUCTION_CANCEL',
+                      'AUCTION_FINISHED',
+                      'AUCTION_STARTED',
+                      'AUCTION_ENDED',
+                      'TRANSFER_FROM',
+                      'TRANSFER_TO',
+                      'MAKE_BID',
+                      'GET_BID',
+                    ],
+                    size: 50,
+                    sort: 'LATEST_FIRST',
+                    continuation: continuation,
+                    cursor: cursor,
+                  },
+                });
+                refetch({
+                  input: {
+                    address: address,
+                    activityType: [
+                      'TRANSFER',
+                      'BID',
+                      'SELL',
+                      'CANCEL',
+                      'BURN',
+                      'MINT',
+                      'CANCEL_BID',
+                      'CANCEL_LIST',
+                      'AUCTION_BID',
+                      'AUCTION_CREATED',
+                      'AUCTION_CANCEL',
+                      'AUCTION_FINISHED',
+                      'AUCTION_STARTED',
+                      'AUCTION_ENDED',
+                      'TRANSFER_FROM',
+                      'TRANSFER_TO',
+                      'MAKE_BID',
+                      'GET_BID',
+                    ],
+                    size: 50,
+                    sort: 'LATEST_FIRST',
+                    continuation: continuation,
+                    cursor: cursor,
+                  },
+                });
+              }}>
+              Load More
+            </Button>
+          )}
+        </div> */}
       </div>
     </>
   );
@@ -402,10 +474,14 @@ function Activity_Item({
   id,
   date,
   type,
+  from,
+  to,
 }: {
   id: string;
   date: string;
   type: string;
+  from: string;
+  to: string;
 }) {
   const _date = new Date(Date.parse(date));
   return (
@@ -438,10 +514,9 @@ function Activity_Item({
             {moment(_date, 'YYYYMMDD').fromNow()}
           </p>{' '}
           | <p className='m-0 width-10rem'>{type}</p> |{' '}
-          {/* {item.itemId !== null && (
-                      <p className='m-0'>Item ID: {item.itemId} | </p>
-                    )}{' '}
-                    | */}
+          {from !== null && (
+            <p className='m-0'>From: {from.split(':')[1]} | </p>
+          )}
         </div>
       </div>
     </>

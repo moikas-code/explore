@@ -442,24 +442,31 @@ const TAKO = {
 
     if (contract.status === 200) {
       const v = await contract.json();
+      // console.log(v)
       const activities = data.activities;
-      activities.contract = await v.activities;
-      data.continuation = await v.continuation;
-      data.cursor = await v.cursor;
+      activities.contract = v.activities;
+      var continuation: string = data.continuation;
+      var cursor: string = data.continuation;
+      continuation = v.continuation;
+      cursor = v.cursor;
     }
     if (item.status === 200) {
       const v = await item.json();
       const activities = data.activities;
-      activities.nft = await v.activities;
-      data.continuation = await v.continuation;
-      data.cursor = await v.cursor;
+      activities.nft = v.activities;
+      var continuation: string = data.continuation;
+      var cursor: string = data.continuation;
+      continuation = v.continuation;
+      cursor = v.cursor;
     }
     if (user.status === 200) {
       const v = await user.json();
       const activities = data.activities;
-      activities.user = await v.activities;
-      data.continuation = await v.continuation;
-      data.cursor = await v.cursor;
+      activities.user = v.activities;
+      var continuation: string = data.continuation;
+      var cursor: string = data.continuation;
+      continuation = v.continuation;
+      cursor = v.cursor;
     }
     let activities = data.activities;
     activities = {
@@ -482,7 +489,7 @@ const TAKO = {
         return await activity;
       }),
     };
-
+    console.log(data.cursor);
     return {
       activities: await activities,
       ...data,

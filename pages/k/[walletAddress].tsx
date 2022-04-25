@@ -243,7 +243,7 @@ export default function Dragon() {
                           key={key}
                           onClick={() => {
                             console.log(id);
-                            router.push(`/c/${id}`);
+                            router.push(`/a/${id}`);
                           }}
                           className='border m-2 p-2 d-flex flex-column justify-content-center'>
                           <div>Name: {name}</div>
@@ -276,7 +276,7 @@ export default function Dragon() {
                     className='border m-2 p-2 d-flex flex-column justify-content-center cursor-pointe'
                     onClick={() => {
                       console.log(contract);
-                      router.push(`/c/${contract}`);
+                      router.push(`/a/${contract}`);
                     }}>
                     <div>Name: Rarible Public</div>
                     <div>Symbol: RARI</div>

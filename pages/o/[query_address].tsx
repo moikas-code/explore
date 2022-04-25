@@ -120,9 +120,10 @@ export default function Dragon() {
         keywords='gaming, nfts, web3'
       />
       <div className='d-flex flex-column position-relative h-100 p-2'>
-        {typeof query_address !== 'undefined' && typeof query_address.split(':')[2] !== 'undefined' &&(
-          <p className=''>Token ID: {query_address.split(':')[2]}</p>
-        )}
+        {typeof query_address !== 'undefined' &&
+          typeof query_address.split(':')[2] !== 'undefined' && (
+            <p className=''>Token ID: {query_address.split(':')[2]}</p>
+          )}
         {typeof query_address !== 'undefined' && (
           <p className=''>NETWORK: {query_address.split(':')[0]}</p>
         )}
@@ -134,27 +135,5 @@ export default function Dragon() {
         )}
       </div>
     </>
-  );
-}
-
-function CollectionCard({children, ...props}: any) {
-  return (
-    <div
-      title={props.title}
-      onClick={props.onClick}
-      className={`collection-card d-flex flex-column border rounded ${props.className}`}>
-      <style>
-        {`
-        .collection-card {
-          max-width: 31.25rem;
-          width: 100%;
-          min-width: 18.75rem;
-          min-height: 9.375rem;
-
-        }
-      `}
-      </style>
-      {children}
-    </div>
   );
 }

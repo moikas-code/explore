@@ -12,6 +12,7 @@ interface p_Input {
   pattern?: string;
   inputStyle?: string;
   accept?: string;
+  isVertical?: boolean;
 }
 export default function Input({
   id,
@@ -24,6 +25,7 @@ export default function Input({
   placeholder = '',
   inputStyle = '',
   accept = '',
+  isVertical = true,
 }: p_Input) {
   return (
     <>
@@ -32,22 +34,25 @@ export default function Input({
           min-height: 2.5rem;
         }
       `}</style>
-      <label htmlFor={id} className={`text-capitalize`}>
-        {label}
-      </label>
-      <input
-        className={inputStyle}
-        type={type}
-        placeholder={placeholder}
-        onChange={async (e) => {
-          e.preventDefault();
-          onChange(e)
-        }}
-        min={min}
-        max={max}
-        accept={accept}
-        spellCheck
-      />
+
+      <div className={`d-flex ${isVertical ? 'flex-column justify-content-center' : 'flex-row'}`}>
+        <label htmlFor={id} className={`text-capitalize`}>
+          {label}
+        </label>
+        <input
+          className={inputStyle}
+          type={type}
+          placeholder={placeholder}
+          onChange={async (e) => {
+            e.preventDefault();
+            onChange(e);
+          }}
+          min={min}
+          max={max}
+          accept={accept}
+          spellCheck
+        />
+      </div>
     </>
   );
 }

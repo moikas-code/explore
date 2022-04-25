@@ -5,11 +5,16 @@ import {truncateAddress} from '../lib/moiWeb3';
 import TakoLink from './TakoLink';
 import WalletButton from './walletbutton';
 import WalletButtonItem from './walletbuttonitem';
+//@ts-ignore
+import TAKO from '@/src/tako';
+import SearchBar from './Searchbar';
 function Navbar() {
   const [show, setShow] = useState(false);
   const connection = React.useContext(ConnectorContext);
   const blockchain = connection.sdk?.wallet?.blockchain;
   const router = useRouter();
+  const [address, setAddress] = React.useState('');
+  const [err, setErr] = React.useState<any>('');
   return (
     <>
       <style jsx>{`
@@ -22,12 +27,37 @@ function Navbar() {
         }
       `}</style>
       <div className='position-relative bg-white z-3'>
-        <div className='navbar d-flex flex-row justify-content-between ps-2 border border-dark'>
+        <div className='navbar d-flex flex-row justify-content-between align-items-center ps-2 border border-dark'>
           <TakoLink href={'/'} as={'/'}>
             <a className='nav-brand fnt-color-black text-decoration-none'>
               Tako Labs
             </a>
           </TakoLink>
+          <SearchBar
+          formStyle='d-none d-sm-flex col mx-3'
+            placeholder='ETHEREUM:0x1337694208oO8314Bf3ac0769B87262146D879o3'
+            label={''}
+            value={address}
+            errorMessage={err}
+            isError={err.length > 0 }
+            onSubmit={(): any => {
+              TAKO.validateAddress(address)
+                .then((res) => {
+                  if (res.isValid) {
+                    setErr('');
+                    router.push(`/o/${res.address}`);
+                  } else {
+                    console.log('res', res);
+                    setErr(res.error);
+                  }
+                })
+                .catch((err) => {
+                  console.log('err', err);
+                  setErr(err);
+                });
+            }}
+            onChange={(e) => {setAddress(e);setErr('');}}
+          />
           <div title={connection.walletAddress}>
             <WalletButton
               isConnected={connection.state.status === 'connected'}

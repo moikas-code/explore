@@ -375,7 +375,7 @@ export default function ActivityWidget({address}: {address: string}) {
         {error && <p>{`${error.message}`}</p>}
         {loading && <p>Loading...</p>}
         {!loading && complete ? (
-          <div className='d-inline-flex flex-column border border-dark p-2 overflow-y-scroll'>
+          <div className='d-inline-flex flex-column border border-dark p-2 overflow-y-scroll h-100'>
             {activity[
               `${showContract ? 'contract' : showUser ? 'user' : 'nft'}`
             ].map((item: any, key) => {

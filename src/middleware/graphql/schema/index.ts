@@ -153,7 +153,12 @@ const typeDefs = gql`
   type ACTIVITY {
     continuation: String
     cursor: String
-    activities: [ACTIVITY_ITEM]
+    activities: ACTIVITIES
+  }
+  type ACTIVITIES{
+    user:[ACTIVITY_ITEM]
+    contract:[ACTIVITY_ITEM]
+    nft:[ACTIVITY_ITEM]
   }
 
   type ACTIVITY_ITEM {

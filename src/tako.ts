@@ -377,48 +377,7 @@ const TAKO = {
   },
   getActivity: async (
     address: string,
-    activityType: [
-            'TRANSFER_TO',
-            'TRANSFER',
-            'BID',
-            'SELL',
-            'CANCEL',
-            'BURN',
-            'MINT',
-            'CANCEL_BID',
-            'CANCEL_LIST',
-            'AUCTION_BID',
-            'AUCTION_CREATED',
-            'AUCTION_CANCEL',
-            'AUCTION_FINISHED',
-            'AUCTION_STARTED',
-            'AUCTION_ENDED',
-            'TRANSFER_FROM',
-            'TRANSFER_TO',
-            'MAKE_BID',
-            'GET_BID',
-      (
-        | 'TRANSFER_TO'
-        | 'TRANSFER'
-        | 'BID'
-        | 'SELL'
-        | 'CANCEL'
-        | 'BURN'
-        | 'MINT'
-        | 'CANCEL_BID'
-        | 'CANCEL_LIST'
-        | 'AUCTION_BID'
-        | 'AUCTION_CREATED'
-        | 'AUCTION_CANCEL'
-        | 'AUCTION_FINISHED'
-        | 'AUCTION_STARTED'
-        | 'AUCTION_ENDED'
-        | 'TRANSFER_FROM'
-        | 'TRANSFER_TO'
-        | 'MAKE_BID'
-        | 'GET_BID'
-      )
-    ],
+    activityType: any[],
     continuation: string,
     cursor: string,
     size: number,
@@ -437,8 +396,9 @@ const TAKO = {
       )
       .map((item: any) => item);
     const _user_activity = await activityType
-      .filter((e) => !['BID', 'TRANSFER'].includes(e))
+      .filter((e) => !['BID', 'TRANSFER', 'CANCEL'].includes(e))
       .map((item: any) => item);
+
     const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
 
     var urlUser =
@@ -460,7 +420,6 @@ const TAKO = {
       `/byCollection?collection=${address}&type=${_activity.join(
         ','
       )}&continuation=${continuation}&cursor=${cursor}&sort=${sort}`) as string;
-    console.log(urlContract);
     let data: any;
     const contract = await fetch(urlContract, {
       method: 'GET',
@@ -472,33 +431,58 @@ const TAKO = {
       method: 'GET',
     });
     data = {
-      activites: [],
+      activities: {
+        user: [],
+        nft: [],
+        contract: [],
+      },
       continuation: '',
       cursor: '',
     };
 
     if (contract.status === 200) {
-      data = await contract.json();
+      const v = await contract.json();
+      const activities = data.activities;
+      activities.contract = await v.activities;
+      data.continuation = await v.continuation;
+      data.cursor = await v.cursor;
     }
     if (item.status === 200) {
-      data = await item.json();
+      const v = await item.json();
+      const activities = data.activities;
+      activities.nft = await v.activities;
+      data.continuation = await v.continuation;
+      data.cursor = await v.cursor;
     }
     if (user.status === 200) {
-      data = await user.json();
+      const v = await user.json();
+      const activities = data.activities;
+      activities.user = await v.activities;
+      data.continuation = await v.continuation;
+      data.cursor = await v.cursor;
     }
     let activities = data.activities;
-    console.log(activities);
-    activities = await activities
-      .map(async (activity: any) => {
+    activities = {
+      contract: await activities.contract.map(async (activity: any) => {
         activity['type'] = '';
         activity['type'] = await activity['@type'];
         delete activity['@type'];
         return await activity;
-      });
-    // console.log('ACTIVITES', {
-    //   activities: await activities,
-    //   ...data,
-    // });
+      }),
+      user: await activities.user.map(async (activity: any) => {
+        activity['type'] = '';
+        activity['type'] = await activity['@type'];
+        delete activity['@type'];
+        return await activity;
+      }),
+      nft: await activities.nft.map(async (activity: any) => {
+        activity['type'] = '';
+        activity['type'] = await activity['@type'];
+        delete activity['@type'];
+        return await activity;
+      }),
+    };
+
     return {
       activities: await activities,
       ...data,

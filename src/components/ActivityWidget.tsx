@@ -1,92 +1,261 @@
 import React from 'react';
 import {gql, useLazyQuery} from '@apollo/client';
 import moment from 'moment';
+import Button from './common/button';
 const query = gql`
   query Activites($input: QueryInput!) {
     Query_Activity(input: $input) {
       cursor
       continuation
       activities {
-        id
-        type
-        from
-        owner
-        contract
-        tokenId
-        itemId
-        value
-        purchase
-        transactionHash
-        date
-        reverted
-        left {
-          maker
-          hash
-        }
-        right {
-          maker
-          hash
-        }
-        source
-        buyer
-        seller
-        buyerOrderHash
-        sellerOrderHash
-        price
-        priceUsd
-        hash
-        auction {
+        contract {
           id
-          contract
           type
+          from
+          owner
+          contract
+          tokenId
+          itemId
+          value
+          purchase
+          transactionHash
+          date
+          reverted
+          left {
+            maker
+            hash
+          }
+          right {
+            maker
+            hash
+          }
+          source
+          buyer
           seller
-          endTime
-          minimalStep
-          minimalPrice
-          createdAt
-          lastUpdatedAt
-          buyPrice
-          buyPriceUsd
-          pending
-          status
-          ongoing
+          buyerOrderHash
+          sellerOrderHash
+          price
+          priceUsd
           hash
-          auctionId
-          data {
-            dataType
-            originFees {
-              address
-              value
+          auction {
+            id
+            contract
+            type
+            seller
+            endTime
+            minimalStep
+            minimalPrice
+            createdAt
+            lastUpdatedAt
+            buyPrice
+            buyPriceUsd
+            pending
+            status
+            ongoing
+            hash
+            auctionId
+            data {
+              dataType
+              originFees {
+                address
+                value
+              }
+              payouts {
+                address
+                value
+              }
+              startTime
+              duration
+              buyOutPrice
             }
-            payouts {
-              address
-              value
+          }
+          bid {
+            type
+            data {
+              dataType
+              originFees {
+                address
+                value
+              }
+              payouts {
+                address
+                value
+              }
+              startTime
+              duration
+              buyOutPrice
             }
-            startTime
-            duration
-            buyOutPrice
+            buyer
+            amount
+            date
+            status
           }
         }
-        bid {
+        user {
+          id
           type
-          data {
-            dataType
-            originFees {
-              address
-              value
-            }
-            payouts {
-              address
-              value
-            }
-            startTime
-            duration
-            buyOutPrice
-          }
-          buyer
-          amount
+          from
+          owner
+          contract
+          tokenId
+          itemId
+          value
+          purchase
+          transactionHash
           date
-          status
+          reverted
+          left {
+            maker
+            hash
+          }
+          right {
+            maker
+            hash
+          }
+          source
+          buyer
+          seller
+          buyerOrderHash
+          sellerOrderHash
+          price
+          priceUsd
+          hash
+          auction {
+            id
+            contract
+            type
+            seller
+            endTime
+            minimalStep
+            minimalPrice
+            createdAt
+            lastUpdatedAt
+            buyPrice
+            buyPriceUsd
+            pending
+            status
+            ongoing
+            hash
+            auctionId
+            data {
+              dataType
+              originFees {
+                address
+                value
+              }
+              payouts {
+                address
+                value
+              }
+              startTime
+              duration
+              buyOutPrice
+            }
+          }
+          bid {
+            type
+            data {
+              dataType
+              originFees {
+                address
+                value
+              }
+              payouts {
+                address
+                value
+              }
+              startTime
+              duration
+              buyOutPrice
+            }
+            buyer
+            amount
+            date
+            status
+          }
+        }
+        nft {
+          id
+          type
+          from
+          owner
+          contract
+          tokenId
+          itemId
+          value
+          purchase
+          transactionHash
+          date
+          reverted
+          left {
+            maker
+            hash
+          }
+          right {
+            maker
+            hash
+          }
+          source
+          buyer
+          seller
+          buyerOrderHash
+          sellerOrderHash
+          price
+          priceUsd
+          hash
+          auction {
+            id
+            contract
+            type
+            seller
+            endTime
+            minimalStep
+            minimalPrice
+            createdAt
+            lastUpdatedAt
+            buyPrice
+            buyPriceUsd
+            pending
+            status
+            ongoing
+            hash
+            auctionId
+            data {
+              dataType
+              originFees {
+                address
+                value
+              }
+              payouts {
+                address
+                value
+              }
+              startTime
+              duration
+              buyOutPrice
+            }
+          }
+          bid {
+            type
+            data {
+              dataType
+              originFees {
+                address
+                value
+              }
+              payouts {
+                address
+                value
+              }
+              startTime
+              duration
+              buyOutPrice
+            }
+            buyer
+            amount
+            date
+            status
+          }
         }
       }
     }
@@ -94,18 +263,31 @@ const query = gql`
 `;
 export default function ActivityWidget({address}: {address: string}) {
   const [complete, setComplete] = React.useState<boolean>(false);
-  const [activity, setActivity] = React.useState<any[]>([]);
+  const [showContract, setContractBool] = React.useState<boolean>(false);
+  const [showUser, setUserBool] = React.useState<boolean>(false);
+  const [showNFT, setNFTBool] = React.useState<boolean>(false);
+  const [activity, setActivity] = React.useState({
+    contract: [],
+    nft: [],
+    user: [],
+  });
   const [cursor, setCursor] = React.useState<string>('');
   const [continuation, setContinuation] = React.useState<string>('');
 
   const [Query_Activity, {loading, error, data}] = useLazyQuery(query, {
     onCompleted: ({Query_Activity}: any) => {
-      console.log({Query_Activity});
       if (Query_Activity !== null && Query_Activity !== undefined) {
-        console.log(Query_Activity);
         setActivity(Query_Activity.activities);
         setCursor(Query_Activity.cursor);
         setContinuation(Query_Activity.continuation);
+        console.log(activity.contract.length);
+        if (Query_Activity.activities.contract.length > 0) {
+          setContractBool(true);
+        } else if (Query_Activity.activities.user.length > 0) {
+          setUserBool(true);
+        } else {
+          setNFTBool(true);
+        }
         setComplete(true);
       }
     },
@@ -117,7 +299,6 @@ export default function ActivityWidget({address}: {address: string}) {
         input: {
           address: address,
           activityType: [
-            'TRANSFER_TO',
             'TRANSFER',
             'BID',
             'SELL',
@@ -151,49 +332,60 @@ export default function ActivityWidget({address}: {address: string}) {
       <style jsx>
         {`
           .activity-wrapper {
-            height: calc(100% - 50px);
+            height: calc(100% - 90px);
           }
         `}
       </style>
       <div className='d-flex flex-column justify-content-start  activity-wrapper'>
-        <p>Activity</p>
+        <div className='d-flex flex-row'>
+          {activity.contract.length > 0 && (
+            <Button
+              onClick={() => {
+                setContractBool(true);
+                setUserBool(false);
+                setNFTBool(false);
+              }}>
+              Contract Activity
+            </Button>
+          )}
+          {activity.user.length > 0 && (
+            <Button
+              onClick={() => {
+                setContractBool(false);
+                setUserBool(true);
+                setNFTBool(false);
+              }}>
+              User Activity
+            </Button>
+          )}
+          {activity.nft.length > 0 && (
+            <Button
+              onClick={() => {
+                setContractBool(false);
+                setUserBool(false);
+                setNFTBool(true);
+              }}>
+              Nft Activity
+            </Button>
+          )}
+        </div>
         {error && <p>{`${error.message}`}</p>}
         {loading && <p>Loading...</p>}
-        {complete && activity.length > 0 ? (
+        {!loading && complete ? (
           <div className='d-inline-flex flex-column border border-dark p-2 overflow-y-scroll'>
-            {activity.map((item, key) => {
-              const date = new Date(Date.parse(item.date))
-              let _Month = new Date(Date.parse(item.date)).getUTCMonth();
-              let _Date = new Date(Date.parse(item.date)).getDate();
-              let _Year = new Date(Date.parse(item.date)).getFullYear();
-              // const timeFromNow = new Date(
-              //   Date.parse(`${startDate}`) - _Date
-              // ).getMilliseconds();
+            {activity[
+              `${showContract ? 'contract' : showUser ? 'user' : 'nft'}`
+            ].map((item: any, key) => {
+              const date = new Date(Date.parse(item.date));
 
-              // if (key === 0)
-                return (
-                  <div
-                    key={key}
-                    id={item.id}
-                    className={
-                      'd-flex flex-column justify-content-center border-bottom border-dark'
-                    }>
-                    <div className='d-flex flex-row'>
-                      <p className='m-0'>
-                        {moment(date, 'YYYYMMDD').fromNow()}
-                      </p>{' '}
-                      |{' '}
-                      <p className='m-0'>
-                        {moment(item.date).format('MMMM Do YYYY, h:mm:ss a')}
-                      </p>{' '}
-                      | <p className='m-0'>{item.type}</p> |{' '}
-                      {item.itemId !== null && (
-                        <p className='m-0'>Item ID: {item.itemId} | </p>
-                      )}{' '}
-                      |
-                    </div>
-                  </div>
-                );
+              return (
+                <Activity_Item
+                  key={key}
+                  id={item.id}
+                  date={item.date}
+                  type={item.type}
+                />
+              );
             })}
           </div>
         ) : (
@@ -201,6 +393,56 @@ export default function ActivityWidget({address}: {address: string}) {
             No Activity Found, Please Try Again, or Search Using Another Address
           </p>
         )}
+      </div>
+    </>
+  );
+}
+
+function Activity_Item({
+  id,
+  date,
+  type,
+}: {
+  id: string;
+  date: string;
+  type: string;
+}) {
+  const _date = new Date(Date.parse(date));
+  return (
+    <>
+      <style jsx>
+        {`
+          .width-10rem {
+            width: 10rem !important;
+          }
+          .width-15rem {
+            width: 15rem !important;
+          }
+          .width-20rem {
+            width: 20rem !important;
+          }
+          .width-25rem {
+            width: 25rem !important;
+          }
+        `}
+      </style>
+      <div
+        id={id}
+        className={
+          'd-flex flex-column justify-content-center border-bottom border-dark'
+        }>
+        <div className='d-flex flex-row'>
+          <p
+            title={moment(date).format('MMMM Do YYYY, h:mm:ss a')}
+            className='m-0 px-2 width-15rem'>
+            {moment(_date, 'YYYYMMDD').fromNow()}
+          </p>{' '}
+          | <p className='m-0 width-10rem'>{type}</p> |{' '}
+          {/* {item.itemId !== null && (
+                      <p className='m-0'>Item ID: {item.itemId} | </p>
+                    )}{' '}
+                    | */}
+        </div>
       </div>
     </>
   );

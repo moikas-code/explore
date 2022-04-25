@@ -120,7 +120,15 @@ export default function Dragon() {
         keywords='gaming, nfts, web3'
       />
       <div className='d-flex flex-column position-relative h-100 p-2'>
-        <p className=''>{query_address}</p>
+        {typeof query_address !== 'undefined' && typeof query_address.split(':')[2] !== 'undefined' &&(
+          <p className=''>Token ID: {query_address.split(':')[2]}</p>
+        )}
+        {typeof query_address !== 'undefined' && (
+          <p className=''>NETWORK: {query_address.split(':')[0]}</p>
+        )}
+        {typeof query_address !== 'undefined' && (
+          <p className=''>ADDDRESS: {query_address.split(':')[1]}</p>
+        )}
         {typeof query_address !== 'undefined' && (
           <ActivityWidget address={query_address} />
         )}

@@ -13,13 +13,16 @@ function Navbar() {
   return (
     <>
       <style jsx>{`
+        .navbar {
+          height: 5rem;
+        }
         .wallet-button-items {
           max-height: 18.75rem;
           width: 175px;
         }
       `}</style>
       <div className='position-relative bg-white z-3'>
-        <div className='d-flex flex-row justify-content-between ps-2 border border-dark'>
+        <div className='navbar d-flex flex-row justify-content-between ps-2 border border-dark'>
           <TakoLink href={'/'} as={'/'}>
             <a className='nav-brand fnt-color-black text-decoration-none'>
               Tako Labs

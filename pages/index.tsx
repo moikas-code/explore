@@ -28,8 +28,9 @@ export default function _Index() {
             margin-top: -5rem;
           }
           .explorer {
-            max-width: 800px;
+            max-width: 600px;
             width: 100%;
+            padding: 1rem;
           }
           .how-to-card {
             max-width: 25.5rem;

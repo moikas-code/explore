@@ -40,7 +40,7 @@ function MyApp({Component, pageProps}: AppProps) {
             }
         
             #tako {
-              height: calc(100% - 23px);
+              height: calc(100% - 80px);
             }
             .bg-white{
               background-color: #fff;

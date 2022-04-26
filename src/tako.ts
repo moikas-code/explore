@@ -40,7 +40,7 @@ const TAKO = {
   // Validate Queries
   validateAddress: async (address: string) => {
     try {
-      let _cleanAddress: string;
+      let _cleanAddress: string = '';
       const colonCount: number = (address.match(new RegExp(':', 'g')) || [])
         .length;
       if (colonCount === 0 || colonCount > 2) {
@@ -67,12 +67,15 @@ const TAKO = {
           throw 'Contract/User Address is undefined';
         }
 
-        const addr_pref = _address.substring(0, 2).toLowerCase();
+        let addr_pref = _address.substring(0, 2);
+        addr_pref = addr_pref.toLowerCase();
+        console.log(addr_pref);
         switch (addr_pref) {
           case '0x':
           case 'tz':
           case 'kt':
-          case 'A1':
+          case 'a.':
+          case 'a1':
             break;
           default:
             if (_address.length === 44) {

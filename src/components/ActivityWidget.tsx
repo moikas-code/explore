@@ -423,7 +423,7 @@ export default function ActivityWidget({address}: {address: string}) {
                   'activity-labels d-flex flex-column justify-content-center w-100 border-bottom border-dark'
                 }>
                 <div className='d-flex flex-row'>
-                  <p className='m-0 px-2 width-10rem'>Age</p> |
+                  <p className='m-0 px-2 width-15rem'>Age</p> |
                   <p className='m-0 px-2 width-10rem'>Type</p> |
                   <p className='m-0 px-2 width-10rem'>From</p> |
                   <p className='m-0 px-2 width-10rem'>Token ID</p> |
@@ -491,7 +491,7 @@ function Activity_Item({
         <div className='d-flex flex-row'>
           <p
             title={moment(date).format('MMMM Do YYYY, h:mm:ss a')}
-            className='m-0 px-2 width-10rem'>
+            className='m-0 px-2 width-15rem'>
             {moment(_date, 'YYYYMMDD').fromNow()}
           </p>{' '}
           | <p className='m-0  px-2 width-10rem'>{type}</p> |{' '}

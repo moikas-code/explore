@@ -17,6 +17,7 @@ import Input from '@/src/components/common/input';
 import ToggleButton from '@/src/components/ToggleButton';
 
 import {gql, useLazyQuery} from '@apollo/client';
+import TakoLink from '../../src/components/TakoLink';
 type CreateCollectionRequest = /*unresolved*/ any;
 type CreateCollectionBlockchains = /*unresolved*/ any;
 // import ActivityWidget from '../../src/components/ActivityWidget';
@@ -85,7 +86,7 @@ export default function Dragon() {
   const [Owned_Collections, {loading, error, data}] = useLazyQuery(query, {
     onCompleted: ({Owned_Collections}) => {
       if (Owned_Collections !== null && Owned_Collections !== undefined) {
-        console.log(Owned_Collections);
+        // console.log(Owned_Collections);
         setComplete(true);
       }
     },
@@ -128,8 +129,20 @@ export default function Dragon() {
           <p className=''>NETWORK: {query_address.split(':')[0]}</p>
         )}
         {typeof query_address !== 'undefined' && (
-          <p className=''>ADDDRESS: {query_address.split(':')[1]}</p>
+          <p className=''>
+            ADDRESS:{' '}
+            <TakoLink
+              href={`/o/${query_address.split(':')[0]}:${
+                query_address.split(':')[1]
+              }`}
+              as={`/o/${query_address.split(':')[0]}:${
+                query_address.split(':')[1]
+              }`}>
+              {query_address.split(':')[1]}
+            </TakoLink>
+          </p>
         )}
+
         {typeof query_address !== 'undefined' && (
           <ActivityWidget address={query_address} />
         )}

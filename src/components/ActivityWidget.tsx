@@ -2,6 +2,9 @@ import React from 'react';
 import {gql, useLazyQuery} from '@apollo/client';
 import moment from 'moment';
 import Button from './common/button';
+import {truncateAddress} from '../lib/moiWeb3';
+import TabButton from './TabButton';
+import TakoLink from './TakoLink';
 const query = gql`
   query Activites($input: QueryInput!) {
     Query_Activity(input: $input) {
@@ -282,14 +285,6 @@ export default function ActivityWidget({address}: {address: string}) {
           setActivity(Query_Activity.activities);
           setCursor(Query_Activity.cursor);
           setContinuation(Query_Activity.continuation);
-          console.log(Query_Activity.cursor, Query_Activity.continuation);
-          if (Query_Activity.activities.contract.length > 0) {
-            setContractBool(true);
-          } else if (Query_Activity.activities.user.length > 0) {
-            setUserBool(true);
-          } else {
-            setNFTBool(true);
-          }
           setComplete(true);
         }
       },
@@ -328,7 +323,38 @@ export default function ActivityWidget({address}: {address: string}) {
         },
       },
     });
+    return () => {
+      setActivity({
+        contract: [],
+        nft: [],
+        user: [],
+      });
+      setComplete(false);
+    };
   }, [address]);
+
+  React.useEffect(() => {
+    if (activity.contract.length > 0) {
+      setContractBool(true);
+      setUserBool(false);
+      setNFTBool(false);
+      return;
+    }
+
+    if (activity.user.length > 0) {
+      setContractBool(false);
+      setUserBool(true);
+      setNFTBool(false);
+      return;
+    }
+
+    if (activity.nft.length > 0) {
+      setContractBool(false);
+      setUserBool(false);
+      setNFTBool(true);
+      return;
+    }
+  }, [activity]);
 
   return (
     <>
@@ -336,6 +362,9 @@ export default function ActivityWidget({address}: {address: string}) {
         {`
           .activity-wrapper {
             height: calc(100% - 90px);
+          }
+          .activity-labels {
+            min-width: 1200px;
           }
         `}
       </style>
@@ -374,97 +403,58 @@ export default function ActivityWidget({address}: {address: string}) {
         </div>
         {error && <p>{`${error.message}`}</p>}
         {loading && <p>Loading...</p>}
-        {complete ? (
-          <div className='d-inline-flex flex-column border border-dark p-2 overflow-scroll h-100 w-100'>
-            {activity[
-              `${showContract ? 'contract' : showUser ? 'user' : 'nft'}`
-            ].map((item: any, key) => {
-              const date = new Date(Date.parse(item.date));
+        {complete && (
+          <>
+            Latest{' '}
+            {
+              activity[
+                `${
+                  activity.contract.length > 0
+                    ? 'contract'
+                    : activity.user.length > 0
+                    ? 'user'
+                    : 'nft'
+                }`
+              ].length
+            }
+            <div className='d-inline-flex flex-column border border-dark p-2 overflow-scroll h-100 w-100'>
+              <div
+                className={
+                  'activity-labels d-flex flex-column justify-content-center w-100 border-bottom border-dark'
+                }>
+                <div className='d-flex flex-row'>
+                  <p className='m-0 px-2 width-10rem'>Age</p> |
+                  <p className='m-0 px-2 width-10rem'>Type</p> |
+                  <p className='m-0 px-2 width-10rem'>From</p> |
+                  <p className='m-0 px-2 width-10rem'>Token ID</p> |
+                </div>
+              </div>
 
-              return (
-                <Activity_Item
-                  key={key}
-                  id={item.id}
-                  date={item.date}
-                  type={item.type}
-                  from={item.from}
-                  to={item.to}
-                />
-              );
-            })}
-          </div>
-        ) : (
-          <p className='m-0 text-center'>
-            No Activity Found, Please Try Again, or Search Using Another Address
-          </p>
+              {activity[
+                `${showContract ? 'contract' : showUser ? 'user' : 'nft'}`
+              ].length > 0 ? (
+                activity[
+                  `${showContract ? 'contract' : showUser ? 'user' : 'nft'}`
+                ].map((item: any, key) => (
+                  <Activity_Item
+                    key={key}
+                    id={item.id}
+                    date={item.date}
+                    type={item.type}
+                    from={item.from}
+                    contractAddress={item.contract}
+                    tokenId={item.tokenId}
+                  />
+                ))
+              ) : (
+                <p className='m-0 text-center'>
+                  No Activity Found, Please Try Again, or Search Using Another
+                  Address
+                </p>
+              )}
+            </div>
+          </>
         )}
-        {/* <div className='d-flex flex-row'>
-          {!loading && complete && (
-            <Button
-              onClick={() => {
-                console.log({
-                  input: {
-                    address: address,
-                    activityType: [
-                      'TRANSFER',
-                      'BID',
-                      'SELL',
-                      'CANCEL',
-                      'BURN',
-                      'MINT',
-                      'CANCEL_BID',
-                      'CANCEL_LIST',
-                      'AUCTION_BID',
-                      'AUCTION_CREATED',
-                      'AUCTION_CANCEL',
-                      'AUCTION_FINISHED',
-                      'AUCTION_STARTED',
-                      'AUCTION_ENDED',
-                      'TRANSFER_FROM',
-                      'TRANSFER_TO',
-                      'MAKE_BID',
-                      'GET_BID',
-                    ],
-                    size: 50,
-                    sort: 'LATEST_FIRST',
-                    continuation: continuation,
-                    cursor: cursor,
-                  },
-                });
-                refetch({
-                  input: {
-                    address: address,
-                    activityType: [
-                      'TRANSFER',
-                      'BID',
-                      'SELL',
-                      'CANCEL',
-                      'BURN',
-                      'MINT',
-                      'CANCEL_BID',
-                      'CANCEL_LIST',
-                      'AUCTION_BID',
-                      'AUCTION_CREATED',
-                      'AUCTION_CANCEL',
-                      'AUCTION_FINISHED',
-                      'AUCTION_STARTED',
-                      'AUCTION_ENDED',
-                      'TRANSFER_FROM',
-                      'TRANSFER_TO',
-                      'MAKE_BID',
-                      'GET_BID',
-                    ],
-                    size: 50,
-                    sort: 'LATEST_FIRST',
-                    continuation: continuation,
-                    cursor: cursor,
-                  },
-                });
-              }}>
-              Load More
-            </Button>
-          )}
-        </div> */}
       </div>
     </>
   );
@@ -475,13 +465,15 @@ function Activity_Item({
   date,
   type,
   from,
-  to,
+  contractAddress,
+  tokenId,
 }: {
   id: string;
   date: string;
   type: string;
   from: string;
-  to: string;
+  contractAddress: string;
+  tokenId: string;
 }) {
   const _date = new Date(Date.parse(date));
   return (
@@ -499,13 +491,42 @@ function Activity_Item({
         <div className='d-flex flex-row'>
           <p
             title={moment(date).format('MMMM Do YYYY, h:mm:ss a')}
-            className='m-0 px-2 width-15rem'>
+            className='m-0 px-2 width-10rem'>
             {moment(_date, 'YYYYMMDD').fromNow()}
           </p>{' '}
-          | <p className='m-0 width-10rem'>{type}</p> |{' '}
-          {from !== null && (
-            <p className='m-0'>From: {from.split(':')[1]} | </p>
-          )}
+          | <p className='m-0  px-2 width-10rem'>{type}</p> |{' '}
+          {
+            <>
+              {' '}
+              <p className='m-0 px-2 width-10rem'>
+                {from !== null ? (
+                  <TakoLink href={`/o/${from}`} as={`/o/${from}`}>
+                    {truncateAddress(from.split(':')[1])}
+                  </TakoLink>
+                ) : (
+                  'N/A'
+                )}
+              </p>{' '}
+              |{' '}
+            </>
+          }
+          {
+            <>
+              {' '}
+              <p className='m-0 px-2 width-10rem text-truncate'>
+                {tokenId !== null ? (
+                  <TakoLink
+                    href={`/o/${contractAddress}:${tokenId}`}
+                    as={`/o/${from}`}>
+                    {tokenId}
+                  </TakoLink>
+                ) : (
+                  'N/A'
+                )}
+              </p>{' '}
+              |{' '}
+            </>
+          }
         </div>
       </div>
     </>

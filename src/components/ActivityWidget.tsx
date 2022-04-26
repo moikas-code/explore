@@ -374,8 +374,8 @@ export default function ActivityWidget({address}: {address: string}) {
         </div>
         {error && <p>{`${error.message}`}</p>}
         {loading && <p>Loading...</p>}
-        {!loading && complete ? (
-          <div className='d-inline-flex flex-column border border-dark p-2 overflow-y-scroll h-100'>
+        {complete ? (
+          <div className='d-inline-flex flex-column border border-dark p-2 overflow-scroll h-100 w-100'>
             {activity[
               `${showContract ? 'contract' : showUser ? 'user' : 'nft'}`
             ].map((item: any, key) => {
@@ -486,26 +486,15 @@ function Activity_Item({
   const _date = new Date(Date.parse(date));
   return (
     <>
-      <style jsx>
-        {`
-          .width-10rem {
-            width: 10rem !important;
-          }
-          .width-15rem {
-            width: 15rem !important;
-          }
-          .width-20rem {
-            width: 20rem !important;
-          }
-          .width-25rem {
-            width: 25rem !important;
-          }
-        `}
-      </style>
+      <style jsx>{`
+        .activity-item {
+          min-width: 1200px;
+        }
+      `}</style>
       <div
         id={id}
         className={
-          'd-flex flex-column justify-content-center border-bottom border-dark'
+          'activity-item d-flex flex-column justify-content-center border-bottom border-dark w-100'
         }>
         <div className='d-flex flex-row'>
           <p

@@ -38,11 +38,11 @@ function MyApp({Component, pageProps}: AppProps) {
               height: 100%;
               font-family: monospace;
             }
-        
+
             #tako {
               height: calc(100% - 80px);
             }
-            .bg-white{
+            .bg-white {
               background-color: #fff;
             }
             .fnt-color-black {
@@ -78,9 +78,21 @@ function MyApp({Component, pageProps}: AppProps) {
             .MuiButton-startIcon {
               display: none !important;
             }
-            .img-wrap{
-              height:150px;
-              width:150px;
+            .img-wrap {
+              height: 150px;
+              width: 150px;
+            }
+            .width-10rem {
+              width: 10rem !important;
+            }
+            .width-15rem {
+              width: 15rem !important;
+            }
+            .width-20rem {
+              width: 20rem !important;
+            }
+            .width-25rem {
+              width: 25rem !important;
             }
           `}
         </style>

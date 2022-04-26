@@ -21,25 +21,28 @@ function Navbar() {
         .navbar {
           height: 5rem;
         }
+        .nav-brand {
+          vertical-align: middle;
+        }
         .wallet-button-items {
           max-height: 18.75rem;
           width: 175px;
         }
       `}</style>
       <div className='position-relative bg-white z-3'>
-        <div className='navbar d-flex flex-row justify-content-between align-items-center ps-2 border border-dark'>
+        <div className='navbar d-flex flex-row justify-content-between align-items-center border border-dark'>
           <TakoLink href={'/'} as={'/'}>
-            <a className='nav-brand fnt-color-black text-decoration-none'>
-              Tako Labs
+            <a className='d-flex flex-column justify-content-center h-100 fnt-color-black text-decoration-none text-center nav-brand width-10rem'>
+              <span className='text-uppercase'>Tako Labs</span>
             </a>
           </TakoLink>
           <SearchBar
-          formStyle='d-none d-sm-flex col mx-3'
+            formStyle='d-none d-sm-flex col'
             placeholder='ETHEREUM:0x1337694208oO8314Bf3ac0769B87262146D879o3'
             label={''}
             value={address}
             errorMessage={err}
-            isError={err.length > 0 }
+            isError={err.length > 0}
             onSubmit={(): any => {
               TAKO.validateAddress(address)
                 .then((res) => {
@@ -56,9 +59,12 @@ function Navbar() {
                   setErr(err);
                 });
             }}
-            onChange={(e) => {setAddress(e);setErr('');}}
+            onChange={(e) => {
+              setAddress(e);
+              setErr('');
+            }}
           />
-          <div title={connection.walletAddress}>
+          <div className='h-100' title={connection.walletAddress}>
             <WalletButton
               isConnected={connection.state.status === 'connected'}
               onConnect={() => router.push('/connect')}

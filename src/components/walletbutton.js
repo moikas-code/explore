@@ -3,13 +3,12 @@ import {truncateAddress} from '../lib/moiWeb3';
 import WalletButtonItem from './walletbuttonitem';
 function WalletButton({
   isConnected = false,
-  address='',
+  address = '',
   onPress = () => {},
   onConnect = () => {},
 }) {
   return (
-    <div
-      className={`position-relative border-start border-dark wallet-button `}>
+    <div className={`position-relative  wallet-button h-100`}>
       <style jsx>
         {`
           .wallet-button {

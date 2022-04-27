@@ -7,8 +7,8 @@ import {
   ApolloLink,
 } from '@apollo/client';
 ///
-let appJWTToken:any;
-const httpLink = new HttpLink({ uri: '/api/graphql/' });
+let appJWTToken: any;
+const httpLink = new HttpLink({uri: '/api/graphql/'});
 const authMiddleware = new ApolloLink((operation, forward) => {
   if (appJWTToken) {
     operation.setContext({
@@ -22,9 +22,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 var client = new ApolloClient({
   link: from([authMiddleware, httpLink]),
-  cache: new InMemoryCache({
-    resultCaching: false,
-  }),
+  cache: new InMemoryCache(),
 });
 
 export default client;

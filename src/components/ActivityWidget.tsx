@@ -425,6 +425,7 @@ export default function ActivityWidget({address}: {address: string}) {
                   <p className='m-0 px-2 width-10rem'>Token ID</p> |
                   <p className='m-0 px-2 width-10rem'>From</p> |
                   <p className='m-0 px-2 width-10rem'>Owner</p> |
+                  <p className='m-0 px-2 width-10rem'>Contract</p> |
                 </div>
               </div>
               {activity[
@@ -442,6 +443,7 @@ export default function ActivityWidget({address}: {address: string}) {
                     contractAddress={item.contract}
                     tokenId={item.tokenId}
                     owner={item.owner}
+                    contract={item.contract}
                   />
                 ))
               ) : (
@@ -466,6 +468,7 @@ function Activity_Item({
   contractAddress,
   tokenId,
   owner,
+  contract,
 }: {
   id: string;
   date: string;
@@ -474,6 +477,7 @@ function Activity_Item({
   contractAddress: string;
   tokenId: string;
   owner: string;
+  contract: any;
 }) {
   const _date = new Date(Date.parse(date));
   return (
@@ -529,6 +533,19 @@ function Activity_Item({
               {owner !== null ? (
                 <TakoLink href={`/o/${owner}`} as={`/o/${owner}`}>
                   {owner.split(':')[1]}
+                </TakoLink>
+              ) : (
+                'N/A'
+              )}
+            </p>{' '}
+            |{' '}
+          </>
+          <>
+            {' '}
+            <p className='m-0 px-2 width-10rem text-truncate'>
+              {contract !== null ? (
+                <TakoLink href={`/o/${contract}`} as={`/o/${contract}`}>
+                  {contract.split(':')[1]}
                 </TakoLink>
               ) : (
                 'N/A'

@@ -69,7 +69,6 @@ const TAKO = {
 
         let addr_pref = _address.substring(0, 2);
         addr_pref = addr_pref.toLowerCase();
-        console.log(addr_pref);
         switch (addr_pref) {
           case '0x':
           case 'tz':
@@ -94,13 +93,11 @@ const TAKO = {
         }
         _cleanAddress = `${_blockchain}:${_address}:${_id}`;
       }
-      console.log(_cleanAddress);
       return {
         address: _cleanAddress,
         isValid: true,
       };
     } catch (error) {
-      console.log(error);
       return {
         address: address,
         isValid: false,
@@ -254,7 +251,7 @@ const TAKO = {
       (!process.env.DEV ? baseURL : dev_baseURL) +
       'v0.1/orders/bids/byItem/' +
       `?itemId=${address}&status=ACTIVE`;
-    console.log(url);
+    // console.log(url);
     let data = await fetch(url, {
       method: 'GET',
     })
@@ -301,7 +298,7 @@ const TAKO = {
       'v0.1/orders/sell' +
       '/byItem' +
       `?platform=RARIBLE&itemId=${address}`;
-    console.log(url);
+    // console.log(url);
     let data = await fetch(url, {
       method: 'GET',
     })
@@ -563,7 +560,7 @@ const TAKO = {
     try {
       const base = process.env.DEV !== 'true' ? baseURL : dev_baseURL;
       let url = (base + items + '/byOwner/' + `?owner=${address}`) as string;
-      console.log(process.env.DEV, url);
+      // console.log(process.env.DEV, url);
       let data = await fetch(url, {
         method: 'GET',
       }).then(async (res) => res.json());

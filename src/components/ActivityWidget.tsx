@@ -360,9 +360,6 @@ export default function ActivityWidget({address}: {address: string}) {
     <>
       <style jsx>
         {`
-          .activity-wrapper {
-            height: calc(100% - 90px);
-          }
           .activity-labels {
             min-width: 1200px;
           }
@@ -417,7 +414,7 @@ export default function ActivityWidget({address}: {address: string}) {
                 }`
               ].length
             }
-            <div className='d-inline-flex flex-column border border-dark p-2 overflow-scroll h-100 w-100'>
+            <div className='d-inline-flex flex-column border border-dark p-2 overflow-auto h-100 w-100'>
               <div
                 className={
                   'activity-labels d-flex flex-column justify-content-center w-100 border-bottom border-dark'
@@ -429,7 +426,6 @@ export default function ActivityWidget({address}: {address: string}) {
                   <p className='m-0 px-2 width-10rem'>Token ID</p> |
                 </div>
               </div>
-
               {activity[
                 `${showContract ? 'contract' : showUser ? 'user' : 'nft'}`
               ].length > 0 ? (

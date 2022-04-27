@@ -414,7 +414,7 @@ export default function ActivityWidget({address}: {address: string}) {
                 }`
               ].length
             }
-            <div className='d-inline-flex flex-column border border-dark p-2 overflow-auto h-100 w-100'>
+            <div className='d-inline-flex flex-column border border-dark p-2 mb-5 overflow-auto h-100 w-100'>
               <div
                 className={
                   'activity-labels d-flex flex-column justify-content-center w-100 border-bottom border-dark'
@@ -422,8 +422,9 @@ export default function ActivityWidget({address}: {address: string}) {
                 <div className='d-flex flex-row'>
                   <p className='m-0 px-2 width-15rem'>Age</p> |
                   <p className='m-0 px-2 width-10rem'>Type</p> |
-                  <p className='m-0 px-2 width-10rem'>From</p> |
                   <p className='m-0 px-2 width-10rem'>Token ID</p> |
+                  <p className='m-0 px-2 width-10rem'>From</p> |
+                  <p className='m-0 px-2 width-10rem'>Owner</p> |
                 </div>
               </div>
               {activity[
@@ -440,6 +441,7 @@ export default function ActivityWidget({address}: {address: string}) {
                     from={item.from}
                     contractAddress={item.contract}
                     tokenId={item.tokenId}
+                    owner={item.owner}
                   />
                 ))
               ) : (
@@ -463,6 +465,7 @@ function Activity_Item({
   from,
   contractAddress,
   tokenId,
+  owner,
 }: {
   id: string;
   date: string;
@@ -470,6 +473,7 @@ function Activity_Item({
   from: string;
   contractAddress: string;
   tokenId: string;
+  owner: string;
 }) {
   const _date = new Date(Date.parse(date));
   return (
@@ -491,38 +495,47 @@ function Activity_Item({
             {moment(_date, 'YYYYMMDD').fromNow()}
           </p>{' '}
           | <p className='m-0  px-2 width-10rem'>{type}</p> |{' '}
-          {
-            <>
-              {' '}
-              <p className='m-0 px-2 width-10rem'>
-                {from !== null ? (
-                  <TakoLink href={`/o/${from}`} as={`/o/${from}`}>
-                    {truncateAddress(from.split(':')[1])}
-                  </TakoLink>
-                ) : (
-                  'N/A'
-                )}
-              </p>{' '}
-              |{' '}
-            </>
-          }
-          {
-            <>
-              {' '}
-              <p className='m-0 px-2 width-10rem text-truncate'>
-                {tokenId !== null ? (
-                  <TakoLink
-                    href={`/o/${contractAddress}:${tokenId}`}
-                    as={`/o/${from}`}>
-                    {tokenId}
-                  </TakoLink>
-                ) : (
-                  'N/A'
-                )}
-              </p>{' '}
-              |{' '}
-            </>
-          }
+          <>
+            {' '}
+            <p className='m-0 px-2 width-10rem text-truncate'>
+              {tokenId !== null ? (
+                <TakoLink
+                  href={`/o/${contractAddress}:${tokenId}`}
+                  as={`/o/${from}`}>
+                  {tokenId}
+                </TakoLink>
+              ) : (
+                'N/A'
+              )}
+            </p>{' '}
+            |{' '}
+          </>
+          <>
+            {' '}
+            <p className='m-0 px-2 width-10rem text-truncate'>
+              {from !== null ? (
+                <TakoLink href={`/o/${from}`} as={`/o/${from}`}>
+                  {from.split(':')[1]}
+                </TakoLink>
+              ) : (
+                'N/A'
+              )}
+            </p>{' '}
+            |{' '}
+          </>
+          <>
+            {' '}
+            <p className='m-0 px-2 width-10rem text-truncate'>
+              {owner !== null ? (
+                <TakoLink href={`/o/${owner}`} as={`/o/${owner}`}>
+                  {owner.split(':')[1]}
+                </TakoLink>
+              ) : (
+                'N/A'
+              )}
+            </p>{' '}
+            |{' '}
+          </>
         </div>
       </div>
     </>

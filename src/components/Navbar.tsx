@@ -78,7 +78,7 @@ function Navbar() {
             className={`wallet-button-items d-flex flex-column bg-grey position-absolute end-0`}>
             <WalletButtonItem
               text={`Profile`}
-              onPress={() => router.push(`/u/${connection.walletAddress}`)}
+              onPress={() => router.push(`/k/${connection.walletAddress}`)}
             />
 
             <WalletButtonItem

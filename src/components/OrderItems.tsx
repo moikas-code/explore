@@ -70,7 +70,7 @@ function OrderItems({
         //   get_orders_by_nft_id.filter((order) => order.status == 'ACTIVE')
         // );
         setOrderData(
-          get_orders_by_nft_id.filter((order) => order.status == 'ACTIVE')
+          get_orders_by_nft_id.filter((order: any) => order.status === 'ACTIVE')
         );
         setCompleted(true);
       }
@@ -124,7 +124,7 @@ function OrderItems({
                         </span>
                       </p>
                     </div>
-                    {nid.split(':')[0]==blockchain ? (
+                    {nid.split(':')[0] == blockchain ? (
                       <div>
                         <Button
                           onClick={async () => {
@@ -132,7 +132,7 @@ function OrderItems({
                               sdk,
                               amount: '1' as BigNumber,
                               order_id: id as OrderId,
-                              blockchain:nid.split(':')[0],
+                              blockchain: nid.split(':')[0],
                             }).catch((e) => {
                               console.log(e.message);
                               // setError(e.message)
@@ -141,11 +141,14 @@ function OrderItems({
                           className='btn btn-outline-success w-100'>
                           Buy 1 of {order.makeStock} for
                           <span title={order.makePrice} className='mx-1'>
-                            ${parseFloat(order.makePriceUsd).toFixed(4)} + 1% Listing Fee
+                            ${parseFloat(order.makePriceUsd).toFixed(4)} + 1%
+                            Service Fee
                           </span>
                         </Button>
                       </div>
-                    ):(<>Connect With {nid.split(':')[0]} Wallet</>)}
+                    ) : (
+                      <>Connect With {nid.split(':')[0]} Wallet</>
+                    )}
                   </div>
                 );
               })

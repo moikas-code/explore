@@ -25,6 +25,10 @@ const ActivityWidget: any = dynamic(
   () => import('../../src/components/ActivityWidget'),
   {ssr: false}
 );
+const OrderItems: any = dynamic(
+  () => import('../../src/components/OrderItems'),
+  {ssr: false}
+);
 const query = gql`
   query Collections($input: QueryInput!) {
     Owned_Collections(input: $input) {
@@ -83,33 +87,6 @@ export default function Dragon() {
     operators: [],
   });
 
-  const [Owned_Collections, {loading, error, data}] = useLazyQuery(query, {
-    onCompleted: ({Owned_Collections}) => {
-      if (Owned_Collections !== null && Owned_Collections !== undefined) {
-        // console.log(Owned_Collections);
-        setComplete(true);
-      }
-    },
-  });
-
-  // useEffect((): any => {
-  //   walletAddress !== null &&
-  //     walletAddress !== undefined &&
-  //     Owned_Collections({
-  //       variables: {
-  //         input: {
-  //           blockChain: chain,
-  //           address: walletAddress,
-  //           continuation: '',
-  //           size: 10,
-  //         },
-  //       },
-  //     });
-  //   return () => {
-  //     setComplete(false);
-  //   };
-  // }, [walletAddress, chain]);
-
   return (
     <>
       <SEO
@@ -120,7 +97,7 @@ export default function Dragon() {
         twitter='takolabs'
         keywords='gaming, nfts, web3'
       />
-      <div className='d-flex flex-column position-relative h-100 p-2'>
+      <div className='d-flex flex-column position-relative p-2'>
         {typeof query_address !== 'undefined' &&
           typeof query_address.split(':')[2] !== 'undefined' && (
             <p className=''>Token ID: {query_address.split(':')[2]}</p>
@@ -142,7 +119,10 @@ export default function Dragon() {
             </TakoLink>
           </p>
         )}
-
+        {typeof query_address !== 'undefined' &&
+          typeof query_address.split(':')[2] !== 'undefined' && (
+            <OrderItems nid={query_address} />
+          )}
         {typeof query_address !== 'undefined' && (
           <ActivityWidget address={query_address} />
         )}

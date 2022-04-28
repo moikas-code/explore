@@ -167,7 +167,7 @@ export default function Dragon() {
           clean,
           Collection_NFTS.continuation
         );
-        setCollectionNfts([...collectionNfts,...clean]);
+        setCollectionNfts([...collectionNfts, ...clean]);
         setContinuation(Collection_NFTS.continuation);
         setComplete(true);
       }
@@ -295,7 +295,7 @@ export default function Dragon() {
           </div>
           {complete ? (
             <div className='d-flex flex-column justify-content-center align-items-center w-100'>
-              <div className='d-flex flex-row flex-wrap justify-content-between align-items-center'>
+              <div className='d-flex flex-row flex-wrap justify-content-evenly align-items-center'>
                 {collectionNfts.map(
                   (
                     {id, name, description, url, blockchain, meta}: any,
@@ -342,20 +342,20 @@ export default function Dragon() {
             </div>
           )}
         </div>
-          <Button
-            onClick={() => {
-              refetch({
-                input: {
-                  address: collectionInfo.id,
-                  size: 25,
-                  continuation: continuation,
-                },
-              });
-              setComplete(false);
-            }}
-            className={`btn btn-outline-dark`}>
-            Load More
-          </Button>
+        <Button
+          onClick={() => {
+            refetch({
+              input: {
+                address: collectionInfo.id,
+                size: 25,
+                continuation: continuation,
+              },
+            });
+            setComplete(false);
+          }}
+          className={`btn btn-outline-dark`}>
+          Load More
+        </Button>
       </div>
 
       {show && (

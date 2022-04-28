@@ -72,6 +72,16 @@ export default {
         sort
       );
     },
+
+    get_orders_by_nft_id: async (
+      parent: object,
+      args: any,
+      _context: any,
+      info: object
+    ) => {
+      console.log(args.input);
+      return await TAKO.get_orders_by_nft_id(args.input.address);
+    },
   },
 };
 //   get_all_items: async (
@@ -90,15 +100,7 @@ export default {
 //   ) => {
 //     return await AKKORO_LIB.get_item_by_nft_id(args.input.address);
 //   },
-//   get_orders_by_nft_id: async (
-//     parent: object,
-//     args: any,
-//     _context: any,
-//     info: object
-//   ) => {
-//     console.log(args.input);
-//     return await AKKORO_LIB.get_orders_by_nft_id(args.input.address);
-//   },
+
 //   get_bids_by_nft_id: async (
 //     parent: object,
 //     args: any,

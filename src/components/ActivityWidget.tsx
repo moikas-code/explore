@@ -365,10 +365,11 @@ export default function ActivityWidget({address}: {address: string}) {
           }
         `}
       </style>
-      <div className='d-flex flex-column justify-content-start  activity-wrapper'>
+      <div className='d-flex flex-column justify-content-start h-100'>
         <div className='d-flex flex-row'>
           {activity.contract.length > 0 && (
             <Button
+              className={`btn btn-outline-dark`}
               onClick={() => {
                 setContractBool(true);
                 setUserBool(false);
@@ -379,6 +380,7 @@ export default function ActivityWidget({address}: {address: string}) {
           )}
           {activity.user.length > 0 && (
             <Button
+              className={`btn btn-outline-dark`}
               onClick={() => {
                 setContractBool(false);
                 setUserBool(true);
@@ -389,6 +391,7 @@ export default function ActivityWidget({address}: {address: string}) {
           )}
           {activity.nft.length > 0 && (
             <Button
+              className={`btn btn-outline-dark`}
               onClick={() => {
                 setContractBool(false);
                 setUserBool(false);
@@ -402,7 +405,7 @@ export default function ActivityWidget({address}: {address: string}) {
         {loading && <p>Loading...</p>}
         {complete && (
           <>
-            Latest{' '}
+            Latest Activity:{' '}
             {
               activity[
                 `${

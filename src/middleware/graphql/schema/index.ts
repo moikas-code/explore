@@ -155,10 +155,10 @@ const typeDefs = gql`
     cursor: String
     activities: ACTIVITIES
   }
-  type ACTIVITIES{
-    user:[ACTIVITY_ITEM]
-    contract:[ACTIVITY_ITEM]
-    nft:[ACTIVITY_ITEM]
+  type ACTIVITIES {
+    user: [ACTIVITY_ITEM]
+    contract: [ACTIVITY_ITEM]
+    nft: [ACTIVITY_ITEM]
   }
 
   type ACTIVITY_ITEM {
@@ -249,6 +249,8 @@ const typeDefs = gql`
     Collection_Info(input: QueryInput): COLLECTION
     Collection_NFTS(input: QueryInput): Collection_Data
     Query_Activity(input: QueryInput): ACTIVITY
+
+    get_orders_by_nft_id(input: QueryInput): [NFTOrderDataType]
   }
 `;
 

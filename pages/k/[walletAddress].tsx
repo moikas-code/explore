@@ -132,7 +132,6 @@ export default function Dragon() {
   useEffect((): any => {
     if (walletAddress !== null && walletAddress !== undefined) {
       const addr_pref = walletAddress.substring(0, 2).toLowerCase();
-      console.log('addr_pref', addr_pref, sdk);
       switch (addr_pref) {
         case '0x':
           if (walletAddress.length === 18) {
@@ -223,7 +222,7 @@ export default function Dragon() {
             {error && <p>{`${error.message}`}</p>}
             {loading && <p>Loading...</p>}
 
-            <div className='d-flex flex-row flex-wrap justify-content-between align-items-center'>
+            <div className='d-flex flex-row flex-wrap justify-content-evenly align-items-center w-100'>
               {!loading &&
                 complete &&
                 typeof data.Owned_Collections !== undefined &&

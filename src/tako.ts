@@ -293,11 +293,7 @@ const TAKO = {
   },
   get_orders_by_nft_id: async (address: any) => {
     // console.log('address', address);
-    const url =
-      baseURL +
-      'v0.1/orders/sell' +
-      '/byItem' +
-      `?platform=RARIBLE&itemId=${address}`;
+    const url = baseURL + 'v0.1/orders/sell' + '/byItem' + `?itemId=${address}`;
     // console.log(url);
     let data = await fetch(url, {
       method: 'GET',
@@ -679,7 +675,7 @@ const TAKO = {
         blockchain == 'ETHEREUM'
           ? [
               {
-                account: 'ETHEREUM:0x3E874472Da434f8E1252E95430a65e8F516ED00d' as any,
+                account: 'ETHEREUM:0x877728846bFB8332B03ac0769B87262146D777f3' as any,
                 value: 100,
               },
             ]
@@ -701,6 +697,7 @@ const TAKO = {
     });
     await console.log(orderId);
     // }
+    return orderId;
   },
   bid_nft: async ({
     sdk,
@@ -778,9 +775,8 @@ const TAKO = {
     // if (amount <= maxAmount) {
     const orderId = await submit({
       amount,
-      currency: {'@type': 'ETH'},
       originFees:
-        blockchain == 'ETHEREUM'
+        blockchain == 'ETHEREUM' || blockchain == 'POLYGON'
           ? [
               {
                 account: 'ETHEREUM:0x3E874472Da434f8E1252E95430a65e8F516ED00d' as any,

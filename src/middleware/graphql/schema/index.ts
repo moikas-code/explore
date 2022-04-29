@@ -149,7 +149,11 @@ const typeDefs = gql`
     fill: String
     status: String
   }
-
+type All_ACTIVITY {
+    continuation: String
+    cursor: String
+    activities: [ACTIVITY_ITEM]
+  }
   type ACTIVITY {
     continuation: String
     cursor: String
@@ -249,6 +253,7 @@ const typeDefs = gql`
     Collection_Info(input: QueryInput): COLLECTION
     Collection_NFTS(input: QueryInput): Collection_Data
     Query_Activity(input: QueryInput): ACTIVITY
+    Query_All_Activity(input: QueryInput): All_ACTIVITY
 
     get_orders_by_nft_id(input: QueryInput): [NFTOrderDataType]
   }

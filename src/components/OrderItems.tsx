@@ -23,6 +23,7 @@ function OrderItems({
   // sdk: IRaribleSdk;
   nid: string;
 }) {
+  console.log(nid)
   const connection = React.useContext<any>(ConnectorContext);
   const sdk: string = connection.sdk;
   const blockchain: string = connection.sdk?.wallet?.blockchain;
@@ -61,21 +62,18 @@ function OrderItems({
       },
     },
     onCompleted: ({get_orders_by_nft_id}) => {
-      console.log(get_orders_by_nft_id);
       if (
         typeof get_orders_by_nft_id !== 'undefined' &&
-        get_orders_by_nft_id !== null
+        get_orders_by_nft_id !== null && get_orders_by_nft_id.order !== undefined
       ) {
-        // console.log(
-        //   get_orders_by_nft_id.filter((order) => order.status == 'ACTIVE')
-        // );
         setOrderData(
-          get_orders_by_nft_id.filter((order: any) => order.status === 'ACTIVE')
+          get_orders_by_nft_id.filter((order: any) => order!=='undefined' && order.status === 'ACTIVE')
         );
         setCompleted(true);
       }
     },
   });
+  if (error) return null;
   if (loading) return null;
 
   if (completed) {

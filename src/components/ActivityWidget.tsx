@@ -5,6 +5,7 @@ import Button from './common/button';
 import {truncateAddress} from '../lib/moiWeb3';
 import TabButton from './TabButton';
 import TakoLink from './TakoLink';
+import useInterval from '../utility/useInterval';
 const query = gql`
   query Activites($input: QueryInput!) {
     Query_Activity(input: $input) {
@@ -264,6 +265,7 @@ const query = gql`
     }
   }
 `;
+
 export default function ActivityWidget({address}: {address: string}) {
   const [complete, setComplete] = React.useState<boolean>(false);
   const [showContract, setContractBool] = React.useState<boolean>(false);
@@ -402,7 +404,34 @@ export default function ActivityWidget({address}: {address: string}) {
           )}
         </div>
         {error && <p>{`${error.message}`}</p>}
-        {loading && <p>Loading...</p>}
+        {loading && (
+          <>
+            <div className=' d-inline-flex flex-column border border-dark p-2 mb-5 overflow-auto h-100 w-100'>
+              <div
+                className={
+                  'activity-labels d-flex flex-column justify-content-center w-100 border-bottom border-dark'
+                }>
+                <div className='d-flex flex-row'>
+                  <p className='m-0 px-2 width-15rem'>Age</p> |
+                  <p className='m-0 px-2 width-10rem'>Type</p> |
+                  <p className='m-0 px-2 width-10rem'>Token ID</p> |
+                  <p className='m-0 px-2 width-10rem'>From</p> |
+                  <p className='m-0 px-2 width-10rem'>Owner</p> |
+                  <p className='m-0 px-2 width-10rem'>Contract</p> |
+                </div>
+              </div>
+              {
+                <div className='d-flex flex-column justify-content-center align-items-center w-100 h-100'>
+                  <p>Loading Activity...</p>
+                  <br />
+                  <div className='spinner-border' role='status'>
+                    <span className='visually-hidden'>Loading...</span>
+                  </div>
+                </div>
+              }
+            </div>
+          </>
+        )}
         {complete && (
           <>
             Latest Activity:{' '}

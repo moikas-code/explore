@@ -6,7 +6,8 @@ import SEO from '../src/components/SEO';
 import Button from '../src/components/common/button';
 import SearchBar from '../src/components/Searchbar';
 import {ConnectorContext} from '../src/components/connector/sdk-connection-provider';
-
+import AllActivityWidget from '../src/components/AllActivityWidget';
+import useInterval from '../src/utilities/useInterval';
 export default function _Index() {
   const router = useRouter();
   const [hideHowTo, setShowHowTO] = React.useState(true);
@@ -41,7 +42,7 @@ export default function _Index() {
         `}
       </style>
       <div className='h-100 w-100 d-flex flex-column p-2'>
-        <div className=' d-inline-flex flex-column p-2 explorer'>
+        <div className=' d-inline-flex flex-column p-2 mb-3 explorer'>
           <h1 className='display-1'>TAKO LABS</h1>
           <p>Evolution is Infinite</p>
           <div className='d-flex flex-column'>
@@ -92,6 +93,7 @@ export default function _Index() {
             </span>
           </div>
         </div>
+        <AllActivityWidget />
       </div>
     </>
   );

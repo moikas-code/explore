@@ -1,5 +1,7 @@
 // @ts-ignore
 import typeDefs from '../../src/middleware/graphql/schema/index';
+
+import {send} from 'micro';
 // @ts-ignore
 import resolvers from '../../src/middleware/graphql/resolvers';
 // @ts-ignore
@@ -21,5 +23,8 @@ export const config = {
 };
 export default async (req, res) => {
   // await apolloServer.start();
-  apolloServer.createHandler({path: '/api/graphql/'})(req, res);
+  const handler = await apolloServer.createHandler({path: '/api/graphql/'});
+  req.method === 'OPTIONS'
+    ? await send(res, 200, 'ok')
+    : await handler(req, res);
 };

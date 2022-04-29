@@ -29,40 +29,6 @@ const OrderItems: any = dynamic(
   () => import('../../src/components/OrderItems'),
   {ssr: false}
 );
-const query = gql`
-  query Collections($input: QueryInput!) {
-    Owned_Collections(input: $input) {
-      total
-      continuation
-      collections {
-        id
-        parent
-        blockchain
-        type
-        name
-        symbol
-        owner
-        features
-        minters
-        meta {
-          name
-          description
-          content {
-            width
-            height
-            url
-            representation
-            mimeType
-            size
-          }
-          externalLink
-          sellerFeeBasisPoints
-          feeRecipient
-        }
-      }
-    }
-  }
-`;
 
 export default function Dragon() {
   const connection = React.useContext<any>(ConnectorContext);
@@ -74,18 +40,7 @@ export default function Dragon() {
   const {query_address}: any = router.query;
   const [complete, setComplete] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [address, setAddress] = useState<string | string[]>('');
-  const [chain, setChain] = useState<string | string[]>('ETHEREUM');
-  const [assetType, setAssetType] = useState<any>('');
-  const [contract, setContract] = useState<any>({
-    name: '',
-    symbol: '',
-    baseURI: '',
-    contractURI: '',
-    isUserToken: false,
-    operators: [],
-  });
+
 
   return (
     <>
@@ -98,6 +53,8 @@ export default function Dragon() {
         keywords='gaming, nfts, web3'
       />
       <div className='d-flex flex-column position-relative p-2'>
+        {console.log('hui',typeof query_address !== 'undefined' &&
+          typeof query_address.split(':')[2] !== 'undefined')}
         {typeof query_address !== 'undefined' &&
           typeof query_address.split(':')[2] !== 'undefined' && (
             <p className=''>Token ID: {query_address.split(':')[2]}</p>

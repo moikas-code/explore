@@ -72,7 +72,24 @@ export default {
         sort
       );
     },
+    Query_All_Activity: async (
+      parent: object,
+      args: any,
+      _context: any,
+      info: object
+    ) => {
+      const {
+        continuation,
+        cursor,
+        sort,
+      }: {
+        continuation: string;
+        cursor: string;
+        sort: 'LATEST_FIRST' | 'EARLIEST_FIRST';
+      } = args.input;
 
+      return await TAKO.getAllActivity(continuation, cursor, sort);
+    },
     get_orders_by_nft_id: async (
       parent: object,
       args: any,

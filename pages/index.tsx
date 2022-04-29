@@ -6,7 +6,7 @@ import SEO from '../src/components/SEO';
 import Button from '../src/components/common/button';
 import SearchBar from '../src/components/Searchbar';
 import {ConnectorContext} from '../src/components/connector/sdk-connection-provider';
-
+import AllActivityWidget from '../src/components/AllActivityWidget';
 export default function _Index() {
   const router = useRouter();
   const [hideHowTo, setShowHowTO] = React.useState(true);
@@ -92,6 +92,7 @@ export default function _Index() {
             </span>
           </div>
         </div>
+        <AllActivityWidget />
       </div>
     </>
   );

@@ -491,6 +491,49 @@ const TAKO = {
       ...data,
     };
   },
+  getAllActivity: async (
+    continuation: string,
+    cursor: string,
+    sort: 'LATEST_FIRST' | 'EARLIEST_FIRST'
+  ) => {
+    const type = [
+      'TRANSFER',
+      'MINT',
+      'BURN',
+      'BID',
+      'LIST',
+      'SELL',
+      'CANCEL_LIST',
+      'CANCEL_BID',
+      'AUCTION_BID',
+      'AUCTION_CREATED',
+      'AUCTION_CANCEL',
+      'AUCTION_FINISHED',
+      'AUCTION_STARTED',
+      'AUCTION_ENDED',
+    ];
+    const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
+
+    var url =
+      base +
+      'v0.1/activities' +
+      `/all?type=${type.join(
+        ','
+      )}&continuation=${continuation}&cursor=${cursor}&sort=${sort}`;
+
+    let _data: any = await fetch(url, {
+      method: 'GET',
+    }).then((res) => res.json());
+    return {
+      activities: await _data.activities.map(async (activity: any) => {
+        activity['type'] = '';
+        activity['type'] = await activity['@type'];
+        delete activity['@type'];
+        return await activity;
+      }),
+      ..._data,
+    };
+  },
   get_all_items: async ({
     blockChain,
     size,

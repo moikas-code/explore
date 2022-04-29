@@ -127,8 +127,8 @@ export default function ActivityWidget() {
       const fetchedMore = await refetch({
         input: {
           sort: 'LATEST_FIRST',
-          continuation: continuation,
-          cursor: _cursor,
+          continuation: '',
+          cursor: '',
           size: 10,
         },
       });

@@ -304,10 +304,9 @@ const TAKO = {
       })
       .then((res) =>
         res.orders.map(async (item: any) => {
-          console.log(item);
+          // console.log(item);
           const asArray = Object.entries(item);
-
-          const filtered = typeof asArray.filter(([key, value]) =>
+          const filtered = asArray.filter(([key, value]) =>
             [
               'platform',
               'fill',
@@ -344,7 +343,7 @@ const TAKO = {
           };
         })
       );
-    // console.log('clean', data);
+    console.log('clean', await data);
     // console.log('clean', clean);
     return await data;
   },

@@ -23,7 +23,6 @@ function OrderItems({
   // sdk: IRaribleSdk;
   nid: string;
 }) {
-  console.log(nid)
   const connection = React.useContext<any>(ConnectorContext);
   const sdk: string = connection.sdk;
   const blockchain: string = connection.sdk?.wallet?.blockchain;
@@ -55,24 +54,35 @@ function OrderItems({
     }
   `;
 
-  const {loading, error, data} = useQuery(query, {
+  const [get_orders_by_nft_id,{loading, error, data}] = useLazyQuery(query, {
     variables: {
       input: {
         address: nid,
       },
     },
     onCompleted: ({get_orders_by_nft_id}) => {
+      console.log(get_orders_by_nft_id)
       if (
         typeof get_orders_by_nft_id !== 'undefined' &&
-        get_orders_by_nft_id !== null && get_orders_by_nft_id.order !== undefined
+        get_orders_by_nft_id !== null
       ) {
         setOrderData(
-          get_orders_by_nft_id.filter((order: any) => order!=='undefined' && order.status === 'ACTIVE')
+          get_orders_by_nft_id.filter((order: any) => order.status === 'ACTIVE')
         );
         setCompleted(true);
       }
     },
   });
+  React.useEffect(()=>{
+    get_orders_by_nft_id({
+      variables: {
+        input: {
+          address: nid,
+        },
+      },
+    });
+    
+  },[nid])
   if (error) return null;
   if (loading) return null;
 

@@ -76,8 +76,7 @@ export default function Dragon() {
             </TakoLink>
           </p>
         )}
-        {typeof query_address !== 'undefined' &&
-          typeof query_address.split(':')[2] !== 'undefined' && (
+        {true && (
             <OrderItems nid={query_address} />
           )}
         {typeof query_address !== 'undefined' && (

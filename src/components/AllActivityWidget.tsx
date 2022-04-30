@@ -183,6 +183,9 @@ export default function ActivityWidget() {
         },
       },
     });
+    return ()=>{
+      setLoad(true)
+    }
   }, []);
 
   return (

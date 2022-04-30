@@ -6,6 +6,7 @@ import {truncateAddress} from '../lib/moiWeb3';
 import TabButton from './TabButton';
 import TakoLink from './TakoLink';
 import useInterval from '../../src/utility/useInterval';
+import {style} from '@mui/system';
 
 const query = gql`
   query Activites($input: QueryInput) {
@@ -100,11 +101,14 @@ const query = gql`
 `;
 var i = 0;
 export default function ActivityWidget() {
+  const ref = React.useRef<number>(null);
+  const [load, setLoad] = React.useState<boolean>(false);
   const [complete, setComplete] = React.useState<boolean>(false);
-  const [showContract, setContractBool] = React.useState<boolean>(false);
-  const [showUser, setUserBool] = React.useState<boolean>(false);
+  const [page, setPage] = React.useState<number>(0);
+  const [scrollPosH, setscrollPosH] = React.useState<number>(0);
+  const [scrollHeight, setscrollHeight] = React.useState<number>(0);
   const [showNFT, setNFTBool] = React.useState<boolean>(false);
-  const [activity, setActivity] = React.useState([]);
+  const [activity, setActivity] = React.useState([[]]);
   const [_cursor, setCursor] = React.useState<string>('');
   const [continuation, setContinuation] = React.useState<string>('');
 
@@ -114,48 +118,67 @@ export default function ActivityWidget() {
       onCompleted: ({Query_All_Activity}: any) => {
         // console.log(Query_All_Activity);
         if (Query_All_Activity !== null && Query_All_Activity !== undefined) {
-          setActivity(Query_All_Activity.activities);
+          setActivity([Query_All_Activity.activities]);
           setCursor(Query_All_Activity.cursor);
           setContinuation(Query_All_Activity.continuation);
           setComplete(true);
+          setLoad(false);
         }
       },
     }
   );
+
   const fetchMoreNFTS = async () => {
     if (complete) {
       const fetchedMore = await refetch({
         input: {
           sort: 'LATEST_FIRST',
           continuation: '',
-          cursor: '',
-          size: 10,
+          cursor: _cursor,
+          size: 50,
         },
       });
       if ((await fetchedMore.data.Query_All_Activity) !== null) {
         const {activities, cursor, continuation} = await fetchedMore.data
           .Query_All_Activity;
-        let NFT_ARRAY = [...activities, ...activity];
-        NFT_ARRAY = NFT_ARRAY.sort((a, b) =>
-          new Date(b.date) > new Date(a.date) ? 1 : -1
-        );
-        setActivity([...NFT_ARRAY]);
+        let NFT_ARRAY = [...activity, activities]
+          .flat()
+          .sort((a, b) => (new Date(b.date) > new Date(a.date) ? 1 : -1));
+        let row = 1;
+        const rowSize = 50;
+        let arr: any[] = [];
+        let arr2: any[] = [];
+
+        const _arr = await NFT_ARRAY.map((researcher, key) => {
+          if (arr.length == rowSize) {
+            arr2.push(arr);
+            arr = [];
+          }
+          if (NFT_ARRAY.length == key + 1 && !arr.includes(researcher)) {
+            arr.push(researcher);
+            arr2.push(arr);
+          } else {
+            arr.push(researcher);
+          }
+        });
+        setActivity(arr2);
         setCursor(cursor);
         setContinuation(continuation);
+        setPage(page + 1);
+        if (ref && ref.current) {
+          ref.current.scrollTop = 0;
+        }
+        setLoad(false);
       }
     }
   };
-  useInterval(() => {
-    console.log((i = i + 1));
-    fetchMoreNFTS();
-  }, 5 * 1000);
   React.useEffect(() => {
     Query_All_Activity({
       variables: {
         input: {
           sort: 'LATEST_FIRST',
           continuation: continuation,
-          cursor: _cursor,
+          cursor: '',
           size: 50,
         },
       },
@@ -167,7 +190,7 @@ export default function ActivityWidget() {
       <style jsx>
         {`
           .activity-wrapper {
-            height: calc(100% - 208px);
+            height: calc(100% - 108px);
           }
           .activity-labels {
             min-width: 1200px;
@@ -200,7 +223,7 @@ export default function ActivityWidget() {
             </div>
           </>
         )}
-        {loading && (
+        {(load || loading) && (
           <>
             <div className=' d-inline-flex flex-column border border-dark p-2 mb-5 overflow-auto h-100 w-100'>
               <div
@@ -228,9 +251,8 @@ export default function ActivityWidget() {
             </div>
           </>
         )}
-        {complete && (
+        {!load && complete && (
           <>
-            Latest Activity: {activity.slice(0,50).length}
             <div className=' d-inline-flex flex-column border border-dark p-2 mb-5 overflow-auto h-100 w-100'>
               <div
                 className={
@@ -245,8 +267,8 @@ export default function ActivityWidget() {
                   <p className='m-0 px-2 width-10rem'>Contract</p> |
                 </div>
               </div>
-              {activity.length > 0 ? (
-                activity.slice(0, 50).map((item: any, key) => (
+              {activity.length > 0 && typeof activity[page] !== 'undefined' ? (
+                activity[page].map((item: any, key) => (
                   <Activity_Item
                     key={key}
                     id={item.id}
@@ -268,6 +290,30 @@ export default function ActivityWidget() {
             </div>
           </>
         )}
+        <div>Page: {page + 1}</div>
+        <div className='d-flex flex-row'>
+          <Button
+            onClick={() => {
+              page > 0 && setPage(page - 1);
+              if (ref !== null && ref.current !== null) {
+                ref.current.scrollTop = 0;
+              }
+            }}>
+            Previous
+          </Button>
+          <Button
+            disabled={load}
+            onClick={async () => {
+              if (page === activity.length - 1) {
+                setLoad(true);
+                await fetchMoreNFTS();
+              } else {
+                setPage(page + 1);
+              }
+            }}>
+            Next
+          </Button>
+        </div>
       </div>
     </>
   );

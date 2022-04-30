@@ -43,8 +43,6 @@ export default function _Index() {
       </style>
       <div className='h-100 w-100 d-flex flex-column p-2'>
         <div className=' d-inline-flex flex-column p-2 mb-3 explorer'>
-          <h1 className='display-1'>TAKO LABS</h1>
-          <p>Evolution is Infinite</p>
           <div className='d-flex flex-column'>
             <SearchBar
               placeholder={

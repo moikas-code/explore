@@ -202,7 +202,7 @@ export default function ActivityWidget() {
       </style>
 
       <div className='activity-wrapper d-flex flex-column justify-content-start'>
-        {error && (
+        {!load && error && (
           <>
             <div className=' d-inline-flex flex-column border border-dark p-2 mb-5 overflow-auto h-100 w-100'>
               <div

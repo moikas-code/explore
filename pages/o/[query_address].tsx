@@ -53,8 +53,7 @@ export default function Dragon() {
         keywords='gaming, nfts, web3'
       />
       <div className='d-flex flex-column position-relative p-2'>
-        {console.log('hui',typeof query_address !== 'undefined' &&
-          typeof query_address.split(':')[2] !== 'undefined')}
+   
         {typeof query_address !== 'undefined' &&
           typeof query_address.split(':')[2] !== 'undefined' && (
             <p className=''>Token ID: {query_address.split(':')[2]}</p>

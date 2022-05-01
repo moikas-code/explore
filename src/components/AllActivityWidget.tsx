@@ -201,7 +201,10 @@ export default function ActivityWidget() {
         `}
       </style>
 
-      <div className='activity-wrapper d-flex flex-column justify-content-start'>
+      <div
+        className={` ${
+          !load && complete ? '' : 'activity-wrapper'
+        } d-flex flex-column justify-content-start`}>
         {!load && error && (
           <>
             <div className=' d-inline-flex flex-column border border-dark p-2 mb-5 overflow-auto h-100 w-100'>
@@ -268,6 +271,7 @@ export default function ActivityWidget() {
                   <p className='m-0 px-2 width-10rem'>From</p> |
                   <p className='m-0 px-2 width-10rem'>Owner</p> |
                   <p className='m-0 px-2 width-10rem'>Contract</p> |
+                  <p className='m-0 px-2 width-10rem'>Blockchain</p> |
                 </div>
               </div>
               {activity.length > 0 && typeof activity[page] !== 'undefined' ? (
@@ -282,6 +286,7 @@ export default function ActivityWidget() {
                     tokenId={item.tokenId}
                     owner={item.owner}
                     contract={item.contract}
+                    blockchain={item.id.split(':')[0]}
                   />
                 ))
               ) : (
@@ -331,6 +336,7 @@ function Activity_Item({
   tokenId,
   owner,
   contract,
+  blockchain,
 }: {
   id: string;
   date: string;
@@ -340,6 +346,7 @@ function Activity_Item({
   tokenId: string;
   owner: string;
   contract: any;
+  blockchain: string;
 }) {
   const _date = new Date(Date.parse(date));
   return (
@@ -412,6 +419,13 @@ function Activity_Item({
               ) : (
                 'N/A'
               )}
+            </p>{' '}
+            |{' '}
+          </>
+          <>
+            {' '}
+            <p className='m-0 px-2 width-10rem text-truncate'>
+              {blockchain !== null && blockchain}
             </p>{' '}
             |{' '}
           </>

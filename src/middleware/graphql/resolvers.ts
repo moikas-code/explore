@@ -76,8 +76,7 @@ export default {
       parent: object,
       args: any,
       _context: any,
-      info: object,
-
+      info: object
     ) => {
       const {
         continuation,
@@ -92,6 +91,34 @@ export default {
       } = args.input;
 
       return await TAKO.getAllActivity(continuation, cursor, sort, size);
+    },
+    Query_All_Sell_Orders: async (
+      parent: object,
+      args: any,
+      _context: any,
+      info: object
+    ) => {
+      const {
+        blockchains,
+        continuation,
+        cursor,
+        origin,
+        size,
+      }: {
+        blockchains: string[];
+        continuation: string;
+        cursor: string;
+        origin: string;
+        size: number;
+      } = args.input;
+
+      return await TAKO.getAllSellOrders({
+        blockchains,
+        continuation,
+        cursor,
+        size,
+        origin,
+      });
     },
     get_orders_by_nft_id: async (
       parent: object,

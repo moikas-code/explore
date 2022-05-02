@@ -57,6 +57,7 @@ function MyApp({Component, pageProps}: AppProps) {
             .no-cursor {
               cursor: none;
             }
+            .pointer,
             .cursor-pointer {
               cursor: pointer;
             }
@@ -93,6 +94,11 @@ function MyApp({Component, pageProps}: AppProps) {
             }
             .width-25rem {
               width: 25rem !important;
+            }
+
+            //fonts
+            .h6{
+              font-size: 1.25rem;
             }
           `}
         </style>

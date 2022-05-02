@@ -31,11 +31,13 @@ function Navbar() {
       `}</style>
       <div className='position-relative bg-white z-3'>
         <div className='navbar d-flex flex-row justify-content-between align-items-center border border-dark'>
-          <TakoLink href={'/'} as={'/'}>
-            <a className='d-flex flex-column justify-content-center h-100 fnt-color-black text-decoration-none text-center nav-brand width-10rem'>
-              <span className='text-uppercase'>Tako Labs</span>
-            </a>
-          </TakoLink>
+          <span onClick={() => setShow(false)}>
+            <TakoLink href={'/'} as={'/'}>
+              <a className='d-flex flex-column justify-content-center h-100 fnt-color-black text-decoration-none text-center nav-brand width-10rem'>
+                <span className='text-uppercase'>Tako Labs</span>
+              </a>
+            </TakoLink>
+          </span>
           <SearchBar
             formStyle='d-none d-sm-flex col'
             placeholder='ETHEREUM:0x1337694208oO8314Bf3ac0769B87262146D879o3'
@@ -78,12 +80,25 @@ function Navbar() {
             className={`wallet-button-items d-flex flex-column bg-grey position-absolute end-0`}>
             <WalletButtonItem
               text={`Profile`}
-              onPress={() => router.push(`/k/${connection.walletAddress}`)}
+              onPress={() => {
+                router.push(`/k/${connection.walletAddress}`);
+                setShow(false);
+              }}
+            />
+            <WalletButtonItem
+              text={`Order Feed`}
+              onPress={() => {
+                router.push('/orders');
+                setShow(false);
+              }}
             />
 
             <WalletButtonItem
               text={`Disconnect`}
-              onPress={() => router.push('/connect')}
+              onPress={() => {
+                router.push('/connect');
+                setShow(false);
+              }}
             />
           </div>
         )}

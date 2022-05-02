@@ -4,6 +4,7 @@ const typeDefs = gql`
   input QueryInput {
     address: String
     blockChain: String
+    blockchains: [String]
     size: Int
     continuation: String
     cursor: String
@@ -84,8 +85,12 @@ const typeDefs = gql`
     type: String
     format: String
   }
+  type ALL_SELL_ORDERS {
+    continuation: String
+    orders: [SELL_ORDER]
+  }
 
-  type BEST_SELL_ORDER {
+  type SELL_ORDER {
     id: String
     filled: Boolean
     platform: String
@@ -104,14 +109,20 @@ const typeDefs = gql`
     taker: String
     make: TAKER_MAKER
     take: TAKER_MAKER
+    salt: String
   }
   type TAKER_MAKER {
     type: ASSET_TYPE
     value: String
   }
   type ASSET_TYPE {
+    type: String
     contract: String
+    blockchain: String
     tokenId: String
+    uri: String
+    creators: [Creators]
+    royalties: [ROYALTIES]
   }
 
   type NFTOrderDataType {
@@ -143,13 +154,7 @@ const typeDefs = gql`
     value: Int
   }
 
-  type Sell_Order {
-    id: String
-    platform: String
-    fill: String
-    status: String
-  }
-type All_ACTIVITY {
+  type All_ACTIVITY {
     continuation: String
     cursor: String
     activities: [ACTIVITY_ITEM]
@@ -247,6 +252,10 @@ type All_ACTIVITY {
     date: String
     status: String
   }
+  type ROYALTIES {
+    address: String
+    value: Int
+  }
 
   type Query {
     Owned_Collections(input: QueryInput): COLLECTION_OBJ
@@ -254,7 +263,7 @@ type All_ACTIVITY {
     Collection_NFTS(input: QueryInput): Collection_Data
     Query_Activity(input: QueryInput): ACTIVITY
     Query_All_Activity(input: QueryInput): All_ACTIVITY
-
+    Query_All_Sell_Orders(input: QueryInput): ALL_SELL_ORDERS
     get_orders_by_nft_id(input: QueryInput): [NFTOrderDataType]
   }
 `;

@@ -5,7 +5,8 @@ import TAKO from '@/src/tako';
 import SEO from '../src/components/SEO';
 import Button from '../src/components/common/button';
 import SearchBar from '../src/components/Searchbar';
-import AllActivityWidget from '../src/components/AllActivityWidget';
+import {ConnectorContext} from '../src/components/connector/sdk-connection-provider';
+import OrderWidget from '../src/components/OrderWidget';
 export default function _Index() {
   const router = useRouter();
   const [hideHowTo, setShowHowTO] = React.useState(true);
@@ -89,7 +90,7 @@ export default function _Index() {
             </span>
           </div>
         </div>
-        <AllActivityWidget />
+        <OrderWidget />
       </div>
     </>
   );

@@ -491,50 +491,59 @@ const TAKO = {
       ...data,
     };
   },
-  getAllActivity: async (
-    continuation: string,
-    cursor: string,
-    sort: 'LATEST_FIRST' | 'EARLIEST_FIRST',
-    size: number
-  ) => {
-    const type = [
-      'TRANSFER',
-      'MINT',
-      'BURN',
-      'BID',
-      'LIST',
-      'SELL',
-      'CANCEL_LIST',
-      'CANCEL_BID',
-      'AUCTION_BID',
-      'AUCTION_CREATED',
-      'AUCTION_CANCEL',
-      'AUCTION_FINISHED',
-      'AUCTION_STARTED',
-      'AUCTION_ENDED',
-    ];
+  getAllSellOrders: async ({
+    blockchains,
+    continuation,
+    cursor,
+    size,
+    origin,
+  }: {
+    blockchains: string[];
+    continuation: string;
+    cursor: string;
+    size: number;
+    origin: string;
+  }) => {
     const base = process.env.DEV === 'false' ? baseURL : dev_baseURL;
 
     var url =
       base +
-      'v0.1/activities' +
-      `/all?type=${type.join(
+      'v0.1/orders' +
+      `/all?status=ACTIVE&sort=LAST_UPDATE_DESC&blockchains=${blockchains.join(
         ','
-      )}&continuation=${continuation}&cursor=${cursor}&sort=${sort}&size=${size}`;
+      )}&continuation=${continuation}&size=${size}`;
     // console.log(url);
     let _data: any = await fetch(url, {
       method: 'GET',
     }).then((res) => res.json());
-    const activities =
-      typeof _data.activities !== 'undefined' ? _data.activities : [];
+
     return {
-      activities: await activities.map(async (activity: any) => {
-        activity['type'] = '';
-        activity['type'] = await activity['@type'];
-        delete activity['@type'];
-        return await activity;
-      }),
       ..._data,
+      orders: await _data.orders
+        .filter((order: any) => {
+          return order.makePrice !== null&&order.makePrice !== undefined && order.makePrice.length > 0;
+        })
+        .map(async (order: any) => {
+          const _o = {
+            ...order,
+            make: {
+              ...order.make,
+              type: {
+                ...order.make.type,
+                type: await order.make['type']['@type'],
+              },
+            },
+            take: {
+              ...order.take,
+              type: {
+                ...order.take.type,
+                type: await order.take['type']['@type'],
+              },
+            },
+          };
+          // console.log(_o);
+          return _o;
+        }),
     };
   },
   get_all_items: async ({
@@ -825,14 +834,14 @@ const TAKO = {
         blockchain == 'ETHEREUM' || blockchain == 'POLYGON'
           ? [
               {
-                account: 'ETHEREUM:0x3E874472Da434f8E1252E95430a65e8F516ED00d' as any,
+                account: 'ETHEREUM:0x877728846bFB8332B03ac0769B87262146D777f3' as any,
                 value: 100,
               },
             ]
           : blockchain == 'TEZOS'
           ? [
               {
-                account: 'TEZOS:tz1Q5duBxjCNy1c5Kba63Mf5Jqz9wyKqXFAk' as any,
+                account: 'TEZOS:tz1RrvP2FtnWAgGYKfoKSkLXYoqyHfXQjs8i' as any,
                 value: 100,
               },
             ]

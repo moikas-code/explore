@@ -104,14 +104,14 @@ function mapEthereumWallet<O>(
   provider: AbstractConnectionProvider<O, EthereumProviderConnectionResult>
 ): ConnectionProvider<O, IWalletAndAddress> {
   return provider.map((state) => {
-    getEvmBlockchain(state.chainId);
-		// state.provider.chainId = state.chainId;
-    chain = state.chainId;
-		console.log(state.provider);
-    return {
-      wallet: new EthereumWallet(
+    const wallet: any = {
+      ...new EthereumWallet(
         new Web3Ethereum({web3: new Web3(state.provider), from: state.address})
       ),
+      blockchain:'ETHEREUM',
+    };
+    return {
+      wallet,
       address: state.address,
     };
   });
@@ -173,15 +173,14 @@ const state: IConnectorStateProvider = {
 };
 
 export function getConnector(environment: RaribleSdkEnvironment) {
-
   const ethChainId =
     environment === 'prod' ? chain : environmentToEthereumChainId(environment);
-		  
+
   const ethNetworkName = ethereumNetworkMap[ethChainId];
   const isEthNetwork = ['mainnet', 'ropsten', 'rinkeby', 'polygon'].includes(
     ethNetworkName
   );
-	console.log(ethNetworkName);
+  console.log(ethNetworkName);
   const flowNetwork = environmentToFlowNetwork(environment);
   const tezosNetwork = environmentToTezosNetwork(environment);
 

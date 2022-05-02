@@ -9,10 +9,9 @@ import {
   toBigNumber,
   ContractAddress,
 } from '@rarible/types';
-import TAKO from '../tako';
 import Button from '../components/common/button';
-import {createRaribleSdk} from '@rarible/sdk';
 import {connect} from 'react-redux';
+import TAKO from '../tako';
 //@ts-ignore
 import {ConnectorContext} from '@/src/components/connector/sdk-connection-provider';
 type CreateCollectionRequest = /*unresolved*/ any;

@@ -41,7 +41,7 @@ export default function _Index() {
         `}
       </style>
       <div className='h-100 w-100 d-flex flex-column p-2'>
-        Order Wall
+       
         {/* <div className=' d-inline-flex flex-column p-2 mb-3 explorer'>
           <div className='d-flex flex-column'>
             <SearchBar

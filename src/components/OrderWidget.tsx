@@ -162,6 +162,8 @@ export default function OrderWidget({blockchains}: {blockchains: string[]}) {
           }
         `}
       </style>{' '}
+      <h2> Order Wall</h2>
+      <br />
       1% Service Fee to Maintain the Platform and bring you new features
       <div
         className={` ${
@@ -186,7 +188,7 @@ export default function OrderWidget({blockchains}: {blockchains: string[]}) {
               </div>
               {
                 <p className='m-0 text-center'>
-                  No Activity Found, Please Try Again, or Check Back Later
+                  No Orders Found, Please Try Again, or Check Back Later
                 </p>
               }
             </div>
@@ -211,7 +213,7 @@ export default function OrderWidget({blockchains}: {blockchains: string[]}) {
               </div>
               {
                 <div className='d-flex flex-column justify-content-center align-items-center w-100 h-100'>
-                  <p>Loading Activity...</p>
+                  <p>Loading Orders...</p>
                   <br />
                   <div className='spinner-border' role='status'>
                     <span className='visually-hidden'>Loading...</span>
@@ -255,7 +257,7 @@ export default function OrderWidget({blockchains}: {blockchains: string[]}) {
                 ))
               ) : (
                 <p className='m-0 text-center'>
-                  No Activity Found, Please Try Again, or Search Using Another
+                  No Orders Found, Please Try Again, or Search Using Another
                   Address
                 </p>
               )}
